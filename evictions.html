@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/style.css" />
+
+    <title>Tenants Overview</title>
+  </head>
+
+  <body>
+    <!-- <div id="root"></div> -->
+    <div
+      id="body-container"
+      class="App"
+      style="
+        background-image: url(https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D);
+        background-size: 100vw 100vh;
+      "
+    >
+      <!-- HEADER -->
+      <header class="header" style="padding-right: 1em">
+        <nav>
+          <!-- User Profile -->
+          <div
+            id="user-profile"
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: end;
+              align-items: center;
+            "
+          >
+            <!-- name and date -->
+            <div class="user-name-and-date" style="margin: 0.2em">
+              <p
+                style="
+                  font-size: 1.5em;
+                  font-weight: bold;
+                  display: flex;
+                  justify-content: right;
+                "
+              >
+                <span id="user-greeting"></span>!
+              </p>
+              <div id="datetime"></div>
+            </div>
+            <script>
+              function updateDateTime() {
+                let greeting; //Good morning/Afternoon User
+
+                const now = new Date();
+                const options = {
+                  weekday: "short",
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                  timeZoneName: "short",
+                  hour12: true,
+                };
+                const dateTimeString = now.toLocaleString("en-US", options);
+                document.getElementById("datetime").textContent =
+                  dateTimeString;
+              }
+
+              setInterval(updateDateTime, 1000);
+              updateDateTime(); // initial call to set the time immediately
+
+              // Conditions for Greetings - Good Morning or Good Afternoon
+              if (new Date().getHours() < 12) {
+                greeting = "Good Morning";
+              } else if (new Date().getHours() < 16) {
+                greeting = "Good Afternoon";
+              } else {
+                greeting = "Good Evening";
+              }
+              document.getElementById("user-greeting").innerHTML = greeting;
+            </script>
+          </div>
+        </nav>
+      </header>
+
+      <div id="landing-container" style="background-color: white; height:40em" >
+        <div>
+          <div>
+            <img
+              src="/Property Mononi 1200x1200px logo (1).png"
+              height="100px"
+              width="100px"
+              alt="pm-logo"
+              style="margin: 2em; border-radius: 3em"
+            />
+          </div>
+
+          <div id="landing" style="display: flex">
+            <div
+              id="dashboard-container"
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+              "
+            >
+              <button>Landlord</button>
+              <button>Tenant</button>
+            </div>
+            <!-- END Main Dashboard CONTENT DIVISION -->
+          </div>
+
+          <!-- menu footer -->
+          <div>
+            <footer id="support-footer" style="display: flex; margin: 1em">
+              <img
+                src="/customer-service (5).png"
+                alt="customer_support_icon"
+                height="25em"
+              />
+
+              <p
+                style="
+                  font-size: 0.5em;
+                  padding-right: 1em;
+                  padding-left: 1em;
+                  text-align: center;
+                "
+              >
+                Contact Customer Support
+              </p>
+            </footer>
+          </div>
+        </div>
+      </div>
+
+      <section
+        id="nav-and-dashboard"
+        style="display: flex; flex-direction: row"
+      >
+        <!-- DASBOARD xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+      </section>
+
+      <!-- FOOTER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+      <div
+        class="main-footer"
+        style="
+          background-color: black;
+          color: white;
+          display: flex;
+          padding: 2em;
+          font-size: 0.5em;
+        "
+      >
+        v01
+      </div>
+    </div>
+    <!-- END ROOT -->
+  </body>
+</html>

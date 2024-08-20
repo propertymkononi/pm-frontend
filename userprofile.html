@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <title>New Tenant Registration Form</title>
+
+  </head>
+  <body>
+    <form
+      style="
+        display: flex;
+        flex-direction: column;
+        max-width: 100em;
+        align-items: left;
+      "
+    >
+    <!-- Title -->
+      <div style="display: flex; align-items:center; justify-content:space-between; padding:1em ">
+        <h2>New Tenant Information</h2> <h4 id="today-is"></h4>
+        <script>
+          let today;
+          switch (new Date().getDay()){
+            case 0: today ="Today is Sunday."; break;
+            case 1: today ="Today is Monday. Have a great week ahead!"; break;
+            case 2: today ="Today is Tuesday."; break;
+            case 3: today ="Today is Wednesday. Weekend is almost here!"; break;
+            case 4: today ="Today is Thursday."; break;
+            case 5: today ="Today is Friday. Happy weekend ahead!"; break;
+            case 6: today ="Today is Saturday. Rest!";
+          }
+          document.getElementById("today-is").innerHTML= today;
+        </script>
+
+      
+      </div>
+
+      <!-- COMPONENT Personal Information xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+      <div>
+        <h4>Personal Information</h4>
+
+        <!-- names -->
+        <div
+          style="
+            display: flex;
+            gap: 2em;
+            padding: 1em;
+            background-color: #d0eff7;
+            align-content: center;
+          "
+        >
+          <input
+            class="first-name"
+            id="first-name"
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            required
+            
+          />
+
+          <input
+            class="second-name"
+            id="second-name"
+            type="text"
+            name="secondtName"
+            placeholder="Second Name"
+            required
+          />
+          <!-- Date of Birth -->
+          <div>
+            <label for="dateBirth">DoB:</label>
+            <input type="date" placeholder="DoB" name="dateBirth" required />
+          </div>
+          <!-- Identity Card or Passport  -->
+          <div>
+            <input
+              type="number"
+              placeholder="National ID/Passport"
+              name="identityCard"
+              required
+            />
+          </div>
+          <!-- Attachment ID or Passport Copy -->
+          <div>
+            <label for="identityCardUpload">Attach ID or Passport:</label>
+            <input
+              type="file"
+              id="identityCardUpload"
+              name="identityCardUpload"
+              accept="image/*"
+              required
+            />
+            <img
+              id="preview"
+              src="#"
+              alt="Image Preview"
+              style="display: none"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!--COMPONENT Contact Information xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+      <br />
+      <h4>Contact Information</h4>
+      <div
+        style="
+          background-color: #d0eff7;
+          height: 5em;
+          align-content: center;
+          padding: 1em;
+        "
+      >
+        <div style="display: flex; gap: 10px">
+          <!-- email address -->
+          <input
+            class="tenant-email"
+            id="tenant-email"
+            type="email"
+            name="tenantEmail"
+            placeholder="john@gmail.com"
+          />
+
+          <div>
+            <!-- country codes -->
+            <select
+              id="countryCode"
+              name="countryCode"
+              required
+              style="
+                border: none;
+                background-color: #8cb9c5;
+                border-radius: 3em;
+                height: 2em;
+              "
+            >
+              <option value="+254">Kenya (+254)</option>
+              <option value="+1">USA (+1)</option>
+              <option value="+44">UK (+44)</option>
+              <option value="+91">India (+91)</option>
+              <option value="+61">Australia (+61)</option>
+              <option value="+81">Japan (+81)</option>
+              <option value="+49">Germany (+49)</option>
+              <option value="+33">France (+33)</option>
+              <!-- Add more country codes as needed -->
+            </select>
+          </div>
+          <div>
+            <!-- mobile number -->
+            <input
+              class="tenant-mobile"
+              id="tenant-mobile"
+              type="phone"
+              name="tenantPhone"
+              placeholder="Mobile Number"
+              required
+            />
+          </div>
+          <div>
+            <!-- box address -->
+            <input type="text" placeholder="Box Address" />
+          </div>
+          <div>
+            <!-- zip code -->
+            <input type="text" placeholder="Zip Code" />
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPONENY Household Information xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+      <br />
+      <h4>Household Information</h4>
+
+      <div
+        style="
+          background-color: #d0eff7;
+          height: 5em;
+          align-content: center;
+          padding: 1em;
+        "
+      >
+        <div>
+          <!-- family size -->
+          Marital Status:
+          <select name="" id="" required>
+            <option value="">Select</option>
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+          </select>
+          <input type="number" placeholder="Family Size" required />
+          <input type="number" placeholder="Number of Children" required />
+        </div>
+      </div>
+
+      <!-- COMPONENT Employment Information xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+      <div>
+        <br />
+        <h4>Employment Information</h4>
+
+        <div
+          style="
+            background-color: #d0eff7;
+            height: 5em;
+            align-content: center;
+            padding: 1em;
+          "
+        >
+          <label for="employmentStatus">Employment Status:</label>
+          <select id="employmentStatus" name="employmentStatus" required>
+            <option value="">Select</option>
+            <option value="employed">Employed</option>
+            <option value="self-employed">Self-Employed</option>
+            <option value="unemployed">Unemployed</option>
+            <option value="student">Student</option>
+            <option value="retired">Retired</option>
+          </select>
+
+          <label for="employer">Employer Name (if employed):</label>
+          <input type="text" id="employer" name="employer" />
+
+          <label for="income">Average Monthly Income (KSh):</label>
+          <input type="number" id="income" name="income" required />
+        </div>
+      </div>
+
+      <!-- COMPONENT House Details xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+      <br />
+      <h4>House Details</h4>
+      <div
+        style="
+          background-color: #d0eff7;
+          height: 11em;
+          align-content: center;
+          padding: 1em;
+        "
+      >
+        <input
+          type="text"
+          name="propertyName"
+          id="propertyName"
+          placeholder="Property Name"
+          required
+        />
+        <input
+          type="text"
+          name="houseNumber"
+          id="houseNumber"
+          placeholder="House Number"
+          required
+        />
+        <!-- house condition -->
+        <div>
+          <br />
+
+          <input type="checkbox" name="" id="" /> Tap Water Running
+          <input type="checkbox" name="" id="" /> Windows Not Broken
+          <input type="checkbox" name="" id="" /> Doors Locks Working
+          <input type="checkbox" name="" id="" /> Hot Shower Head
+          <input type="checkbox" name="" id="" /> Electrical Sockets Working
+          <input type="checkbox" name="" id="" /> Wall Painted
+          <br />
+          <br />
+          <textarea
+            id=""
+            name=""
+            rows="2"
+            placeholder="Additional Comments"
+          ></textarea>
+        </div>
+        <!-- moving in -->
+        <br />
+        <div>
+          <label for="moveInDate">Preferred Move-In Date:</label>
+          <input type="date" id="moveInDate" name="moveInDate" required />
+        </div>
+      </div>
+
+      <!-- COMPONENT Referees xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+      <br />
+      <h4>Emergency Contacts (at least one contact)</h4>
+      <div
+        style="
+          background-color: #d0eff7;
+          height: 8em;
+          align-content: center;
+          padding: 1em;
+        "
+      >
+        <div>
+          <label for="reference1">Reference 1 (name and contact):</label>
+          <textarea id="reference1" name="reference1" rows="2" required></textarea>
+        </div>
+        <div>
+          <label for="reference2">Reference 2 (name and contact):</label>
+          <textarea id="reference2" name="reference2" rows="2"></textarea>
+        </div>
+        <div>
+          <label for="reference3">Reference 3 (name and contact):</label>
+          <textarea id="reference3" name="reference3" rows="2"></textarea>
+        </div>
+      </div>
+
+      <!-- COMPONENT Submit Button xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+      <br />
+      <div style="height: 5em; align-content: center; padding: 1em">
+        <input type="submit" value="Update Tenant Details" />
+      </div>
+      <!-- END FORM CODES  -->
+    </form>
+  </body>
+</html>

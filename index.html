@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/style.css" />
+
+    <title>Tenants Overview</title>
+  </head>
+
+  <body>
+    <!-- <div id="root"></div> -->
+    <div
+      id="body-container"
+      class="App"
+      style="
+        background-image: url(https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D);
+        background-size: 100vw 100vh;
+      "
+    >
+      <!-- HEADER -->
+      <header
+        class="header"
+        style="background-color: #8cb9c5; padding-right: 1em"
+      >
+        <!-- User Profile -->
+        <div
+          id="user-profile"
+          style="display: flex; flex-direction: row; justify-content: end; align-items:center"
+        >
+          <!-- profile icon -->
+          <div class="user-profile-icon">
+            <img
+              src="/user-icon.jpg"
+              alt="user_profile"
+              height="50em"
+              style="border-radius: 5em; margin: 1em; align-content: center"
+            />
+          </div>
+          <!-- name and date -->
+          <div class="user-name-and-date" style="margin: 0.2em">
+            <p style="font-size: 1.5em; font-weight: bold">
+              <span id="user-greeting"></span> Doe
+            </p>
+            <div id="datetime"></div>
+          </div>
+          <script>
+            function updateDateTime() {
+              let greeting; //Good morning/Afternoon User
+
+              const now = new Date();
+              const options = {
+                weekday: "short",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                timeZoneName: "short",
+                hour12: true,
+              };
+              const dateTimeString = now.toLocaleString("en-US", options);
+              document.getElementById("datetime").textContent = dateTimeString;
+            }
+
+            setInterval(updateDateTime, 1000);
+            updateDateTime(); // initial call to set the time immediately
+
+            // Conditions for Greetings - Good Morning or Good Afternoon
+            if (new Date().getHours() < 12) {
+              greeting = "Good Morning";
+            } else if (new Date().getHours() < 16) {
+              greeting = "Good Afternoon";
+            } else {
+              greeting = "Good Evening";
+            }
+            document.getElementById("user-greeting").innerHTML = greeting;
+          </script>
+
+          <!-- User Profile Settings -->
+          <div>
+            <style>
+              .settings-container {
+                position: relative;
+                display: inline-block;
+              }
+
+              .profile-icon {
+                width: 40px;
+                height: 40px;
+                color: white;
+                display: flex;
+                justify-content: center;
+                font-size: 18px;
+                cursor: pointer;
+              }
+
+              .dropdown-menu {
+                display: none;
+                position: absolute;
+                top: 50px;
+                right: 0;
+                background-color: #fff;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                width: 150px;
+                z-index: 1;
+              }
+
+              .dropdown-menu a {
+                display: block;
+                padding: 10px 15px;
+                color: #333;
+                text-decoration: none;
+                border-bottom: 1px solid #ddd;
+              }
+
+              .dropdown-menu a:hover {
+                background-color: #f1f1f1;
+              }
+
+              .dropdown-menu a:last-child {
+                border-bottom: none;
+              }
+            </style>
+
+            <div class="settings-container">
+              <div class="profile-icon" onclick="toggleDropdown()">...</div>
+              <div class="dropdown-menu" id="dropdown">
+                <a href="#">Edit Profile</a>
+                <a href="#">Settings</a>
+                <a href="#">Logout</a>
+              </div>
+            </div>
+
+            <script>
+              function toggleDropdown() {
+                const dropdown = document.getElementById("dropdown");
+                dropdown.style.display =
+                  dropdown.style.display === "block" ? "none" : "block";
+              }
+
+              // Close the dropdown if the user clicks outside of it
+              window.onclick = function (event) {
+                if (!event.target.matches(".profile-icon")) {
+                  const dropdown = document.getElementById("dropdown");
+                  if (dropdown.style.display === "block") {
+                    dropdown.style.display = "none";
+                  }
+                }
+              };
+            </script>
+          </div>
+
+          <!-- End of User Profile Settings -->
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT = MENNU + DASHBOARD xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+      <section
+        id="nav-and-dashboard"
+        style="display: flex; flex-direction: row"
+      >
+        <!-- MENU -->
+        <nav id="nav-bar" style="background-color: #f5f5f5; padding: 0.5em">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+            "
+          >
+            <!-- menu icon + menu list-->
+            <div>
+              <img
+                src="/Property Mononi 1200x1200px logo (1).png"
+                height="100px"
+                width="100px"
+                alt="pm-logo"
+                style="margin: 2em; border-radius: 3em"
+              />
+              <!-- menu content -->
+              <div style="display: flex; flex-direction: column">
+                <button class="menu-btn">
+                  <a
+                    href="/index.html"
+                    style="text-decoration: none; color: #3c3024"
+                  >
+                    DASHBOARD</a
+                  >
+                </button>
+                <br />
+                <button class="menu-btn">
+                  <a
+                    href="/tenants.html"
+                    style="text-decoration: none; color: #3c3024"
+                  >
+                    TENANTS</a
+                  >
+                </button>
+                <br />
+                <button class="menu-btn">
+                  <a
+                    href="/properties.html"
+                    style="text-decoration: none; color: #3c3024"
+                  >
+                    PROPERTIES</a
+                  >
+                </button>
+                <br />
+                <button class="menu-btn">
+                  <a
+                    href="/rent.html"
+                    style="text-decoration: none; color: #3c3024"
+                  >
+                    RENT</a
+                  >
+                </button>
+                <br />
+                <button class="menu-btn">
+                  <a
+                    href="/evictions.html"
+                    style="text-decoration: none; color: #3c3024"
+                  >
+                    EVICTIONS
+                    <span style="background-color: rgb(255, 213, 0)"
+                      >Upgrade</span
+                    ></a
+                  >
+                </button>
+                <br />
+                <button class="menu-btn">
+                  <a
+                    href="/repairs.html"
+                    style="text-decoration: none; color: #3c3024"
+                  >
+                    REPAIRS
+                    <span style="background-color: rgb(255, 213, 0)"
+                      >Upgrade</span
+                    ></a
+                  >
+                </button>
+              </div>
+            </div>
+
+            <!-- menu footer -->
+            <div>
+              <footer id="support-footer" style="display: flex; margin: 1em">
+                <img
+                  src="/customer-service (5).png"
+                  alt="customer_support_icon"
+                  height="25em"
+                />
+                <p
+                  style="
+                    font-size: 0.5em;
+                    padding-right: 1em;
+                    padding-left: 1em;
+                    text-align: center;
+                  "
+                >
+                  Contact Customer Support
+                </p>
+              </footer>
+            </div>
+          </div>
+        </nav>
+
+        <!-- DASBOARD xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+        <main id="dashboard" style="margin: 0.3em">
+          <!-- Title -->
+          <p style="color: #f5f5f5; font-size: 1.5em">Dashboard</p>
+          <!-- Main Dashboard Content CONTAINER - Filter Div + Overview Div XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+          <!-- Main Dashboard Content CONTAINER - Filter Div + Overview Div XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+          <div
+            id="dashboard-container"
+            style="
+              background-color: #f5f5f5;
+              padding: 0.5em;
+              width: 100%;
+              opacity: 98%;
+              border-radius: 0.2em;
+              display: flex;
+              flex-direction: column;
+            "
+          >
+            <!-- Filter CONTAINER -->
+            <div
+              id="dashboard-filter"
+              style="padding: 0.5em; display: flex; justify-content: flex-end"
+            >
+              <div
+                style="
+                  display: flex;
+                  height: 1em;
+                  align-items: center;
+                  font-size: 0.7em;
+                  padding-right: 0.7em;
+                "
+              >
+                <select id="countryCode" name="filterOptions">
+                  <option value="">Filter by ...</option>
+                  <option value="date" type="date">Date</option>
+                  <option value="">Property</option>
+                  <option value="+91">Last Payment</option>
+                  <option value="+61">Repairs</option>
+                  <option value="+81">Evictions</option>
+                  <option value="+49">Coutry</option>
+
+                  <!-- Add more country codes as needed -->
+                </select>
+                | |
+                <button>Filter</button>
+              </div>
+            </div>
+
+            <!-- Overviews/Analytics CONTAINER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+            <div
+              style="
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: row;
+                justify-content: space-evenly;
+              "
+            >
+              <!-- Property Overview -->
+              <div
+                class="property-information"
+                style="
+                  border: solid #e6e2e2;
+                  padding: 0.5em;
+                  border-radius: 0.5em;
+                  margin-top: 0.5em;
+                  display: inline-block;
+                  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+                "
+              >
+                <!-- property title -->
+                <div
+                  id="property-heading"
+                  style="
+                    width: 22em;
+                    height: 2em;
+                    color: #f5f5f5;
+                    background-color: #3c3024;
+                    border-radius: 0.2em;
+                    align-content: center;
+                    padding-left: 0.5em;
+                  "
+                >
+                  Property Overview
+                </div>
+
+                <!-- properties -->
+                <div
+                  class="property"
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 2em;
+                    align-items: center;
+                  "
+                >
+                  <!-- 1 apartment image -->
+                  <img
+                    src="/apartment.png"
+                    alt="property_icon"
+                    height="130em"
+                  />
+                  <!-- property count -->
+                  <div
+                    style="
+                      color: #8cb9c5;
+                      font-weight: bold;
+                      font-size: 1.5em;
+                      background-color: #f5f5f5;
+                      padding-right: 0.5em;
+                      padding-left: 0.5em;
+                      border-radius: 0.5em;
+                    "
+                  >
+                    <p>
+                      <span style="font-size: 1.5em">15</span> <br />
+                      Properties
+                    </p>
+                  </div>
+                </div>
+
+                <!-- property status -->
+                <div
+                  class="property-status"
+                  style="
+                    display: flex;
+                    flex-direction: row;
+                    text-align: center;
+                    justify-content: space-between;
+                  "
+                >
+                  <!-- 1 occupied button -->
+                  <button
+                    style="
+                      background-color: #8cb9c5;
+                      border-radius: 0.2em;
+                      border: none;
+                      padding-right: 1.2em;
+                      padding-left: 1.2em;
+                      font-size: 1em;
+                      color: #f5f5f5;
+                    "
+                  >
+                    <p>
+                      <span style="font-weight: bold; font-size: 2em">200</span>
+                      <br />
+                      Occupied
+                    </p>
+                  </button>
+                  <!-- 2 Evictions button -->
+                  <button
+                    style="
+                      background-color: #8cb9c5;
+                      border-radius: 0.2em;
+                      border: none;
+                      padding-right: 1.5em;
+                      padding-left: 1.5em;
+                      font-size: 1em;
+                      color: #f5f5f5;
+                    "
+                  >
+                    <p>
+                      <span style="font-weight: bold; font-size: 2em">3</span>
+                      <br />
+                      Evictions
+                    </p>
+                  </button>
+                  <!-- 3 Maintenance button -->
+                  <button
+                    style="
+                      background-color: #8cb9c5;
+                      border-radius: 0.2em;
+                      border: none;
+                      padding-right: 0.5em;
+                      padding-left: 0.5em;
+                      font-size: 1em;
+                      color: #f5f5f5;
+                    "
+                  >
+                    <p>
+                      <span style="font-weight: bold; font-size: 2em">2</span>
+                      <br />
+                      Maintenance
+                    </p>
+                  </button>
+                </div>
+                <br /><br />
+
+                <!-- add property button -->
+                <div style="display: flex; justify-content: center">
+                  <button class="btn-add-property">Add New Property</button>
+                </div>
+              </div>
+
+              <!-- XXXXXXXXXXXXXXXXXXX
+            XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        XXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+              <!-- Payment Overview -->
+              <div
+                id="payment-information"
+                style="
+                  border: solid #e6e2e2;
+                  padding: 0.5em;
+                  border-radius: 0.5em;
+                  margin-top: 0.5em;
+                  display: inline-block;
+                  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+                "
+              >
+                <!-- 1 payment title -->
+                <div
+                  style="
+                    width: 22em;
+                    height: 2em;
+                    color: #f5f5f5;
+                    background-color: #3c3024;
+                    border-radius: 0.2em;
+                    align-content: center;
+                    padding-left: 0.5em;
+                  "
+                >
+                  Payment Overview
+                </div>
+                <br />
+
+                <!-- 2 payment data -->
+                <div class="payment-data">
+                  <img src="/payment data.png" alt="" style="width: 22.5em" />
+                </div>
+                <!-- 3 download excel -->
+                <div
+                  class="download-excel-invoice"
+                  style="display: flex; align-items: center"
+                >
+                  <img src="/office365 (1).png" alt="excel_ion" height="20em" />
+                  <p
+                    style="
+                      font-size: 0.7em;
+                      color: green;
+                      background-color: white;
+                      padding-right: 1em;
+                      padding-left: 1em;
+                    "
+                  >
+                    Download Excel Invoice
+                  </p>
+                </div>
+                <br /><br /><br /><br /><br /><br />
+                <!-- 4 demand rent -->
+                <div style="display: flex; justify-content: center">
+                  <button class="btn-demand-rent">Demand Payment</button>
+                </div>
+                <!-- End demand payment -->
+              </div>
+
+              <!-- XXXXXXXXXXXXXXXXXXX
+            XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+        XXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+              <!-- Tenant Information -->
+              <div
+                id="tenant-information"
+                style="
+                  border: solid #e6e2e2;
+                  padding: 0.5em;
+                  border-radius: 0.5em;
+                  margin-top: 0.5em;
+                  display: inline-block;
+                  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+                "
+              >
+                <!-- 1 tenant title -->
+                <div
+                  style="
+                    width: 22em;
+                    height: 2em;
+                    color: #f5f5f5;
+                    background-color: #3c3024;
+                    border-radius: 0.2em;
+                    align-content: center;
+                    padding-left: 0.5em;
+                  "
+                >
+                  Tenant Overview
+                </div>
+                <div
+                  id="tenant-icon"
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 2em;
+                    align-items: center;
+                  "
+                >
+                  <img src="/customer-service (6).png" height="130em" />
+                  <!-- 2 Tenants count -->
+                  <div
+                    style="
+                      color: #3c3024;
+                      font-weight: bold;
+                      font-size: 1.5em;
+                      background-color: #f5f5f5;
+                      padding-right: 0.5em;
+                      padding-left: 0.5em;
+                      border-radius: 0.5em;
+                    "
+                  >
+                    <p>
+                      <span style="font-size: 1.5em">200</span> <br />
+                      Tenants
+                    </p>
+                  </div>
+                </div>
+                <!-- 3 Tenant status -->
+                <div class="tenant-status">
+                  <!-- a eviction notice -->
+                  <div
+                    class="tenant-eviction-notice"
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      background-color: white;
+                      border-radius: 0.1em;
+                      padding-right: 0.7em;
+                      padding-left: 0.7em;
+                    "
+                  >
+                    <p>Eviction Notice</p>
+                    <div>
+                      <p style="color: #8cb9c5"><span>14</span> Tenants</p>
+                    </div>
+                  </div>
+                  <br />
+
+                  <!-- b repair requests -->
+                  <div
+                    class="tenant-repair-requests"
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      background-color: white;
+                      border-radius: 0.1em;
+                      padding-right: 0.7em;
+                      padding-left: 0.7em;
+                    "
+                  >
+                    <p>Repair Requests</p>
+                    <div>
+                      <p style="color: #8cb9c5"><span>14</span> Tenants</p>
+                    </div>
+                  </div>
+                  <br />
+                </div>
+                <!-- 4 Add tenant -->
+                <div style="display: flex; justify-content: center">
+                  <button class="btn-add-tenant">
+                    <a
+                      href="/tenant_form.html"
+                      style="text-decoration: none; color: whitesmoke"
+                      >Add New Tenant</a
+                    >
+                  </button>
+                </div>
+                <!-- End add tenant -->
+              </div>
+              <!-- END Tenant Information -->
+            </div>
+            <!-- END Overviews -->
+          </div>
+          <!-- END Main Dashboard CONTENT DIVISION -->
+        </main>
+      </section>
+
+      <!-- FOOTER XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+      <div
+        class="main-footer"
+        style="
+          background-color: black;
+          color: white;
+          display: flex;
+          padding: 2em;
+          font-size: 0.5em;
+        "
+      >
+        v01
+      </div>
+    </div>
+    <!-- END ROOT -->
+  </body>
+</html>

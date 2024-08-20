@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/properties.css" />
+
+    <title>Properties Status </title>
+  </head>
+
+  <body>
+    <!-- <div id="root"></div> -->
+    <div
+      id="body-container"
+      class="App"
+      style="
+        background-image: url(https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D);
+        background-size: 100vw 100vh;
+      "
+    >
+      <!-- HEADER -->
+      <header
+        class="header"
+        style="background-color: #8cb9c5; padding-right: 1em"
+      >
+        <!-- User Profile -->
+        <div
+          id="user-profile"
+          style="display: flex; flex-direction: row; justify-content: end"
+        >
+          <!-- profile icon -->
+          <div class="user-profile-icon">
+            <img
+              src="/user-icon.jpg"
+              alt="user_profile"
+              height="50em"
+              style="border-radius: 5em; margin: 1em; align-content: center"
+            />
+          </div>
+          <!-- name and date -->
+          <div class="user-name-and-date" style="margin: 0.2em">
+            <p style="font-size: 1.5em; font-weight: bold">
+              <span id="user-greeting"></span> Doe
+            </p>
+            <div id="datetime"></div>
+          </div>
+          <script>
+            function updateDateTime() {
+              let greeting; //Good morning/Afternoon User
+
+              const now = new Date();
+              const options = {
+                weekday: "short",
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+                timeZoneName: "short",
+                hour12: true,
+              };
+              const dateTimeString = now.toLocaleString("en-US", options);
+              document.getElementById("datetime").textContent = dateTimeString;
+            }
+
+            setInterval(updateDateTime, 1000);
+            updateDateTime(); // initial call to set the time immediately
+
+            // Conditions for Greetings - Good Morning or Good Afternoon
+            if (new Date().getHours() < 12) {
+              greeting = "Good Morning";
+            } else if (new Date().getHours() < 16) {
+              greeting = "Good Afternoon";
+            } else {
+              greeting = "Good Evening";
+            }
+            document.getElementById("user-greeting").innerHTML = greeting;
+          </script>
+          <div class="profile-settings" style="align-content: center">
+            <img src="/settings.png" alt="" height="25em" />
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN CONTENT = MENNU + DASHBOARD -->
+      <section
+        id="nav-and-dashboard"
+        style="display: flex; flex-direction: row"
+      >
+        <!-- MENU -->
+        <nav
+          id="nav-bar"
+          style="
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0.5em;
+          "
+        >
+          <!-- menu icon + menu list-->
+          <div>
+            <img
+              src="/Property Mononi 1200x1200px logo (1).png"
+              height="100px"
+              width="100px"
+              alt="pm-logo"
+              style="margin: 2em; border-radius: 3em"
+            />
+            <!-- menu content -->
+            <div style="display: flex; flex-direction: column">
+              <button class="menu-btn">
+                <a
+                  href="/index.html"
+                  style="text-decoration: none; color: #3c3024"
+                >
+                  DASHBOARD</a
+                >
+              </button>
+              <br />
+              <button class="menu-btn">
+                <a
+                  href="/tenants.html"
+                  style="text-decoration: none; color: #3c3024"
+                >
+                  TENANTS</a
+                >
+              </button>
+              <br />
+              <button class="menu-btn">
+                <a
+                  href="/properties.html"
+                  style="text-decoration: none; color: #3c3024"
+                >
+                  PROPERTIES</a
+                >
+              </button>
+              <br />
+              <button class="menu-btn">
+                <a
+                  href="/rent.html"
+                  style="text-decoration: none; color: #3c3024"
+                >
+                  RENT</a
+                >
+              </button>
+              <br />
+              <button class="menu-btn">
+                <a
+                  href="/evictions.html"
+                  style="text-decoration: none; color: #3c3024"
+                >
+                  EVICTIONS<span style="background-color: rgb(255, 213, 0);" >Upgrade</span></a
+                >
+              </button>
+              <br />
+              <button class="menu-btn">
+                <a
+                  href="/repairs.html"
+                  style="text-decoration: none; color: #3c3024"
+                >
+                  REPAIRS<span style="background-color: rgb(255, 213, 0);" >Upgrade</span></a
+                >
+              </button>
+            </div>
+          </div>
+          <br />
+          <br />
+          <br />
+          <!-- menu footer -->
+          <footer
+            id="support-footer"
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-end;
+              margin: 1em;
+            "
+          >
+            <img
+              src="/customer-service (5).png"
+              alt="customer_support_icon"
+              height="25em"
+            />
+            <p
+              style="
+                font-size: 0.5em;
+                padding-right: 1em;
+                padding-left: 1em;
+                text-align: center;
+              "
+            >
+              Contact Customer Support
+            </p>
+          </footer>
+        </nav>
+
+        <!-- xxxXXXXXXXXXXX
+        X
+      XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    XXXXXXXXX -->
+
+        <!-- MAIN DASBOARD -->
+        <main id="dashboard" style="margin: 0.3em">
+          <!-- Title + Add New Tenant Button -->
+          <div
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+              align-items: center;
+              padding-right: 2em;
+            "
+          >
+            <!-- Title -->
+            <div style="color: #f5f5f5; font-size: 1.5em">
+              <p>Properties</p>
+            </div>
+          </div>
+          <!-- Filter + ADD TENANT BUTTON -->
+          <div
+            id="dashboard-container"
+            style="
+              background-color: #f5f5f5;
+              padding: 0.5em;
+              width: 100%;
+              opacity: 98%;
+              border-radius: 0.2em;
+            "
+          >
+            <!-- filter + add tenant xxxxrevisedxxxx -->
+            <div
+              id="dashboard-filter"
+              style="
+                padding: 0.5em;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              <!-- add tenant button -->
+              <div>
+                <button class="btn-add-tenant">
+                  <a
+                    href="/tenant_form.html"
+                    style="
+                      display: flex;
+                      justify-content: center;
+                      text-decoration: none;
+                      color: #f5f5f5;
+                    "
+                    >Add New Property</a
+                  >
+                </button>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  height: 1em;
+                  align-items: center;
+                  font-size: 0.7em;
+                  padding-right: 0.7em;
+                "
+              >
+                <p>Filter by: |</p>
+                <input type="text" /> | |
+                <button>Filter</button>
+              </div>
+            </div>
+
+            <!-- Overviews -->
+            <div style="display: flex; flex-wrap: wrap">
+              <!-- Tenant Overview -->
+              <div
+                class="tenant-detailed-information"
+                style="
+                  border: solid #e6e2e2;
+                  padding: 0.5em;
+                  border-radius: 0.5em;
+                  margin-top: 0.5em;
+                  display: inline-block;
+                  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
+                "
+              >
+                <!-- tenant table -->
+                <table
+                  class="tenant-details"
+                  style="color: #f5f5f5; border-radius: 0.2em; width: 70em"
+                >
+                  <!-- heading -->
+                  <thead
+                    style="
+                      background-color: #3c3024;
+                      height: 2em;
+                      align-content: center;
+                      text-align: center;
+                    "
+                  >
+                    <th class="tenant-name-column1">Property</th>
+                    <th class="tenant-name-column2">Occupancy</th>
+                    <th class="tenant-name-column3">Repairs/Maintenance</th>
+                    <th class="tenant-name-column5">Rent Status</th>
+                    <th class="tenant-name-column6">Action</th>
+                  </thead>
+                  <!-- content -->
+                  <tbody
+                    style="color: #3c3024; font-size: 0.8em; text-align: center"
+                  >
+                    <!-- 1 Row -->
+                    <tr class="row-data">
+                      <td class="property-name">
+                        <span>Triple A Heights</span>
+                      </td>
+                      <td class="occupancy-status">
+                        GREEN AND RED BARS WITH 60%
+                      </td>
+                      <td class="contact-information">
+                        <span>
+                          <div>
+                            <!-- country codes -->
+                            <select
+                              id="repair-list"
+                              name="repairList"
+                              required
+                              style="
+                                border: none;
+                                background-color: #f89155;
+                                border-radius: 0.3em;
+                                height: 1.5em;
+                                color: whitesmoke;
+                              "
+                            >
+                              <option value="repairs">5 Active Repairs</option>
+                              <div style="background-color: #f5f5f5">
+                                <!-- List HH | Repair Item | Service Provider -->
+
+                                <option value="repair1">
+                                  <div>
+                                    <span>E3B</span>
+                                    <span>:</span>
+                                    <span>Kitchen Tap</span>
+                                    <span>-</span>
+                                    <span>Ken Plumbers Ltd</span>
+                                  </div>
+                                </option>
+                                <option value="repair2">
+                                  <div>
+                                    <span>F2A</span>
+                                    <span>:</span>
+                                    <span>Bedroom Light</span>
+                                    <span>-</span>
+                                    <span>Sam Electronics Ltd</span>
+                                  </div>
+                                </option>
+                                <option value="repair3">
+                                  <div>
+                                    <span>G2A</span>
+                                    <span>:</span>
+                                    <span>Toilet Sink</span>
+                                    <span>-</span>
+                                    <span>Kings Bowl Ltd</span>
+                                  </div>
+                                </option>
+                              </div>
+                            </select>
+                          </div>
+                        </span>
+                      </td>
+                      <td class="property-name">
+                        <span>
+                          <!-- Bar chart -->
+                          <div class="chart-container">
+                            <div class="bar" id="bar1">
+                              <div class="bar-inner" id="bar1-inner">
+                                <span class="label" id="label1"></span>
+                              </div>
+                            </div>
+                          </div>
+                        </span>
+                      </td>
+
+                      <td
+                        class="property-profile-update"
+                        style="display: flex; justify-content: space-evenly; align-items: center"
+                      >
+                        <span
+                          ><button
+                            style="
+                              color: white;
+                              background-color: green;
+                              border: none;
+                              border-radius: 0.3em;
+
+                              height: 2em;
+                            "
+                          >
+                            Edit
+                          </button></span
+                        >
+                        <span
+                          ><button
+                            class="btn-delete"
+                            style="
+                              color: red;
+                              border: none;
+                              border-radius: 0.3em;
+                              height: 2em;
+                            "
+                          >
+                            Delete
+                          </button>
+                        </span>
+                      </td>
+                    </tr>
+                    <!-- 2 Row -->
+                    <tr>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- End TABLE -->
+              </div>
+              <!-- End of  -->
+            </div>
+            <!-- END Overviews -->
+          </div>
+          <!-- END Dashboard container -->
+        </main>
+      </section>
+
+      <!-- FOOTER -->
+      <div
+        class="main-footer"
+        style="
+          background-color: black;
+          color: white;
+          display: flex;
+          padding: 2em;
+          font-size: 0.5em;
+          justify-content: end;
+        "
+      >
+        v01
+      </div>
+    </div>
+    <!-- END ROOT -->
+  </body>
+
+  <script>
+    // Example data
+    const value1 = 50; // percentage
+
+    // Function to update the bar chart
+    function updateBar(barId, barInnerId, labelId, value) {
+      const barInner = document.getElementById(barInnerId);
+      const label = document.getElementById(labelId);
+      barInner.style.width = value + "%";
+      label.textContent = value + "%";
+
+      if (value > 50) {
+        barInner.style.backgroundColor = "green";
+      } else {
+        barInner.style.backgroundColor = "red";
+      }
+    }
+
+    // Update the bars with the values
+    updateBar("bar1", "bar1-inner", "label1", value1);
+  </script>
+</html>
