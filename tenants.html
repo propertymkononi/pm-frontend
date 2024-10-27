@@ -339,12 +339,12 @@
                 <!-- logo -->
                 <img src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs"
                     height="100px" width="100px" alt="pm-logo" style="margin: 2em; border-radius: 3em;" />
-                <div class="menu-btn" onclick="toggleMenu()">Dashboard</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Dashboard</div>
                 <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;">Tenants</div>
-                <div class="menu-btn" onclick="toggleMenu()">Properties</div>
-                <div class="menu-btn" onclick="toggleMenu()">Rent Status</div>
-                <div class="menu-btn" onclick="toggleMenu()">Evictions</div>
-                <div class="menu-btn" onclick="toggleMenu()">Requests</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Properties</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Rent Status</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Evictions</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Requests</div>
                 <footer style="padding: 1em; text-align: center;">
                     <button style="background-color: #8cb9c5; border: none; color: white; padding: 0.5em 1em;">Contact
                         Support</button>
@@ -382,10 +382,10 @@
 
                         <!-- New fields -->
                         <input type="email" id="emailAddress" placeholder="Email Address" required>
-                        <input type="text" id="idNumber" placeholder="ID Number" required>
+                        <input type="text" id="idNumber" placeholder="ID Number & Copy" required>
                         <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
                         <div class="preview" id="imagePreviewContainer">
-                            <img id="imagePreview" src="" alt="Image Preview" width="100">
+                            <img id="imagePreview" src="" alt="Image Preview" width="50">
                         </div>
                         <select id="employmentStatus" required>
                             <option value="" disabled selected>Employment Status</option>
@@ -547,7 +547,7 @@
                 row.cells[8].textContent = leaseDate;
                 row.cells[9].textContent = emailAddress;
                 row.cells[10].textContent = idNumber;
-                row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="50">`;
+                row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="20">`;
                 row.cells[12].textContent = employmentStatus;
                 row.cells[13].textContent = houseConditionVerified;
                 row.cells[14].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact}, ${reference1ID}<br>Ref2: ${reference2Name}, ${reference2Contact}, ${reference2ID}`;
