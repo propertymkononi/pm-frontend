@@ -487,13 +487,14 @@
             const idNumber = document.getElementById("idNumber").value;
             const employmentStatus = document.getElementById("employmentStatus").value;
 
-            const tapWater = document.getElementById("tapWater").checked ? "Tap Water" : "";
+        // house status values
+          /*  const tapWater = document.getElementById("tapWater").checked ? "Tap Water" : "";
             const windows = document.getElementById("windows").checked ? "Windows" : "";
             const doorLocks = document.getElementById("doorLocks").checked ? "Door Locks" : "";
             const electricalSockets = document.getElementById("electricalSockets").checked ? "Electrical Sockets" : "";
             const wallPainted = document.getElementById("wallPainted").checked ? "Wall Painted" : "";
             const otherCondition = document.getElementById("otherCondition").checked ? "Other" : "";
-            const houseConditionVerified = [tapWater, windows, doorLocks, electricalSockets, wallPainted, otherCondition].filter(Boolean).join(", ");
+            const houseConditionVerified = [tapWater, windows, doorLocks, electricalSockets, wallPainted, otherCondition].filter(Boolean).join(", "); */
 
             const reference1Name = document.getElementById("reference1Name").value;
             const reference1Contact = document.getElementById("reference1Contact").value;
@@ -532,7 +533,7 @@
                     <td><img src="${profilePictureSrc}" alt="Profile Picture" width="50"></td>
                     <td>${employmentStatus}</td>
                     <td>${houseConditionVerified}</td>
-                    <td>Ref1: ${reference1Name}, ${reference1Contact}, ${reference1ID}<br>Ref2: ${reference2Name}, ${reference2Contact}, ${reference2ID}</td>
+                    <td>Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}</td>
                 `;
             } else {
                 // Update existing row
@@ -550,7 +551,7 @@
                 row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="20">`;
                 row.cells[12].textContent = employmentStatus;
                 row.cells[13].textContent = houseConditionVerified;
-                row.cells[14].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact}, ${reference1ID}<br>Ref2: ${reference2Name}, ${reference2Contact}, ${reference2ID}`;
+                row.cells[14].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}`;
 
                 // Reset editIndex and button text
                 editIndex = -1;
@@ -594,10 +595,8 @@
 
             document.getElementById("reference1Name").value = ref1[0].replace('Ref1: ', '');
             document.getElementById("reference1Contact").value = ref1[1];
-            document.getElementById("reference1ID").value = ref1[2];
             document.getElementById("reference2Name").value = ref2[0];
             document.getElementById("reference2Contact").value = ref2[1];
-            document.getElementById("reference2ID").value = ref2[2];
 
             // Change button text to "Update" and color to blue
             const submitButton = document.getElementById("submitButton");
@@ -642,12 +641,96 @@
             document.getElementById('imagePreviewContainer').style.display = 'none';
 
             // Uncheck checkboxes
-            document.getElementById("tapWater").checked = false;
+           /* document.getElementById("tapWater").checked = false;
             document.getElementById("windows").checked = false;
             document.getElementById("doorLocks").checked = false;
             document.getElementById("electricalSockets").checked = false;
             document.getElementById("wallPainted").checked = false;
-            document.getElementById("otherCondition").checked = false;
+            document.getElementById("otherCondition").checked = false; */
+            
+
+            // Function to load tenants from the DATABASE
+function loadTenants() {
+    fetch('http://localhost:3000/tenants')
+        .then(response => response.json())
+        .then(tenants => {
+            const table = document.getElementById("tenantTableBody");
+            table.innerHTML = ''; // Clear existing rows
+
+            tenants.forEach(tenant => {
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${tenant.tenantName}</td>
+                    <td>${tenant.houseNumber}</td>
+                    <td>${tenant.phoneNumber}</td>
+                    <td>${tenant.apartment}</td>
+                    <td>${tenant.rentStatus}</td>
+                    <td>${tenant.tenancyDuration}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editTenant(${tenant.id})">Edit</button>
+                        <button class="btn-delete" onclick="deleteTenant(${tenant.id})">Delete</button>
+                    </td>
+                    <td>${tenant.houseCondition}</td>
+                    <td>${tenant.leaseDate}</td>
+                `;
+            });
+        });
+}
+
+// Function to add or update a tenant
+function addOrUpdateTenant() {
+    const tenantName = document.getElementById("tenantName").value;
+    const houseNumber = document.getElementById("houseNumber").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    const apartment = document.getElementById("apartment").value;
+    const rentStatus = document.getElementById("rentStatus").value;
+    const tenancyDuration = document.getElementById("tenancyDuration").value;
+    const houseCondition = document.getElementById("houseCondition").value;
+    const leaseDate = document.getElementById("leaseDate").value;
+
+    const tenantData = {
+        tenantName, houseNumber, phoneNumber, apartment, 
+        rentStatus, tenancyDuration, houseCondition, leaseDate
+    };
+
+    if (editIndex === -1) {
+        // Add tenant
+        fetch('http://localhost:3000/tenants', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tenantData)
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadTenants(); // Reload tenants
+            hideForm(); // Hide form
+        });
+    } else {
+        // Update tenant
+        fetch(`http://localhost:3000/tenants/${editIndex}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tenantData)
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadTenants(); // Reload tenants
+            hideForm(); // Hide form
+        });
+    }
+}
+
+// Function to delete a tenant
+function deleteTenant(id) {
+    fetch(`http://localhost:3000/tenants/${id}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(() => {
+        loadTenants(); // Reload tenants
+    });
+}
+
         }
     </script>
 </body>
