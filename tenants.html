@@ -453,7 +453,7 @@
                                 <th>Tenancy Duration</th>
                                 <th>Action</th>
                                 <th>House Condition</th>
-                                <th>Lease Date</th>
+                                
                                 <!-- <th>Email</th>
                 <th>ID Number</th>
                 <th>Profile Picture</th>
@@ -553,13 +553,6 @@
                         <button class="btn-delete" onclick="deleteTenant(this)">Delete</button>
                     </td>
                     <td>${houseCondition}</td>
-                    <td>${leaseDate}</td>
-                    <td>${emailAddress}</td>
-                    <td>${idNumber}</td>
-                    <td><img src="${profilePictureSrc}" alt="Profile Picture" width="50"></td>
-                    <td>${employmentStatus}</td>
-                    <td>${houseConditionVerified}</td>
-                    <td>Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}</td>
                 `;
             } else {
                 // Update existing row
@@ -571,13 +564,6 @@
                 row.cells[4].textContent = rentStatus;
                 row.cells[5].textContent = tenancyDuration;
                 row.cells[7].textContent = houseCondition;
-                row.cells[8].textContent = leaseDate;
-                row.cells[9].textContent = emailAddress;
-                row.cells[10].textContent = idNumber;
-                row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="20">`;
-                row.cells[12].textContent = employmentStatus;
-                row.cells[13].textContent = houseConditionVerified;
-                row.cells[14].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}`;
 
                 // Reset editIndex and button text
                 editIndex = -1;
@@ -612,7 +598,6 @@
             document.getElementById("leaseDate").value = row.cells[8].textContent;
             document.getElementById("emailAddress").value = row.cells[9].textContent;
             document.getElementById("idNumber").value = row.cells[10].textContent;
-            document.getElementById("employmentStatus").value = row.cells[12].textContent;
 
             // Populate reference fields
             const references = row.cells[14].innerHTML.split('<br>');
@@ -673,89 +658,20 @@
             document.getElementById("electricalSockets").checked = false;
             document.getElementById("wallPainted").checked = false;
             document.getElementById("otherCondition").checked = false; */
+
+             // Clear reference fields
+             const references = row.cells[14].innerHTML.split('<br>');
+             const ref1 = references[0].split(', ');
+             const ref2 = references[1].split(', ');
+ 
+             document.getElementById("reference1Name").value = '';
+             document.getElementById("reference1Contact").value = '';
+             document.getElementById("reference2Name").value = '';
+             document.getElementById("reference2Contact").value = '';
             
 
             // Function to load tenants from the DATABASE
-function loadTenants() {
-    fetch('http://localhost:3000/tenants')
-        .then(response => response.json())
-        .then(tenants => {
-            const table = document.getElementById("tenantTableBody");
-            table.innerHTML = ''; // Clear existing rows
 
-            tenants.forEach(tenant => {
-                const newRow = table.insertRow();
-                newRow.innerHTML = `
-                    <td>${tenant.tenantName}</td>
-                    <td>${tenant.houseNumber}</td>
-                    <td>${tenant.phoneNumber}</td>
-                    <td>${tenant.apartment}</td>
-                    <td>${tenant.rentStatus}</td>
-                    <td>${tenant.tenancyDuration}</td>
-                    <td>
-                        <button class="btn-edit" onclick="editTenant(${tenant.id})">Edit</button>
-                        <button class="btn-delete" onclick="deleteTenant(${tenant.id})">Delete</button>
-                    </td>
-                    <td>${tenant.houseCondition}</td>
-                    <td>${tenant.leaseDate}</td>
-                `;
-            });
-        });
-}
-
-// Function to add or update a tenant
-function addOrUpdateTenant() {
-    const tenantName = document.getElementById("tenantName").value;
-    const houseNumber = document.getElementById("houseNumber").value;
-    const phoneNumber = document.getElementById("phoneNumber").value;
-    const apartment = document.getElementById("apartment").value;
-    const rentStatus = document.getElementById("rentStatus").value;
-    const tenancyDuration = document.getElementById("tenancyDuration").value;
-    const houseCondition = document.getElementById("houseCondition").value;
-    const leaseDate = document.getElementById("leaseDate").value;
-
-    const tenantData = {
-        tenantName, houseNumber, phoneNumber, apartment, 
-        rentStatus, tenancyDuration, houseCondition, leaseDate
-    };
-
-    if (editIndex === -1) {
-        // Add tenant
-        fetch('http://localhost:3000/tenants', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(tenantData)
-        })
-        .then(response => response.json())
-        .then(() => {
-            loadTenants(); // Reload tenants
-            hideForm(); // Hide form
-        });
-    } else {
-        // Update tenant
-        fetch(`http://localhost:3000/tenants/${editIndex}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(tenantData)
-        })
-        .then(response => response.json())
-        .then(() => {
-            loadTenants(); // Reload tenants
-            hideForm(); // Hide form
-        });
-    }
-}
-
-// Function to delete a tenant
-function deleteTenant(id) {
-    fetch(`http://localhost:3000/tenants/${id}`, {
-        method: 'DELETE'
-    })
-    .then(response => response.json())
-    .then(() => {
-        loadTenants(); // Reload tenants
-    });
-}
 
         }
     </script>

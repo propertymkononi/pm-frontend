@@ -1,9 +1,10 @@
 // list of tenants
 const tenantList = ["tenant1", "tenant2"];
+let tenant1 = details.tenantForm()
 
 
 // tenant information
-const tenant = {
+const tenantData = {
     tenantName:"",
     houseNumber:"",
     phoneNumber:"",
@@ -17,10 +18,35 @@ const tenant = {
     employmentStatus:"",
     reference1Name:"",
     reference1Contact:"",
-    reference1ID:"",
     reference2Name:"",
     reference2Contact:"",
-    reference2ID:"",
 };
+
+//tenant status page
+const tenantStatus = {
+    tenantName:"",
+    houseNumber:"",
+    phoneNumber:"",
+    apartment:"",
+    rentStatus:"",
+    tenancyDuration:"",
+    action:"",
+    houseCondition:"",
+    
+}
+
+
+
+//RENT JS
+
+const rent = apartmentRent;
+const apartmentRent = "";
+
+//
+if () {
+
+}
+
+
 
 
