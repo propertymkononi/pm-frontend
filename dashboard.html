@@ -1,88 +1,42 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tenant Status XX </title>
+    <title>Dashboard</title>
     <style>
-        /* Basic styling */
-        body {
-            font-family: Arial, sans-serif;
-        }
 
-        /* Form styling */
-        .tenant-form {
-            margin-bottom: 20px;
-            display: none;
-            /* Initially hidden */
-        }
-
-        .tenant-form input,
-        .tenant-form select {
-            padding: 10px;
-            margin: 5px;
-            width: calc(100% / 3 - 20px);
-        }
-
-        .tenant-form button {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        /* Table styling */
-        .tenant-details {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .tenant-details th,
-        .tenant-details td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-
-        .tenant-details th {
-            background-color: #3c3024;
-            color: white;
-        }
-
-        .btn-delete,
-        .btn-edit {
-            color: white;
-            cursor: pointer;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-        }
-
-        .btn-delete {
-            background-color: red;
-        }
-
-        .btn-edit {
-            background-color: blue;
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .checkbox-group label {
-            margin-left: 10px;
-        }
-
-        .preview {
-            display: none;
-            margin-top: 10px;
-        }
+        /*Basic Styling*/
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Regular.woff2') format('woff2'),
+                 url('fonts/Inter-Regular.woff') format('woff'),
+                 url('fonts/Inter-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+          }
+        
+          @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Bold.woff2') format('woff2'),
+                 url('fonts/Inter-Bold.woff') format('woff'),
+                 url('fonts/Inter-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+          }
+        
+          body {
+            font-family: 'Inter', sans-serif;
+          
+          }
+          .header {
+            font-size: 0.7rem;
+            color: #f5f5f5;
+            filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
+        
+          }
 
         /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
@@ -339,12 +293,15 @@
                 <!-- logo -->
                 <img src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs"
                     height="100px" width="100px" alt="pm-logo" style="margin: 2em; border-radius: 3em;" />
-                <div class="menu-btn" onclick="toggleMenu()">Dashboard</div>
-                <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;">Tenants</div>
-                <div class="menu-btn" onclick="toggleMenu()">Properties</div>
-                <div class="menu-btn" onclick="toggleMenu()">Rent Status</div>
-                <div class="menu-btn" onclick="toggleMenu()">Evictions</div>
-                <div class="menu-btn" onclick="toggleMenu()">Requests</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Dashboard</div>
+                <a href="tenants.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Tenant</div></a>
+                <a href="properties.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Properties</div></a>
+                <a href="rent.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Rent Status</div></a>
+                <a href="evictions.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Evictions</div></a>
+                <a href="requests.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Requests</div></a>
+                <a href="notebooks.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Notebook</div></a>
+
+                <br>
                 <footer style="padding: 1em; text-align: center;">
                     <button style="background-color: #8cb9c5; border: none; color: white; padding: 0.5em 1em;">Contact
                         Support</button>
@@ -353,143 +310,34 @@
 
             <main style="background-image: url(https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D);
 ">
+                <section>
 
-                <!-- BEGIN SECTION -->
-<section>
-    <h1>Tenant Management</h1>
+                    <h2 style="color: #f5f5f5;">Dashboard</h2> <br>
 
-    <button id="addTenantBtn" onclick="showForm()">Add Tenant</button>
-
-    <div class="tenant-form" id="tenantForm">
-        <input type="text" id="tenantName" placeholder="Tenant Name" required>
-        <input type="text" id="houseNumber" placeholder="House No." required>
-        <input type="text" id="phoneNumber" placeholder="Phone No." required>
-        <input type="text" id="apartment" placeholder="Apartment" required>
-        <input type="text" id="rentStatus" placeholder="Rent Status" required>
-        <input type="text" id="tenancyDuration" placeholder="Tenancy Duration" required>
-        <button id="submitButton" onclick="addOrUpdateTenant()">Add Tenant</button>
-        <button onclick="hideForm()">Cancel</button>
-    </div>
-
-    <table class="tenant-details">
-        <thead>
-            <tr>
-                <th>Tenant Name</th>
-                <th>House No.</th>
-                <th>Phone No.</th>
-                <th>Apartment</th>
-                <th>Rent Status</th>
-                <th>Tenancy Duration</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id="tenantTableBody">
-        </tbody>
-    </table>
+                           <!-- DASHBOARD UI to be added HERE -->
+                    
+                </section>
+            </main>
+        </div>
+    </section>
 
     <script>
-        let editIndex = -1;
-
-        function showForm() {
-            document.getElementById("tenantForm").style.display = "block";
-            document.getElementById("addTenantBtn").style.display = "none";
-        }
-
-        function hideForm() {
-            document.getElementById("tenantForm").style.display = "none";
-            document.getElementById("addTenantBtn").style.display = "block";
-            clearForm();
-            editIndex = -1;
-            document.getElementById("submitButton").textContent = "Add Tenant";
-            document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
-        }
-
-        function addOrUpdateTenant() {
-            const tenantName = document.getElementById("tenantName").value;
-            const houseNumber = document.getElementById("houseNumber").value;
-            const phoneNumber = document.getElementById("phoneNumber").value;
-            const apartment = document.getElementById("apartment").value;
-            const rentStatus = document.getElementById("rentStatus").value;
-            const tenancyDuration = document.getElementById("tenancyDuration").value;
-       
-            if (!tenantName || !houseNumber || !phoneNumber || !apartment || !rentStatus || !tenancyDuration) {
-                alert("Please fill in all fields.");
-                return;
-            }
-
-            const table = document.getElementById("tenantTableBody");
-
-            if (editIndex === -1) {
-                const newRow = table.insertRow();
-                newRow.innerHTML = `
-                    <td>${tenantName}</td>
-                    <td>${houseNumber}</td>
-                    <td>${phoneNumber}</td>
-                    <td>${apartment}</td>
-                    <td>${rentStatus}</td>
-                    <td>${tenancyDuration}</td>
-                    <td>
-                        <button class="btn-edit" onclick="editTenant(this)">Edit</button>
-                        <button class="btn-delete" onclick="deleteTenant(this)">Delete</button>
-                    </td>
-                `;
-            } else {
-                const row = table.rows[editIndex];
-                row.cells[0].textContent = tenantName;
-                row.cells[1].textContent = houseNumber;
-                row.cells[2].textContent = phoneNumber;
-                row.cells[3].textContent = apartment;
-                row.cells[4].textContent = rentStatus;
-                row.cells[5].textContent = tenancyDuration;
-
-                editIndex = -1;
-                document.getElementById("submitButton").textContent = "Add Tenant";
-                document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
-            }
-
-            hideForm();
-        }
-
-        function deleteTenant(button) {
-            const row = button.parentNode.parentNode;
-            row.parentNode.removeChild(row);
-        }
-
-        function editTenant(button) {
-            showForm();
-            const row = button.parentNode.parentNode;
-            editIndex = row.rowIndex - 1;
-
-            document.getElementById("tenantName").value = row.cells[0].textContent;
-            document.getElementById("houseNumber").value = row.cells[1].textContent;
-            document.getElementById("phoneNumber").value = row.cells[2].textContent;
-            document.getElementById("apartment").value = row.cells[3].textContent;
-            document.getElementById("rentStatus").value = row.cells[4].textContent;
-            document.getElementById("tenancyDuration").value = row.cells[5].textContent;
-
-            const submitButton = document.getElementById("submitButton");
-            submitButton.textContent = "Update Tenant";
-            submitButton.style.backgroundColor = "blue";
-        }
-
-        function clearForm() {
-            document.getElementById("tenantName").value = '';
-            document.getElementById("houseNumber").value = '';
-            document.getElementById("phoneNumber").value = '';
-            document.getElementById("apartment").value = '';
-            document.getElementById("rentStatus").value = '';
-            document.getElementById("tenancyDuration").value = '';
-        }
-    </script>
-</section>
-
-                <script>
         function toggleMenu() {
             const navBar = document.getElementById('nav-bar');
             navBar.classList.toggle('open');
         }
-    </script>
 
+                    // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches(".profile-icon")) {
+                            const navBar= document.getElementById("nav-bar");
+                            if (navBar.style.display === "block") {
+                                navBar.style.display = "none";
+                            }
+                        }
+                    };
+    </script>
+  
 </body>
 
 </html>
