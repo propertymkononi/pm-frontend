@@ -1,0 +1,560 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests Status</title>
+    <style>
+
+        /*Basic Styling*/
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Regular.woff2') format('woff2'),
+                 url('fonts/Inter-Regular.woff') format('woff'),
+                 url('fonts/Inter-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+          }
+        
+          @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Bold.woff2') format('woff2'),
+                 url('fonts/Inter-Bold.woff') format('woff'),
+                 url('fonts/Inter-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+          }
+        
+          body {
+            font-family: 'Inter', sans-serif;
+          
+          }
+          .header {
+            font-size: 0.7rem;
+            color: #f5f5f5;
+            filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
+        
+          }
+
+        /* Table styling */
+        .rent-details {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .rent-details th,
+        .rent-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .rent-details th {
+            background-color: #3c3024;
+            color: white;
+        }
+
+        .btn-demandRent,
+        .btn-sendRentInvoice {
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .btn-demandRent {
+            background-color: red;
+        }
+
+        .btn-sendRentInvoice {
+            background-color: none;
+            box-shadow: #3c3024;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .checkbox-group label {
+            margin-left: 10px;
+        }
+
+        .preview {
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Container Styling */
+        .app-container {
+            display: flex;
+            flex-direction: row;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+
+        /* Header Styling */
+
+
+        /* Navigation Menu Styling */
+        nav {
+            background-color: #f5f5f5;
+            width: 250px;
+            transition: all 0.3s ease;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        nav.mobile-hidden {
+            display: none;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1em;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .menu-icon {
+            margin-right: 10px;
+        }
+
+        /* Dashboard Content Styling */
+        main {
+            padding: 20px;
+            flex: 1;
+            background-color: #f0f0f0;
+            overflow-y: auto;
+        }
+
+        /* Dropdown Button Styling for Mobile */
+        .dropdown-btn {
+            display: none;
+        }
+
+        /* Responsive Styling */
+        @media screen and (max-width: 768px) {
+            .dropdown-btn {
+                display: block;
+                background-color: #8cb9c5;
+                color: white;
+                border: none;
+                padding: 1em;
+                font-size: 1em;
+                cursor: pointer;
+            }
+
+            nav {
+                position: fixed;
+                left: -250px;
+                top: 0;
+                height: 100vh;
+                width: 250px;
+            }
+
+            nav.open {
+                left: 0;
+            }
+
+            .app-container {
+                flex-direction: column;
+            }
+
+            main {
+                margin-top: 60px;
+            }
+
+            nav.mobile-hidden {
+                display: block;
+                position: absolute;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="header" style=" background-color: #8cb9c5;
+        color: white;
+        padding-right: 1em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;">
+        <div>
+            <button class="dropdown-btn" onclick="toggleMenu()">☰ </button>
+        </div>
+
+        <!-- User Profile -->
+        <div id="user-profile" style="display: flex; flex-direction: row; justify-content: end; align-items:center">
+            <!-- profile icon -->
+            <div class="user-profile-icon">
+                <img src="https://media.licdn.com/dms/image/v2/D4D03AQHs_4PTdUj85g/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1679936241072?e=1735171200&v=beta&t=1_asUXdWHvu_z8NQ4nAC7Jze18IBchkabwL8XYN2t54"
+                    alt="user_profile" height="50em" style="border-radius: 5em; margin: 1em; align-content: center" />
+            </div>
+            <!-- name and date -->
+            <div class="user-name-and-date" style="margin: 0.2em">
+                <p style="font-size: 1.5em; font-weight: bold">
+                    <span id="user-greeting"></span> Doe
+                </p>
+                <div id="datetime"></div>
+            </div>
+
+            <script>
+                function updateDateTime() {
+                    let greeting; //Good morning/Afternoon User
+
+                    const now = new Date();
+                    const options = {
+                        weekday: "short",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        timeZoneName: "short",
+                        hour12: true,
+                    };
+                    const dateTimeString = now.toLocaleString("en-US", options);
+                    document.getElementById("datetime").textContent = dateTimeString;
+                }
+
+                setInterval(updateDateTime, 1000);
+                updateDateTime(); // initial call to set the time immediately
+
+                // Conditions for Greetings - Good Morning or Good Afternoon
+                if (new Date().getHours() < 12) {
+                    greeting = "Good Morning";
+                } else if (new Date().getHours() < 16) {
+                    greeting = "Good Afternoon";
+                } else {
+                    greeting = "Good Evening";
+                }
+                document.getElementById("user-greeting").innerHTML = greeting;
+            </script>
+
+            <!-- User Profile Settings -->
+            <div>
+                <style>
+                    .settings-container {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    .profile-icon {
+                        width: 40px;
+                        height: 40px;
+                        color: white;
+                        display: flex;
+                        justify-content: center;
+                        font-size: 18px;
+                        cursor: pointer;
+                    }
+
+                    .dropdown-menu {
+                        display: none;
+                        position: absolute;
+                        top: 50px;
+                        right: 0;
+                        background-color: #fff;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                        border-radius: 8px;
+                        width: 150px;
+                        z-index: 1;
+                    }
+
+                    .dropdown-menu a {
+                        display: block;
+                        padding: 10px 15px;
+                        color: #333;
+                        text-decoration: none;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .dropdown-menu a:hover {
+                        background-color: #f1f1f1;
+                    }
+
+                    .dropdown-menu a:last-child {
+                        border-bottom: none;
+                    }
+                </style>
+
+                <div class="settings-container">
+                    <div class="profile-icon" onclick="toggleDropdown()">...</div>
+                    <div class="dropdown-menu" id="dropdown">
+                        <a href="#">Edit Profile</a>
+                        <a href="#">Settings</a>
+                        <a href="#">Logout</a>
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("dropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches(".profile-icon")) {
+                            const dropdown = document.getElementById("dropdown");
+                            if (dropdown.style.display === "block") {
+                                dropdown.style.display = "none";
+                            }
+                        }
+                    };
+                </script>
+            </div>
+
+            <!-- End of User Profile Settings -->
+        </div>
+    </header>
+
+    <!-- End of Header -->
+
+    <!-- SECTION -->
+
+    <section>
+        <div class="app-container">
+            <!-- <button class="dropdown-btn" onclick="toggleMenu()">☰ </button> -->
+
+            <nav id="nav-bar">
+                <!-- logo -->
+                <img src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs"
+                    height="100px" width="100px" alt="pm-logo" style="margin: 2em; border-radius: 3em;" />
+                <a href="dashboard.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Dashboard</div></a>
+                <a href="tenants.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Tenant</div></a>
+                <a href="properties.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Properties</div></a>
+                <a href="rent.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Rent Status</div></a>
+                <a href="evictions.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Evictions</div></a>
+                <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Requests <span style=color:orange; font-style; italics, bold">i</span> </div>
+                <a href="notebooks.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Notebook</div></a>
+
+                <br>
+                <footer style="padding: 1em; text-align: center;">
+                    <button style="background-color: #8cb9c5; border: none; color: white; padding: 0.5em 1em;">Contact
+                        Support</button>
+                </footer>
+            </nav>
+
+            <main style="background-image: url(https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D);
+">
+                <section>
+
+                    <h2 style="color: #f5f5f5;">Requests</h2> <br>
+
+                           <!-- tenant UI Table -->
+                    <table class="rent-details">
+                        <thead>
+                            <tr>
+                                <th>Tenant Name</th>
+                                <th>House No.</th>
+                                <th>Phone No.</th>
+                                <th>Apartment</th>
+                                <th>Repair Status</th>
+                                <th>Rent Status</t>
+                                <th>Action</th> 
+                                <!-- the action will be messaging or calling the
+                                    tenant or service provider, a form with prompts will
+                                    be activated. For calls, the app will auto direct to
+                                    the call app -->
+                            </tr>
+                        </thead>
+                        <tbody id="rentTableBody" style="background-color: #f5f5f5;">
+                            <!-- Rows will be populated here -->
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const navBar = document.getElementById('nav-bar');
+            navBar.classList.toggle('open');
+        }
+
+                    // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches(".profile-icon")) {
+                            const navBar= document.getElementById("nav-bar");
+                            if (navBar.style.display === "block") {
+                                navBar.style.display = "none";
+                            }
+                        }
+                    };
+    </script>
+    <!-- JavaScript to Toggle Form Visibility -->
+    <script>
+        let editIndex = -1; // Keeps track of the row being updated
+
+            const table = document.getElementById("rentTableBody");
+
+            if (editIndex === -1) {
+                // Add a new row
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${tenantName}</td>
+                    <td>${houseNumber}</td>
+                    <td>${phoneNumber}</td>
+                    <td>${apartment}</td>
+                    <td>${rentStatus}</td>
+                    <td>${lastRentPayment}</td>
+                    <td>${nextRentPayment}</td>
+                    <td>
+                        <button class="btn-messageTenant" onclick="messageTenant(this)">Message</button>
+                        <button class="btn-callTenant" onclick="callTenant(this)">Call</button>
+                    </td>
+                    `;
+            } else {
+                // Update existing row
+                const row = table.rows[editIndex];
+                row.cells[0].textContent = tenantName;
+                row.cells[1].textContent = houseNumber;
+                row.cells[2].textContent = phoneNumber;
+                row.cells[3].textContent = apartment;
+                row.cells[4].textContent = rentStatus;
+                row.cells[5].textContent = lastRentPayment;
+                row.cells[7].textContent = nextRentPayment;
+                ;
+
+                // Reset editIndex and button text
+                editIndex = -1;
+                document.getElementById("submitButton").textContent = "Add Tenant";
+                document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
+            }
+
+      
+        // Function to delete a tenant row
+        function messageTenant(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        // Function to edit a tenant row
+        function editTenant(button) {
+            showForm(); // Show form when editing
+            const row = button.parentNode.parentNode;
+            editIndex = row.rowIndex - 1; // Set edit index
+
+            // Populate form fields with the row data
+            document.getElementById("tenantName").value = row.cells[0].textContent;
+            document.getElementById("houseNumber").value = row.cells[1].textContent;
+            document.getElementById("phoneNumber").value = row.cells[2].textContent;
+            document.getElementById("apartment").value = row.cells[3].textContent;
+            document.getElementById("rentStatus").value = row.cells[4].textContent;
+            document.getElementById("tenancyDuration").value = row.cells[5].textContent;
+            document.getElementById("houseCondition").value = row.cells[7].textContent;
+            document.getElementById("leaseDate").value = row.cells[8].textContent;
+            document.getElementById("emailAddress").value = row.cells[9].textContent;
+            document.getElementById("idNumber").value = row.cells[10].textContent;
+            document.getElementById("employmentStatus").value = row.cells[12].textContent;
+
+            // Function to load tenants from the DATABASE
+function loadTenants() {
+    fetch('http://localhost:3000/rent')
+        .then(response => response.json())
+        .then(tenants => {
+            const table = document.getElementById("rentTableBody");
+            table.innerHTML = ''; // Clear existing rows
+
+            rent.forEach(rent => {
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${rent.tenantName}</td>
+                    <td>${rent.houseNumber}</td>
+                    <td>${rent.phoneNumber}</td>
+                    <td>${rent.apartment}</td>
+                    <td>${rent.rentStatus}</td>
+                    <td>${rent.lastRentPayment}</td>
+                    <td>${rent.nextRentPayment}</td>
+                    <td>
+                        <button class="btn-messageTenant" onclick="messageTenant(this)">Message</button>
+                        <button class="btn-callTenant" onclick="callTenant(this)">Call</button>
+                    </td>
+                `;
+            });
+        });
+}
+
+// Function to add or update a tenant
+function addOrUpdateTenantRent() {
+    const tenantName = document.getElementById("tenantName").value;
+    const houseNumber = document.getElementById("houseNumber").value;
+    const phoneNumber = document.getElementById("phoneNumber").value;
+    const apartment = document.getElementById("apartment").value;
+    const rentStatus = document.getElementById("rentStatus").value;
+
+
+    const tenantData = {
+        tenantName, houseNumber, phoneNumber, apartment, 
+        rentStatus, tenancyDuration, houseCondition, leaseDate
+    };
+
+    if (editIndex === -1) {
+        // Add tenant
+        fetch('http://localhost:3000/tenants', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tenantData)
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadTenants(); // Reload tenants
+            hideForm(); // Hide form
+        });
+    } else {
+        // Update tenant
+        fetch(`http://localhost:3000/tenants/${editIndex}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tenantData)
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadTenants(); // Reload tenants
+            hideForm(); // Hide form
+        });
+    }
+}
+
+// Function to delete a tenant
+function deleteTenant(id) {
+    fetch(`http://localhost:3000/tenants/${id}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(() => {
+        loadTenants(); // Reload tenants
+    });
+}
+
+        }
+    </script>
+</body>
+
+</html>
