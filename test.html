@@ -371,6 +371,8 @@
                 <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Rent Status</div>
                 <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Evictions</div>
                 <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Requests</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Notesbook</div>
+
                 <footer style="padding: 1em; text-align: center;">
                     <button style="background-color: #8cb9c5; border: none; color: white; padding: 0.5em 1em;">Contact
                         Support</button>
@@ -398,12 +400,8 @@
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Personal Details:</h4>
 
                         <input type="text" id="tenantName" placeholder="Tenant Name" required>
-                        <input type="text" id="houseNumber" placeholder="House No." required>
                         <input type="text" id="phoneNumber" placeholder="Phone No." required>
-                        <input type="text" id="apartment" placeholder="Apartment" required>
-                        <input type="text" id="rentStatus" placeholder="Rent Status" required>
-                        <input type="text" id="houseCondition" placeholder="House Condition" required>
-                        <input type="date" id="leaseDate" placeholder="Lease Date" required>
+
 
                         <!-- New fields -->
                         <input type="email" id="emailAddress" placeholder="Email Address" required>
@@ -450,6 +448,27 @@
                         <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" required> <br>
                         <input type="text" id="reference2Name" placeholder="Reference 2: Name" required>
                         <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" required> <br> <br>
+
+                        <button id="submitButton" onclick="addOrUpdateTenant()">Add Tenant</button>
+                        <button onclick="hideForm()" style="background-color: red">Cancel</button> 
+                        <p style="padding: 0.5em;"></p>
+
+                        
+                        <br> <br>
+
+                        <!-- tenant property details -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">Apartment Details:</h4>
+                        <input type="text" id="apartment" placeholder="Apartment" required>
+                        <input type="text" id="houseNumber" placeholder="House No." required>
+                        <input type="number" id="monthlyRent" placeholder="Rent e.g. 13000" required>
+                        <input type="number" id="securityDeposit" placeholder="Deposit e.g. 13000" required>
+                        <input type="number" id="bedrooms" placeholder="No. of Bedrooms" required>
+                        <input type="text" id="houseCondition" placeholder="House Condition" required>
+                        <input type="date" id="leaseStartDate" placeholder="Lease Start" required>
+                        <input type="text" id="leaseEndDate" placeholder="Lease End" required>
+
+
 
                         <button id="submitButton" onclick="addOrUpdateTenant()">Add Tenant</button>
                         <button onclick="hideForm()" style="background-color: red">Cancel</button> 
