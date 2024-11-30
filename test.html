@@ -409,8 +409,8 @@
                             <!-- Add more countries as needed -->
                         </select>
                         <!-- passport photo -->
-                        <input type="text" id="passportPhoto" placeholder="Passport Photo" required>
-                        <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                        <label for="passportPhoto">Passport Photo</label>        
+                        <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)" required>
                         <div class="preview" id="imagePreviewContainer">
                             <img id="imagePreview" src="" alt="Image Preview" width="50">
                         </div>
