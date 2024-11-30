@@ -408,15 +408,15 @@
                             <option value="ugandan">Ugandan</option>
                             <!-- Add more countries as needed -->
                         </select>
-                        <!-- passport photo -->
-                        <label for="passportPhoto">Passport Photo</label>        
-                        <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)" required>
-                        <div class="preview" id="imagePreviewContainer">
-                            <img id="imagePreview" src="" alt="Image Preview" width="50">
-                        </div>
                         <!-- id card -->
                         <input type="text" id="idNumber" placeholder="ID Number & Copy" required>
                         <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                        <div class="preview" id="imagePreviewContainer">
+                            <img id="imagePreview" src="" alt="Image Preview" width="50">
+                        </div>
+                        <!-- passport photo -->
+                        <label for="passportPhoto">Passport Photo</label>        
+                        <input type="file" id="passportPhoto" accept="image/*" onchange="previewImage(event)" required>
                         <div class="preview" id="imagePreviewContainer">
                             <img id="imagePreview" src="" alt="Image Preview" width="50">
                         </div>
