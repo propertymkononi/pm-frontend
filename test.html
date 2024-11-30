@@ -401,10 +401,20 @@
 
                         <input type="text" id="tenantName" placeholder="Tenant Name" required>
                         <input type="text" id="phoneNumber" placeholder="Phone No." required>
-
-
-                        <!-- New fields -->
                         <input type="email" id="emailAddress" placeholder="Email Address" required>
+                        <select name="nationality" id="tenantNationality" required>
+                            <option value="" disabled selected>Nationality</option>
+                            <option value="kenyan">Kenyan</option>
+                            <option value="ugandan">Ugandan</option>
+                            <!-- Add more countries as needed -->
+                        </select>
+                        <!-- passport photo -->
+                        <input type="text" id="passportPhoto" placeholder="Passport Photo" required>
+                        <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                        <div class="preview" id="imagePreviewContainer">
+                            <img id="imagePreview" src="" alt="Image Preview" width="50">
+                        </div>
+                        <!-- id card -->
                         <input type="text" id="idNumber" placeholder="ID Number & Copy" required>
                         <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
                         <div class="preview" id="imagePreviewContainer">
@@ -417,15 +427,6 @@
                             <option value="self-employed">Self-employed</option>
                         </select>
 
-                        <!-- <div class="checkbox-group" style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024; display: flex; flex-direction: row;">
-                            <h4>House Condition Verified:</h4>
-                            <label><input type="checkbox" id="tapWater"> Tap Water</label>
-                            <label><input type="checkbox" id="windows"> Windows</label>
-                            <label><input type="checkbox" id="doorLocks"> Door Locks</label>
-                            <label><input type="checkbox" id="electricalSockets"> Electrical Sockets</label>
-                            <label><input type="checkbox" id="wallPainted"> Wall Painted</label>
-                            <label><input type="checkbox" id="otherCondition"> Other</label>
-                        </div> -->
                         <br><br>
 
                         <!-- Tenant Household Details -->
