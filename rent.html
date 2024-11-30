@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent Status</title>
+    <title>Tenant Status</title>
     <style>
 
         /*Basic Styling*/
@@ -37,27 +37,49 @@
         
           }
 
+        /* Form styling */
+        .tenant-form {
+            margin-bottom: 20px;
+            display: none;
+            /* Initially hidden */
+        }
+
+        .tenant-form input,
+        .tenant-form select {
+            padding: 10px;
+            margin: 5px;
+            width: calc(100% / 3 - 20px);
+        }
+
+        .tenant-form button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
         /* Table styling */
-        .rent-details {
+        .tenant-details {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
 
-        .rent-details th,
-        .rent-details td {
+        .tenant-details th,
+        .tenant-details td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: center;
         }
 
-        .rent-details th {
+        .tenant-details th {
             background-color: #3c3024;
             color: white;
         }
 
-        .btn-demandRent,
-        .btn-sendRentInvoice {
+        .btn-delete,
+        .btn-edit {
             color: white;
             cursor: pointer;
             padding: 5px 10px;
@@ -65,13 +87,12 @@
             border-radius: 4px;
         }
 
-        .btn-demandRent {
+        .btn-delete {
             background-color: red;
         }
 
-        .btn-sendRentInvoice {
-            background-color: none;
-            box-shadow: #3c3024;
+        .btn-edit {
+            background-color: blue;
         }
 
         .checkbox-group {
@@ -345,11 +366,13 @@
                 <img src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs"
                     height="100px" width="100px" alt="pm-logo" style="margin: 2em; border-radius: 3em;" />
                 <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Dashboard</div>
-                <div class="menu-btn" onclick="toggleMenu()" style="color: black; box-shadow: #3c3024;">Tenants</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;">Tenants</div>
                 <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Properties</div>
-                <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Rent Status</div>
                 <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Evictions</div>
                 <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Requests</div>
+                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Notesbook</div>
+
                 <footer style="padding: 1em; text-align: center;">
                     <button style="background-color: #8cb9c5; border: none; color: white; padding: 0.5em 1em;">Contact
                         Support</button>
@@ -360,10 +383,100 @@
 ">
                 <section>
 
-                    <h2 style="color: #f5f5f5;">Rent Status</h2> <br>
+                    <h2 style="color: #f5f5f5;">Tenant Status</h2> <br>
 
-                           <!-- tenant UI Table -->
-                    <table class="rent-details">
+                    <!-- Add tenant Button -->
+                    <button id="addtenantBtn" onclick="showForm()" style="
+                        padding: 10px;
+                        background-color: #4CAF50;
+                        color: white;
+                        border: none;
+                        cursor: pointer;
+                    ">Add Tenant</button>
+
+                    <!-- tenant Form -->
+                    <div class="tenant-form" id="tenantForm" style="background-color: aliceblue;">
+                        <br>
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Personal Details:</h4>
+
+                        <input type="text" id="tenantName" placeholder="Tenant Name" required>
+                        <input type="text" id="phoneNumber" placeholder="Phone No." required>
+
+
+                        <!-- New fields -->
+                        <input type="email" id="emailAddress" placeholder="Email Address" required>
+                        <input type="text" id="idNumber" placeholder="ID Number & Copy" required>
+                        <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                        <div class="preview" id="imagePreviewContainer">
+                            <img id="imagePreview" src="" alt="Image Preview" width="50">
+                        </div>
+                        <select id="employmentStatus" required>
+                            <option value="" disabled selected>Employment Status</option>
+                            <option value="employed">Employed</option>
+                            <option value="unemployed">Unemployed</option>
+                            <option value="self-employed">Self-employed</option>
+                        </select>
+
+                        <!-- <div class="checkbox-group" style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024; display: flex; flex-direction: row;">
+                            <h4>House Condition Verified:</h4>
+                            <label><input type="checkbox" id="tapWater"> Tap Water</label>
+                            <label><input type="checkbox" id="windows"> Windows</label>
+                            <label><input type="checkbox" id="doorLocks"> Door Locks</label>
+                            <label><input type="checkbox" id="electricalSockets"> Electrical Sockets</label>
+                            <label><input type="checkbox" id="wallPainted"> Wall Painted</label>
+                            <label><input type="checkbox" id="otherCondition"> Other</label>
+                        </div> -->
+                        <br><br>
+
+                        <!-- Tenant Household Details -->
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">Household Details:</h4>
+                        <input type="number" id="householdSize" placeholder="Family Size" required>
+                        <input type="number" id="householdMinors" placeholder="Number of Children" required> <br>
+                        <select id="householdManager" required>
+                            <option value="" disabled selected>House manager or nunny?</option>
+                            <option value="householdManagerPositive">Manager/Nunny available</option>
+                            <option value="householdManagerNegative">No manager/nunny</option>
+                            <input type="text" id="householdHelpName" placeholder="House Manager/Nunny Name" >
+                            <input type="text" id="householdHelpId" placeholder="House Manager/Nunny ID" > 
+                        </select>
+                        <br> <br>
+
+                        <!-- Tenant References -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">References:</h4>
+                        <input type="text" id="reference1Name" placeholder="Reference 1: Name" required>
+                        <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" required> <br>
+                        <input type="text" id="reference2Name" placeholder="Reference 2: Name" required>
+                        <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" required> <br> <br>
+
+                        <button id="submitButton" onclick="addOrUpdateTenant()">Add Tenant</button>
+                        <button onclick="hideForm()" style="background-color: red">Cancel</button> 
+                        <p style="padding: 0.5em;"></p>
+
+                        
+                        <br> <br>
+
+                        <!-- tenant property details -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">Apartment Details:</h4>
+                        <input type="text" id="apartment" placeholder="Apartment" required>
+                        <input type="text" id="houseNumber" placeholder="House No." required>
+                        <input type="number" id="monthlyRent" placeholder="Rent e.g. 13000" required>
+                        <input type="number" id="securityDeposit" placeholder="Deposit e.g. 13000" required>
+                        <input type="number" id="bedrooms" placeholder="No. of Bedrooms" required>
+                        <input type="text" id="houseCondition" placeholder="House Condition" required>
+                        <input type="date" id="leaseStartDate" placeholder="Lease Start" required>
+                        <input type="text" id="leaseEndDate" placeholder="Lease End" required>
+
+
+
+                        <button id="submitButton" onclick="addOrUpdateTenant()">Add Tenant</button>
+                        <button onclick="hideForm()" style="background-color: red">Cancel</button> 
+                        <p style="padding: 0.5em;"></p>
+                    </div>
+
+                    <!-- tenant UI Table -->
+                    <table class="tenant-details">
                         <thead>
                             <tr>
                                 <th>Tenant Name</th>
@@ -371,16 +484,12 @@
                                 <th>Phone No.</th>
                                 <th>Apartment</th>
                                 <th>Rent Status</th>
-                                <th>Last Payment</th>
-                                <th>Next Payment Due</th>
-                                <th>Action</th> 
-                                <!-- the action will be messaging or calling the
-                                    tenant. on messaging, a form with prompts will
-                                    be activated. For calls, the app will auto direct to
-                                    the call app -->
+                                <th>House Condition</th>
+                                <th>Tenancy Duration</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="rentTableBody" style="background-color: #f5f5f5;">
+                        <tbody id="tenantTableBody" style="background-color: #f5f5f5;">
                             <!-- Rows will be populated here -->
                         </tbody>
                     </table>
@@ -397,9 +506,63 @@
     </script>
     <!-- JavaScript to Toggle Form Visibility -->
     <script>
-        let editIndex = -1; // Keeps track of the row being updated
+        let editIndex = -1; // Keeps track of the row being edited
 
-            const table = document.getElementById("rentTableBody");
+        // Function to show the form
+        function showForm() {
+            document.getElementById("tenantForm").style.display = "block";
+            document.getElementById("addTenantBtn").style.display = "none"; // Hide "Add tenant" button
+        }
+
+        // Function to hide the form
+        function hideForm() {
+            document.getElementById("tenantForm").style.display = "none";
+            document.getElementById("addTenantBtn").style.display = "block"; // Show "Add tenant" button
+            clearForm(); // Clear the form when hiding
+            editIndex = -1; // Reset the edit index
+            document.getElementById("submitButton").textContent = "Add Tenant";
+            document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
+        }
+
+        // Function to add or update a tenant
+        function addOrUpdateTenant() {
+            // Get input values
+            const tenantName = document.getElementById("tenantName").value;
+            const houseNumber = document.getElementById("houseNumber").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            const apartment = document.getElementById("apartment").value;
+            const rentStatus = document.getElementById("rentStatus").value;
+            const tenancyDuration = document.getElementById("tenancyDuration").value;
+            const houseCondition = document.getElementById("houseCondition").value;
+            const leaseDate = document.getElementById("leaseDate").value;
+            const emailAddress = document.getElementById("emailAddress").value;
+            const idNumber = document.getElementById("idNumber").value;
+            const employmentStatus = document.getElementById("employmentStatus").value;
+
+        // house status values
+          /*  const tapWater = document.getElementById("tapWater").checked ? "Tap Water" : "";
+            const windows = document.getElementById("windows").checked ? "Windows" : "";
+            const doorLocks = document.getElementById("doorLocks").checked ? "Door Locks" : "";
+            const electricalSockets = document.getElementById("electricalSockets").checked ? "Electrical Sockets" : "";
+            const wallPainted = document.getElementById("wallPainted").checked ? "Wall Painted" : "";
+            const otherCondition = document.getElementById("otherCondition").checked ? "Other" : "";
+            const houseConditionVerified = [tapWater, windows, doorLocks, electricalSockets, wallPainted, otherCondition].filter(Boolean).join(", "); */
+
+            const reference1Name = document.getElementById("reference1Name").value;
+            const reference1Contact = document.getElementById("reference1Contact").value;
+            const reference1ID = document.getElementById("reference1ID").value;
+            const reference2Name = document.getElementById("reference2Name").value;
+            const reference2Contact = document.getElementById("reference2Contact").value;
+            const reference2ID = document.getElementById("reference2ID").value;
+
+            if (tenantName === "" || houseNumber === "" || phoneNumber === "" || apartment === "" || rentStatus === "" || tenancyDuration === "" || houseCondition === "" || leaseDate === "" || emailAddress === "" || idNumber === "" || employmentStatus === "" || reference1Name === "" || reference1Contact === "" || reference1ID === "" || reference2Name === "" || reference2Contact === "" || reference2ID === "") {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const table = document.getElementById("tenantTableBody");
+
+            const profilePictureSrc = document.getElementById("profilePicture").files[0] ? URL.createObjectURL(document.getElementById("profilePicture").files[0]) : "";
 
             if (editIndex === -1) {
                 // Add a new row
@@ -410,13 +573,20 @@
                     <td>${phoneNumber}</td>
                     <td>${apartment}</td>
                     <td>${rentStatus}</td>
-                    <td>${lastRentPayment}</td>
-                    <td>${nextRentPayment}</td>
+                    <td>${tenancyDuration}</td>
                     <td>
-                        <button class="btn-messageTenant" onclick="messageTenant(this)">Message</button>
-                        <button class="btn-callTenant" onclick="callTenant(this)">Call</button>
+                        <button class="btn-edit" onclick="editTenant(this)">Edit</button>
+                        <button class="btn-delete" onclick="deleteTenant(this)">Delete</button>
                     </td>
-                    `;
+                    <td>${houseCondition}</td>
+                    <td>${leaseDate}</td>
+                    <td>${emailAddress}</td>
+                    <td>${idNumber}</td>
+                    <td><img src="${profilePictureSrc}" alt="Profile Picture" width="50"></td>
+                    <td>${employmentStatus}</td>
+                    <td>${houseConditionVerified}</td>
+                    <td>Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}</td>
+                `;
             } else {
                 // Update existing row
                 const row = table.rows[editIndex];
@@ -425,9 +595,15 @@
                 row.cells[2].textContent = phoneNumber;
                 row.cells[3].textContent = apartment;
                 row.cells[4].textContent = rentStatus;
-                row.cells[5].textContent = lastRentPayment;
-                row.cells[7].textContent = nextRentPayment;
-                ;
+                row.cells[5].textContent = tenancyDuration;
+                row.cells[7].textContent = houseCondition;
+                row.cells[8].textContent = leaseDate;
+                row.cells[9].textContent = emailAddress;
+                row.cells[10].textContent = idNumber;
+                row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="20">`;
+                row.cells[12].textContent = employmentStatus;
+                row.cells[13].textContent = houseConditionVerified;
+                row.cells[14].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}`;
 
                 // Reset editIndex and button text
                 editIndex = -1;
@@ -435,9 +611,12 @@
                 document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
             }
 
-      
+            // Hide the form and clear fields
+            hideForm();
+        }
+
         // Function to delete a tenant row
-        function messageTenant(button) {
+        function deleteTenant(button) {
             const row = button.parentNode.parentNode;
             row.parentNode.removeChild(row);
         }
@@ -461,41 +640,105 @@
             document.getElementById("idNumber").value = row.cells[10].textContent;
             document.getElementById("employmentStatus").value = row.cells[12].textContent;
 
+            // Populate reference fields
+            const references = row.cells[14].innerHTML.split('<br>');
+            const ref1 = references[0].split(', ');
+            const ref2 = references[1].split(', ');
+
+            document.getElementById("reference1Name").value = ref1[0].replace('Ref1: ', '');
+            document.getElementById("reference1Contact").value = ref1[1];
+            document.getElementById("reference2Name").value = ref2[0];
+            document.getElementById("reference2Contact").value = ref2[1];
+
+            // Change button text to "Update" and color to blue
+            const submitButton = document.getElementById("submitButton");
+            submitButton.textContent = "Update Tenant";
+            submitButton.style.backgroundColor = "blue";
+        }
+
+        // Function to preview the profile picture
+        function previewImage(event) {
+            const imagePreview = document.getElementById('imagePreview');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const file = event.target.files[0];
+            if (file) {
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreviewContainer.style.display = 'block';
+            } else {
+                imagePreviewContainer.style.display = 'none';
+            }
+        }
+
+        // Function to clear the form fields
+        function clearForm() {
+            document.getElementById("tenantName").value = '';
+            document.getElementById("houseNumber").value = '';
+            document.getElementById("phoneNumber").value = '';
+            document.getElementById("apartment").value = '';
+            document.getElementById("rentStatus").value = '';
+            document.getElementById("tenancyDuration").value = '';
+            document.getElementById("houseCondition").value = '';
+            document.getElementById("leaseDate").value = '';
+            document.getElementById("emailAddress").value = '';
+            document.getElementById("idNumber").value = '';
+            document.getElementById("employmentStatus").value = '';
+            document.getElementById("reference1Name").value = '';
+            document.getElementById("reference1Contact").value = '';
+            document.getElementById("reference1ID").value = '';
+            document.getElementById("reference2Name").value = '';
+            document.getElementById("reference2Contact").value = '';
+            document.getElementById("reference2ID").value = '';
+            document.getElementById("profilePicture").value = '';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+
+            // Uncheck checkboxes
+           /* document.getElementById("tapWater").checked = false;
+            document.getElementById("windows").checked = false;
+            document.getElementById("doorLocks").checked = false;
+            document.getElementById("electricalSockets").checked = false;
+            document.getElementById("wallPainted").checked = false;
+            document.getElementById("otherCondition").checked = false; */
+            
+
             // Function to load tenants from the DATABASE
 function loadTenants() {
-    fetch('http://localhost:3000/rent')
+    fetch('http://localhost:3000/tenants')
         .then(response => response.json())
         .then(tenants => {
-            const table = document.getElementById("rentTableBody");
+            const table = document.getElementById("tenantTableBody");
             table.innerHTML = ''; // Clear existing rows
 
-            rent.forEach(rent => {
+            tenants.forEach(tenant => {
                 const newRow = table.insertRow();
                 newRow.innerHTML = `
-                    <td>${rent.tenantName}</td>
-                    <td>${rent.houseNumber}</td>
-                    <td>${rent.phoneNumber}</td>
-                    <td>${rent.apartment}</td>
-                    <td>${rent.rentStatus}</td>
-                    <td>${rent.lastRentPayment}</td>
-                    <td>${rent.nextRentPayment}</td>
+                    <td>${tenant.tenantName}</td>
+                    <td>${tenant.houseNumber}</td>
+                    <td>${tenant.phoneNumber}</td>
+                    <td>${tenant.apartment}</td>
+                    <td>${tenant.rentStatus}</td>
+                    <td>${tenant.tenancyDuration}</td>
                     <td>
-                        <button class="btn-messageTenant" onclick="messageTenant(this)">Message</button>
-                        <button class="btn-callTenant" onclick="callTenant(this)">Call</button>
+                        <button class="btn-edit" onclick="editTenant(${tenant.id})">Edit</button>
+                        <button class="btn-delete" onclick="deleteTenant(${tenant.id})">Delete</button>
                     </td>
+                    <td>${tenant.houseCondition}</td>
+                    <td>${tenant.leaseDate}</td>
                 `;
             });
         });
 }
 
 // Function to add or update a tenant
-function addOrUpdateTenantRent() {
+function addOrUpdateTenant() {
     const tenantName = document.getElementById("tenantName").value;
     const houseNumber = document.getElementById("houseNumber").value;
     const phoneNumber = document.getElementById("phoneNumber").value;
     const apartment = document.getElementById("apartment").value;
     const rentStatus = document.getElementById("rentStatus").value;
-
+    const tenancyDuration = document.getElementById("tenancyDuration").value;
+    const houseCondition = document.getElementById("houseCondition").value;
+    const leaseDate = document.getElementById("leaseDate").value;
 
     const tenantData = {
         tenantName, houseNumber, phoneNumber, apartment, 
