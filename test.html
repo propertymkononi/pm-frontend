@@ -417,7 +417,7 @@
                         <!-- passport photo -->
                         <label for="passportPhoto">Passport Photo</label>        
                         <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)" required>
-                        <div class="preview" id="passportPreviewContainer">
+                        <div class="passport" id="passportPreviewContainer">
                             <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
                         </div>
                         <select id="employmentStatus" required>
@@ -450,11 +450,6 @@
                         <input type="text" id="reference2Name" placeholder="Reference 2: Name" required>
                         <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" required> <br> <br>
 
-                        <button id="submitButton" onclick="addOrUpdateTenant()">Add Tenant</button>
-                        <button onclick="hideForm()" style="background-color: red">Cancel</button> 
-                        <p style="padding: 0.5em;"></p>
-
-                        
                         <br> <br>
 
                         <!-- tenant property details -->
@@ -468,6 +463,7 @@
                         <input type="text" id="houseCondition" placeholder="House Condition" required>
                         <input type="date" id="leaseStartDate" placeholder="Lease Start" required>
                         <input type="text" id="leaseEndDate" placeholder="Lease End" required>
+                         <br> <br>
 
 
 
