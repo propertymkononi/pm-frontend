@@ -412,13 +412,13 @@
                         <input type="text" id="idNumber" placeholder="ID Number & Copy" required>
                         <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
                         <div class="preview" id="imagePreviewContainer">
-                            <img id="imagePreview" src="" alt="Image Preview" width="50">
+                            <img id="imagePreview" src="" alt="Image Preview" width="100">
                         </div>
                         <!-- passport photo -->
                         <label for="passportPhoto">Passport Photo</label>        
-                        <input type="file" id="passportPhoto" accept="image/*" onchange="previewImage(event)" required>
-                        <div class="preview" id="imagePreviewContainer">
-                            <img id="imagePreview" src="" alt="Image Preview" width="50">
+                        <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)" required>
+                        <div class="preview" id="passportPreviewContainer">
+                            <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
                         </div>
                         <select id="employmentStatus" required>
                             <option value="" disabled selected>Employment Status</option>
@@ -538,6 +538,8 @@
             const leaseDate = document.getElementById("leaseDate").value;
             const emailAddress = document.getElementById("emailAddress").value;
             const idNumber = document.getElementById("idNumber").value;
+            const passportPhoto = document.getElementById("passportPhoto").value;
+
             const employmentStatus = document.getElementById("employmentStatus").value;
 
         // house status values
@@ -556,7 +558,7 @@
             const reference2Contact = document.getElementById("reference2Contact").value;
             const reference2ID = document.getElementById("reference2ID").value;
 
-            if (tenantName === "" || houseNumber === "" || phoneNumber === "" || apartment === "" || rentStatus === "" || tenancyDuration === "" || houseCondition === "" || leaseDate === "" || emailAddress === "" || idNumber === "" || employmentStatus === "" || reference1Name === "" || reference1Contact === "" || reference1ID === "" || reference2Name === "" || reference2Contact === "" || reference2ID === "") {
+            if (tenantName === "" || houseNumber === "" || phoneNumber === "" || apartment === "" || rentStatus === "" || tenancyDuration === "" || houseCondition === "" || leaseDate === "" || emailAddress === "" || idNumber === "" || passportPhoto === "" || employmentStatus === "" || reference1Name === "" || reference1Contact === "" || reference1ID === "" || reference2Name === "" || reference2Contact === "" || reference2ID === "") {
                 alert("Please fill in all fields.");
                 return;
             }
@@ -564,6 +566,7 @@
             const table = document.getElementById("tenantTableBody");
 
             const profilePictureSrc = document.getElementById("profilePicture").files[0] ? URL.createObjectURL(document.getElementById("profilePicture").files[0]) : "";
+            const passportPhotoSrc = document.getElementById("passportPhoto").files[0] ? URL.createObjectURL(document.getElementById("passportPhoto").files[0]) : "";
 
             if (editIndex === -1) {
                 // Add a new row
@@ -583,7 +586,9 @@
                     <td>${leaseDate}</td>
                     <td>${emailAddress}</td>
                     <td>${idNumber}</td>
-                    <td><img src="${profilePictureSrc}" alt="Profile Picture" width="50"></td>
+                    <td><img src="${profilePictureSrc}" alt="Profile Picture" width="100"></td>
+                    <td>${passportPhoto}</td>
+                    <td><img src="${passportPhotoSrc}" alt="Passport Photo" width="100"></td>
                     <td>${employmentStatus}</td>
                     <td>${houseConditionVerified}</td>
                     <td>Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}</td>
@@ -602,9 +607,11 @@
                 row.cells[9].textContent = emailAddress;
                 row.cells[10].textContent = idNumber;
                 row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="20">`;
-                row.cells[12].textContent = employmentStatus;
-                row.cells[13].textContent = houseConditionVerified;
-                row.cells[14].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}`;
+                row.cells[12].textContent = passportPhoto;
+                row.cells[13].innerHTML = `<img src="${passportPhotoSrc}" alt="Passport Photo" width="20">`;
+                row.cells[14].textContent = employmentStatus;
+                row.cells[15].textContent = houseConditionVerified;
+                row.cells[16].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}`;
 
                 // Reset editIndex and button text
                 editIndex = -1;
@@ -639,6 +646,7 @@
             document.getElementById("leaseDate").value = row.cells[8].textContent;
             document.getElementById("emailAddress").value = row.cells[9].textContent;
             document.getElementById("idNumber").value = row.cells[10].textContent;
+            document.getElementById("passportPhoto").value = row.cells[11].textContent;
             document.getElementById("employmentStatus").value = row.cells[12].textContent;
 
             // Populate reference fields
@@ -670,6 +678,19 @@
             }
         }
 
+        // Function to preview the passport photo
+        function previewImage(event) {
+            const passportPreview = document.getElementById('passportPreview');
+            const passportPreviewContainer = document.getElementById('passportPreviewContainer');
+            const file = event.target.files[0];
+            if (file) {
+                passportPreview.src = URL.createObjectURL(file);
+                passportPreviewContainer.style.display = 'block';
+            } else {
+                passportPreviewContainer.style.display = 'none';
+            }
+        }
+
         // Function to clear the form fields
         function clearForm() {
             document.getElementById("tenantName").value = '';
@@ -692,7 +713,9 @@
             document.getElementById("profilePicture").value = '';
             document.getElementById('imagePreview').src = '';
             document.getElementById('imagePreviewContainer').style.display = 'none';
-
+            document.getElementById('passportPreview').src = '';
+            document.getElementById('passportPreviewContainer').style.display = 'none';
+            
             // Uncheck checkboxes
            /* document.getElementById("tapWater").checked = false;
             document.getElementById("windows").checked = false;
