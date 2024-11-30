@@ -344,12 +344,15 @@
                 <!-- logo -->
                 <img src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs"
                     height="100px" width="100px" alt="pm-logo" style="margin: 2em; border-radius: 3em;" />
-                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Dashboard</div>
-                <div class="menu-btn" onclick="toggleMenu()" style="color: black; box-shadow: #3c3024;">Tenants</div>
-                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Properties</div>
+                <a href="dashboard.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Dashboard</div></a>
+                <a href="tenants.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Tenant</div></a>
+                <a href="properties.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Properties</div></a>
                 <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div>
-                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Evictions</div>
-                <div class="menu-btn" onclick="toggleMenu()" style="color: black;">Requests</div>
+                <a href="evictions.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Evictions</div></a>
+                <a href="requests.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Requests</div></a>
+                <a href="notebooks.html"><div  class="menu-btn" onclick="toggleMenu()" style="color: black; text-decoration-style: none;  " >Notebook</div></a>
+
+                <br>
                 <footer style="padding: 1em; text-align: center;">
                     <button style="background-color: #8cb9c5; border: none; color: white; padding: 0.5em 1em;">Contact
                         Support</button>
@@ -394,6 +397,16 @@
             const navBar = document.getElementById('nav-bar');
             navBar.classList.toggle('open');
         }
+
+                    // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches(".profile-icon")) {
+                            const navBar= document.getElementById("nav-bar");
+                            if (navBar.style.display === "block") {
+                                navBar.style.display = "none";
+                            }
+                        }
+                    };
     </script>
     <!-- JavaScript to Toggle Form Visibility -->
     <script>
