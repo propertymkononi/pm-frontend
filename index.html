@@ -173,8 +173,8 @@
                        height="50px" width="50px" alt="pm-logo" style="margin: 2em; border-radius: 3em;" />
 
         <div class="button-group">
-            <button id="landlordLog" onclick="location.href='landlord_login.html'" style="background-color: #8cb9c5; color: black">LANDLORD</button>
-            <button id="tenantLog" onclick="location.href='pm-frontend/landlord_login.html'" style="background-color: #FFAA64; color: black;">TENANT</button> 
+            <button id="landlordLog" onclick="location.href='pm-frontend/landlord_login.html'" style="background-color: #8cb9c5; color: black">LANDLORD</button>
+            <button id="tenantLog" onclick="location.href='pm-frontend/tenant_login.html'" style="background-color: #FFAA64; color: black;">TENANT</button>
             <div>
                 <p>or <br> <br>
                     Log in as <a href="pm-frontend/admin_login.html">Property Mkononi Admin </a></p>
@@ -184,12 +184,18 @@
         </div>
     </div>
     <script>
+
+        
+
                 // Show main content after a delay and hide the welcome section
                 window.onload = function() {
             setTimeout(function() {
+        // Show welcome section for 2 seconds before then display the main content
+                document.getElementById('welcomeSection').style.display = 'block';
+                document.getElementById('mainContent').style.display = 'none'; // Hide the main content initially
                 document.getElementById('welcomeSection').style.display = 'none';
                 document.getElementById('mainContent').style.display = 'block';
-            }, 2000); // Adjust the delay (2000ms = 2 seconds) as needed
+            }, 3000); // Adjust the delay (2000ms = 2 seconds) as needed
         };
     </script>
 </body>
