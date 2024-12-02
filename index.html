@@ -120,9 +120,46 @@
                 font-size: 1rem;
                 padding: 12px;
             }
+
+
+                /* Welcome section styling */
+            .welcome-section {
+            text-align: center;
+            padding: 50px;
+            color: white;
+        }
+
+        .welcome-section img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        /* Main content styling */
+        .main-content {
+            display: none; /* Initially hidden */
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
+
+        <!-- Welcome Section -->
+        <div class="welcome-section" id="welcomeSection">
+            <img height="50px" width="50px" alt="pm-logo" style="border-radius: 100em;" src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs" alt="Company Logo"> <!-- Replace 'logo.png' with your logo file path -->
+            <h1>Welcome to Property Mkononi</h1>
+            <p>Your Property in Your Hands</p>
+        </div>
 
     <!-- Overlay for contrast -->
     <div class="overlay"></div>
@@ -146,6 +183,15 @@
             <p>powered by Property Mkononi</p>
         </div>
     </div>
+    <script>
+                // Show main content after a delay and hide the welcome section
+                window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('welcomeSection').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+            }, 2000); // Adjust the delay (2000ms = 2 seconds) as needed
+        };
+    </script>
 </body>
 </html>
 
