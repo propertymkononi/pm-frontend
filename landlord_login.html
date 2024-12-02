@@ -87,6 +87,16 @@ Sign In Form UI (Frontend)
                 font-size: 14px;
             }
         }
+                      /* Overlay for contrast */
+                       .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: -1;
+        }     
     </style>
 </head>
 <body>
@@ -111,6 +121,7 @@ Sign In Form UI (Frontend)
             <a href="terms_and_conditions.html">Terms and Conditions</a>
         </p>
     </div>
+    <div class="overlay"></div>
 
     <script>
         function login() {
