@@ -91,12 +91,17 @@ Sign In Form UI (Frontend)
 </head>
 <body>
     <div class="login-container">
-        <h2>Login</h2>
+                        <!-- logo -->
+                        <img src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs"
+                        height="50px" width="50px" alt="pm-logo" style="margin: 2em; border-radius: 3em;" />
+        <h2>Log In</h2>
+        <p>Property Mkononi accounts are part of registered domain,
+            Please proceed and sign in using your Corporate credentials.</p>
         <form id="loginForm">
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
             <span class="error" id="errorMessage"></span>
-            <button type="button" onclick="login()">Login</button>
+            <button type="button" onclick="login()" style="background-color: #8cb9c5">Log In</button>
         </form>
 
         <br>
@@ -119,6 +124,7 @@ Sign In Form UI (Frontend)
             if (!email || !password) {
                 errorMessage.textContent = "Both fields are required.";
                 errorMessage.style.display = "block";
+                window.location.href = "dashboard.html"; // Redirect to Dashboard ONLY for demo but delete !!!!!!
                 return;
             }
 
