@@ -98,6 +98,17 @@ Signup Form UI (Frontend)
                 font-size: 14px;
             }
         }
+
+                       /* Overlay for contrast */
+                .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: -1;
+        }
     </style>
 </head>
 <body>
@@ -125,6 +136,8 @@ Signup Form UI (Frontend)
             <a href="terms_and_conditions.html" style="color: #f5f5f5;">Terms and Conditions</a>
         </p>
     </div>
+    <div class="overlay"></div>
+
 
     <script>
         function signUp() {
