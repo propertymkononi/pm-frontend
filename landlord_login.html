@@ -106,9 +106,9 @@ Sign In Form UI (Frontend)
 
         <br>
         <p>
-            <a href="pm-frontend/landlord_forgot_password.html">Forgot Password?</a>
+            <a href="landlord_forgot_password.html">Forgot Password?</a>
             <br> <br>
-            <a href="pm-frontend/terms_and_conditions.html">Terms and Conditions</a>
+            <a href="terms_and_conditions.html">Terms and Conditions</a>
         </p>
     </div>
 
@@ -124,7 +124,7 @@ Sign In Form UI (Frontend)
             if (!email || !password) {
                 errorMessage.textContent = "Both fields are required.";
                 errorMessage.style.display = "block";
-                window.location.href = "pm-frontend/dashboard.html"; // Redirect to Dashboard ONLY for demo but delete !!!!!!
+                window.location.href = "dashboard.html"; // Redirect to Dashboard ONLY for demo but delete !!!!!!
                 return;
             }
 
@@ -139,7 +139,7 @@ Sign In Form UI (Frontend)
             .then(response => {
                 if (response.ok) {
                     alert("Login successful! Redirecting...");
-                    window.location.href = "pm-frontend/dashboard.html"; // Redirect to Dashboard
+                    window.location.href = "dashboard.html"; // Redirect to Dashboard
                 } else {
                     errorMessage.textContent = "Invalid email or password.";
                     errorMessage.style.display = "block";
