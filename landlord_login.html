@@ -10,7 +10,7 @@ Sign In Form UI (Frontend)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Login</title>
-    <style>
+   <style>
         /* General styling */
         body, html {
             margin: 0;
@@ -35,7 +35,7 @@ Sign In Form UI (Frontend)
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             width: 90%; /* Responsive width */
-            max-width: 400px; /* Limit maximum width */
+            max-width: 40%; /* Limit maximum width */
             text-align: center;
         }
 
@@ -73,7 +73,7 @@ Sign In Form UI (Frontend)
         }
 
         /* Responsive adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 1080px) {
             .login-container {
                 padding: 15px;
                 width: 95%;
@@ -87,8 +87,13 @@ Sign In Form UI (Frontend)
                 font-size: 14px;
             }
         }
-                      /* Overlay for contrast */
-                       .overlay {
+
+        .login-container p{
+            font-size: x-small;
+        }
+
+                /* Overlay for contrast */
+                .overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -96,7 +101,9 @@ Sign In Form UI (Frontend)
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
             z-index: -1;
-        }     
+        }
+
+
     </style>
 </head>
 <body>
