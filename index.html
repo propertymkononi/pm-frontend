@@ -175,3 +175,179 @@
 </html>
 
 
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Mkononi App</title>
+    <style>
+        /* General styling */
+
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+
+        }
+        body{
+            margin: 5emm;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: center;
+            align-items: center;
+            background: url('https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=1467&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center  ;
+            background-size: cover;
+       
+        }
+
+
+        
+        /* Main container */
+        .landing-container {
+            text-align: center;
+            color: white;
+ 
+        }
+
+        .landing-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+          
+        }
+    
+
+        /* Button styles */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .button-group button {
+            width: 200px;
+            padding: 15px;
+            font-size: 1.2rem;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button-group button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .button-group button:active {
+            transform: scale(0.95);
+
+        }
+
+        /* Responsive design */
+  
+        .button-group button {
+                width: 180px;
+                font-size: 1rem;
+                padding: 12px;
+            }
+
+
+                /* Welcome section styling */
+            .welcome-section {
+            text-align: center;
+            padding: 50px;
+            color: white;
+        }
+
+        .welcome-section img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .welcome-section h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        
+        /* Overlay for contrast */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: -1;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+
+        <!-- Welcome Section -->
+        <div class="welcome-section" id="welcomeSection">
+            <div class="overlay"></div>
+            <img height="50px" width="50px" alt="pm-logo" style="border-radius: 100em;" src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs" alt="Company Logo"> <!-- Replace 'logo.png' with your logo file path -->
+            <h1>Welcome to Property Mkononi</h1>
+            <p>Property in Your Hands</p>
+        </div>
+
+    <!-- Main Content -->
+
+    <div class="landing-container">
+       
+
+        <br>
+        <div class="button-group">
+            <button id="landlordLog" onclick="location.href='landlord_login.html'" style="background-color: #8cb9c5; color: black">LANDLORD</button>
+            <button id="tenantLog" onclick="location.href='tenant_login.html'" style="background-color: #FFAA64; color: black;">TENANT</button>
+            <div style="font-size: x-small;" >
+                <p>or <br> <br>
+                    Log in as <a href="admin_login.html" style=" text-decoration: underline; color: white;" >Property Mkononi Admin </a></p>
+                    <p style="font-size: xx-small;">powered by Property Mkononi</p>
+
+             </div>
+
+        </div>
+    </div>
+
+    <!-- OVerlay Div -->
+
+    <div class="overlay"></div>
+
+    <script>
+
+
+    </script>
+</body>
+</html>
+
+
