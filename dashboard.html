@@ -317,11 +317,97 @@
             </nav>
 
             <main>
+                <style>
+                    /* CSS for the dashboard page */
+                    .main-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    max-width:auto;
+                    background-color: white;
+                    padding: 20px;
+                    
+                    }
+                
+                   .property-overview-card, .tenant-overview-card, .rent-overview-card {
+                    padding: 20px;
+                    margin: 20px;
+                    width: 30em;
+                    border: solid;
+                   }
+                   .property-heading, .tenant-heading, .rent-heading {
+                    background-color: #333; color: white; padding: 1em;
+                   }
+
+
+                </style>
                 <section>
 
                     <h2 style="color: #f5f5f5;">Dashboard</h2> <br>
 
-                           <!-- DASHBOARD UI to be added HERE -->
+         <!-- DASHBOARD UI to be added HERE -->
+                            <div class="main-container" id="mainContainer">
+                                <!-- property card -->
+                                <div class="property-overview-card">
+                                    <div class="property-heading">Property Overview</div>
+                                    <div class="property-totals">
+                                        <h1 class="property-sum">15</h1>
+                                        <h4>Properties</h4>
+                                    </div>
+                                    <div class="property-counts">
+                                        <div class="rented-properties">
+                                            <h1 class="rented">10</h1>
+                                            <h4>Rented</h4>
+                                        </div>
+                                        <div class="vacant-properties">
+                                            <h1 class="vacant">3</h1>
+                                            <h4>Vacant</h4>
+                                        </div>
+                                        <div class="maintenance-properties">
+                                            <h1 class="maintenance">2</h1>
+                                            <h4>Maintenance</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- tenant card -->
+                                <div class="tenant-overview-card">
+                                     <div class="tenant-heading">Tenant Overview</div>
+                                     <div class="tenant-totals">
+                                        <h1 class="active-tenants">200</h1>
+                                        <h4>Tenants</h4>
+                                    </div>
+                                    <div class="tenant-counts">
+                                        <div class="eviction-notice">
+                                            <h1 class="notice">10</h1>
+                                            <h4>Eviction notice</h4>
+                                        </div>
+                                        <div class="repair-requests">
+                                            <h1 class="requests">13</h1>
+                                            <h4>Repair requests</h4>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <!-- rent card -->
+                                <div class="rent-overview-card">
+                                     <div class="rent-heading">Rent Overview</div>
+                                     <div class="rent-totals">
+                                        <h1 class="total-rent">$1,500,000</h1>
+                                        <h4>Total rent</h4>
+                                        <p>As of <span>*current month</span></p>
+                                    </div>
+                                    <div class="rent-counts">
+                                        <div class="paid-rent">
+                                            <h1 class="paid">132</h1>
+                                            <h4>Tenants paid rent</h4>
+                                        </div>
+                                        <div class="upaid-rent">
+                                            <h1 class="unpaid">23</h1>
+                                            <h4>Tenants with arrears</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     
                 </section>
             </main>
