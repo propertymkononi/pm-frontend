@@ -92,7 +92,7 @@
         }
 
         .btn-edit {
-            background-color: blue;
+            background-color: #8cb9c5;
         }
 
         .checkbox-group {
@@ -480,13 +480,18 @@
                                 <th>House No.</th>
                                 <th>Phone No.</th>
                                 <th>Apartment</th>
-                                <th>Rent Status</th>
+                                <th>Rent Status (monthly rent)</th>
                                 <th>House Condition</th>
-                                <th>Tenancy Duration</th>
+                                <th>Lease Date</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="tenantTableBody" style="background-color: #f5f5f5;">
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
                             <!-- Rows will be populated here -->
                         </tbody>
                     </table>
@@ -521,49 +526,58 @@
             document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
         }
 
-        // Function to add or update a tenant
-        function addOrUpdateTenant() {
-            // Get input values
-            const tenantName = document.getElementById("tenantName").value;
-            const houseNumber = document.getElementById("houseNumber").value;
-            const phoneNumber = document.getElementById("phoneNumber").value;
-            const apartment = document.getElementById("apartment").value;
-            const rentStatus = document.getElementById("rentStatus").value;
-            const tenancyDuration = document.getElementById("tenancyDuration").value;
-            const houseCondition = document.getElementById("houseCondition").value;
-            const leaseDate = document.getElementById("leaseDate").value;
-            const emailAddress = document.getElementById("emailAddress").value;
-            const idNumber = document.getElementById("idNumber").value;
-            const passportPhoto = document.getElementById("passportPhoto").value;
+ // Add javascript to add or update tenant information in the database
+    function addOrUpdateTenant() {
+        //tenant details
+        const tenantName = document.getElementById("tenantName").value;
+        const phoneNumber = document.getElementById("phoneNumber").value;
+        const emailAddress = document.getElementById("emailAddress").value;
+        const nationality = document.getElementById("tenantNationality").value;
+        const idNumber = document.getElementById("idNumber").value;
+        const employmentStatus = document.getElementById("employmentStatus").value;
+        //household details
+        const householdSize = document.getElementById("householdSize").value;
+        const householdMinors = document.getElementById("householdMinors").value;
+        const householdManager = document.getElementById("householdManager").value;
+        const householdHelpName = document.getElementById("householdHelpName").value;
+        const householdHelpId = document.getElementById("householdHelpId").value;
+        //references
+        const reference1Name = document.getElementById("reference1Name").value;
+        const reference1Contact = document.getElementById("reference1Contact").value;
+        const reference2Name = document.getElementById("reference2Name").value;
+        const reference2Contact = document.getElementById("reference2Contact").value;
+        //property details
+        const apartment = document.getElementById("apartment").value;
+        const houseNumber = document.getElementById("houseNumber").value;
+        const monthlyRent = document.getElementById("monthlyRent").value;
+        const securityDeposit = document.getElementById("securityDeposit").value;
+        const bedrooms = document.getElementById("bedrooms").value;
+        const houseCondition = document.getElementById("houseCondition").value;
+        const leaseStartDate = document.getElementById("leaseStartDate").value;
+        const leaseEndDate = document.getElementById("leaseEndDate").value;
 
-            const employmentStatus = document.getElementById("employmentStatus").value;
 
-        // house status values
-          /*  const tapWater = document.getElementById("tapWater").checked ? "Tap Water" : "";
-            const windows = document.getElementById("windows").checked ? "Windows" : "";
-            const doorLocks = document.getElementById("doorLocks").checked ? "Door Locks" : "";
-            const electricalSockets = document.getElementById("electricalSockets").checked ? "Electrical Sockets" : "";
-            const wallPainted = document.getElementById("wallPainted").checked ? "Wall Painted" : "";
-            const otherCondition = document.getElementById("otherCondition").checked ? "Other" : "";
-            const houseConditionVerified = [tapWater, windows, doorLocks, electricalSockets, wallPainted, otherCondition].filter(Boolean).join(", "); */
-
-            const reference1Name = document.getElementById("reference1Name").value;
-            const reference1Contact = document.getElementById("reference1Contact").value;
-            const reference1ID = document.getElementById("reference1ID").value;
-            const reference2Name = document.getElementById("reference2Name").value;
-            const reference2Contact = document.getElementById("reference2Contact").value;
-            const reference2ID = document.getElementById("reference2ID").value;
-
-            if (tenantName === "" || houseNumber === "" || phoneNumber === "" || apartment === "" || rentStatus === "" || tenancyDuration === "" || houseCondition === "" || leaseDate === "" || emailAddress === "" || idNumber === "" || passportPhoto === "" || employmentStatus === "" || reference1Name === "" || reference1Contact === "" || reference1ID === "" || reference2Name === "" || reference2Contact === "" || reference2ID === "") {
+            if (tenantName === "" || houseNumber === "" || phoneNumber === "" || !emailAddress 
+            || nationality === "" || idNumber === "" || employmentStatus === "" || householdSize === "" || 
+            householdMinors === "" || householdManager === "" || householdHelpName === "" || householdHelpId === "" ||
+            reference1Name === "" || reference1Contact === "" || reference2Name === "" || reference2Contact === "" || 
+            !apartment || !houseNumber || !monthlyRent | !securityDeposit ||
+            !bedrooms || !houseCondition || !leaseStartDate || !leaseEndDate ) {
                 alert("Please fill in all fields.");
                 return;
             }
 
+
             const table = document.getElementById("tenantTableBody");
+
+//codes for profile and ID pictures have been removed here
 
             const profilePictureSrc = document.getElementById("profilePicture").files[0] ? URL.createObjectURL(document.getElementById("profilePicture").files[0]) : "";
             const passportPhotoSrc = document.getElementById("passportPhoto").files[0] ? URL.createObjectURL(document.getElementById("passportPhoto").files[0]) : "";
 
+
+
+  // Table body on UI
             if (editIndex === -1) {
                 // Add a new row
                 const newRow = table.insertRow();
@@ -572,22 +586,13 @@
                     <td>${houseNumber}</td>
                     <td>${phoneNumber}</td>
                     <td>${apartment}</td>
-                    <td>${rentStatus}</td>
-                    <td>${tenancyDuration}</td>
+                    <td>${monthlyRent}</td>
+                    <td>${houseCondition}</td>
+                    <td>${leaseStartDate}</td>
                     <td>
                         <button class="btn-edit" onclick="editTenant(this)">Edit</button>
                         <button class="btn-delete" onclick="deleteTenant(this)">Delete</button>
-                    </td>
-                    <td>${houseCondition}</td>
-                    <td>${leaseDate}</td>
-                    <td>${emailAddress}</td>
-                    <td>${idNumber}</td>
-                    <td><img src="${profilePictureSrc}" alt="Profile Picture" width="100"></td>
-                    <td>${passportPhoto}</td>
-                    <td><img src="${passportPhotoSrc}" alt="Passport Photo" width="100"></td>
-                    <td>${employmentStatus}</td>
-                    <td>${houseConditionVerified}</td>
-                    <td>Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}</td>
+
                 `;
             } else {
                 // Update existing row
@@ -596,18 +601,10 @@
                 row.cells[1].textContent = houseNumber;
                 row.cells[2].textContent = phoneNumber;
                 row.cells[3].textContent = apartment;
-                row.cells[4].textContent = rentStatus;
-                row.cells[5].textContent = tenancyDuration;
-                row.cells[7].textContent = houseCondition;
-                row.cells[8].textContent = leaseDate;
-                row.cells[9].textContent = emailAddress;
-                row.cells[10].textContent = idNumber;
-                row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="20">`;
-                row.cells[12].textContent = passportPhoto;
-                row.cells[13].innerHTML = `<img src="${passportPhotoSrc}" alt="Passport Photo" width="20">`;
-                row.cells[14].textContent = employmentStatus;
-                row.cells[15].textContent = houseConditionVerified;
-                row.cells[16].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}`;
+                row.cells[4].textContent = monthlyRent;
+                row.cells[5].textContent = houseCondition;
+                row.cells[6].textContent = leaseStartDate;
+    
 
                 // Reset editIndex and button text
                 editIndex = -1;
@@ -631,31 +628,14 @@
             const row = button.parentNode.parentNode;
             editIndex = row.rowIndex - 1; // Set edit index
 
-            // Populate form fields with the row data
             document.getElementById("tenantName").value = row.cells[0].textContent;
             document.getElementById("houseNumber").value = row.cells[1].textContent;
             document.getElementById("phoneNumber").value = row.cells[2].textContent;
             document.getElementById("apartment").value = row.cells[3].textContent;
-            document.getElementById("rentStatus").value = row.cells[4].textContent;
-            document.getElementById("tenancyDuration").value = row.cells[5].textContent;
-            document.getElementById("houseCondition").value = row.cells[7].textContent;
-            document.getElementById("leaseDate").value = row.cells[8].textContent;
-            document.getElementById("emailAddress").value = row.cells[9].textContent;
-            document.getElementById("idNumber").value = row.cells[10].textContent;
-            document.getElementById("passportPhoto").value = row.cells[11].textContent;
-            document.getElementById("employmentStatus").value = row.cells[12].textContent;
+            document.getElementById("monthlyRent").value = row.cells[4].textContent;
+            document.getElementById("houseCondition").value = row.cells[5].textContent;
+            document.getElementById("leaseStartDate").value = row.cells[6].textContent;
 
-            // Populate reference fields
-            const references = row.cells[14].innerHTML.split('<br>');
-            const ref1 = references[0].split(', ');
-            const ref2 = references[1].split(', ');
-
-            document.getElementById("reference1Name").value = ref1[0].replace('Ref1: ', '');
-            document.getElementById("reference1Contact").value = ref1[1];
-            document.getElementById("reference2Name").value = ref2[0];
-            document.getElementById("reference2Contact").value = ref2[1];
-
-            // Change button text to "Update" and color to blue
             const submitButton = document.getElementById("submitButton");
             submitButton.textContent = "Update Tenant";
             submitButton.style.backgroundColor = "blue";
@@ -689,37 +669,15 @@
 
         // Function to clear the form fields
         function clearForm() {
-            document.getElementById("tenantName").value = '';
+           	document.getElementById("tenantName").value = '';
             document.getElementById("houseNumber").value = '';
             document.getElementById("phoneNumber").value = '';
             document.getElementById("apartment").value = '';
-            document.getElementById("rentStatus").value = '';
-            document.getElementById("tenancyDuration").value = '';
+            document.getElementById("monthlyRent").value = '';
             document.getElementById("houseCondition").value = '';
-            document.getElementById("leaseDate").value = '';
-            document.getElementById("emailAddress").value = '';
-            document.getElementById("idNumber").value = '';
-            document.getElementById("employmentStatus").value = '';
-            document.getElementById("reference1Name").value = '';
-            document.getElementById("reference1Contact").value = '';
-            document.getElementById("reference1ID").value = '';
-            document.getElementById("reference2Name").value = '';
-            document.getElementById("reference2Contact").value = '';
-            document.getElementById("reference2ID").value = '';
-            document.getElementById("profilePicture").value = '';
-            document.getElementById('imagePreview').src = '';
-            document.getElementById('imagePreviewContainer').style.display = 'none';
-            document.getElementById('passportPreview').src = '';
-            document.getElementById('passportPreviewContainer').style.display = 'none';
-            
-            // Uncheck checkboxes
-           /* document.getElementById("tapWater").checked = false;
-            document.getElementById("windows").checked = false;
-            document.getElementById("doorLocks").checked = false;
-            document.getElementById("electricalSockets").checked = false;
-            document.getElementById("wallPainted").checked = false;
-            document.getElementById("otherCondition").checked = false; */
-            
+            document.getElementById("leaseStartDate").value = '';
+
+            //DEAL WITH DATABASE LATER
 
             // Function to load tenants from the DATABASE
 function loadTenants() {
@@ -742,8 +700,6 @@ function loadTenants() {
                         <button class="btn-edit" onclick="editTenant(${tenant.id})">Edit</button>
                         <button class="btn-delete" onclick="deleteTenant(${tenant.id})">Delete</button>
                     </td>
-                    <td>${tenant.houseCondition}</td>
-                    <td>${tenant.leaseDate}</td>
                 `;
             });
         });
