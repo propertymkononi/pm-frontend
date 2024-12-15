@@ -326,89 +326,96 @@
                     max-width:auto;
                     background-color: white;
                     padding: 20px;
-                    
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);                    
                     }
-                
+
                    .property-overview-card, .tenant-overview-card, .rent-overview-card {
                     padding: 20px;
                     margin: 20px;
                     width: 30em;
-                    border: solid;
-                   }
-                   .property-heading, .tenant-heading, .rent-heading {
-                    background-color: #333; color: white; padding: 1em;
+                    border-radius: 1em;
+                    background-color: whitesmoke;
                    }
 
+                   .property-heading, .tenant-heading, .rent-heading {
+                    background-color: #333; color: white; padding: 1em;
+                    border-radius: 0.5em;
+                    
+                   }
+                   .property-totals, .tenant-totals, .rent-totals {
+                    text-align: end; padding-top: 1em; 
+                   }
 
                 </style>
                 <section>
 
                     <h2 style="color: #f5f5f5;">Dashboard</h2> <br>
 
-         <!-- DASHBOARD UI to be added HERE -->
+                           <!-- DASHBOARD UI to be added HERE -->
+
                             <div class="main-container" id="mainContainer">
                                 <!-- property card -->
                                 <div class="property-overview-card">
-                                    <div class="property-heading">Property Overview</div>
-                                    <div class="property-totals">
-                                        <h1 class="property-sum">15</h1>
+
+                                    <div class="property-heading"> Property Overview
+                                    </div>
+                                    <div class="property-totals" >
+                                        <h1 class="property-sum" style="font-size: 3em;">15</h1>
                                         <h4>Properties</h4>
                                     </div>
-                                    <div class="property-counts">
-                                        <div class="rented-properties">
-                                            <h1 class="rented">10</h1>
+                                    <div class="property-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em; ">
+                                        <div class="rented-properties" style="background-color: #8cb9c5; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="rented" >10</h1>
                                             <h4>Rented</h4>
                                         </div>
-                                        <div class="vacant-properties">
+                                        <div class="vacant-properties"  style="background-color: #8cb9c5;; padding: 1em; border-radius: 0.2em; text-align: end;">
                                             <h1 class="vacant">3</h1>
                                             <h4>Vacant</h4>
                                         </div>
-                                        <div class="maintenance-properties">
+                                        <div class="maintenance-properties"  style="background-color: #8cb9c5;; padding: 1em; border-radius: 0.2em; text-align: end;">
                                             <h1 class="maintenance">2</h1>
                                             <h4>Maintenance</h4>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- tenant card -->
-                                <div class="tenant-overview-card">
-                                     <div class="tenant-heading">Tenant Overview</div>
-                                     <div class="tenant-totals">
-                                        <h1 class="active-tenants">200</h1>
+                                <div class="tenant-overview-card" >
+                                     <div class="tenant-heading"> Tenant Overview </div>
+                                     <div class="tenant-totals" >
+                                        <h1 class="active-tenants" style="font-size: 3em;"> 200 </h1>
                                         <h4>Tenants</h4>
                                     </div>
-                                    <div class="tenant-counts">
-                                        <div class="eviction-notice">
+                                    <div class="tenant-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
+                                        <div class="eviction-notice" style="background-color: #8cb9c5;; padding: 1em; border-radius: 0.2em; text-align: end;">
                                             <h1 class="notice">10</h1>
                                             <h4>Eviction notice</h4>
                                         </div>
-                                        <div class="repair-requests">
+                                        <div class="repair-requests" style="background-color: #8cb9c5;; padding: 1em; border-radius: 0.2em; text-align: end;">
                                             <h1 class="requests">13</h1>
                                             <h4>Repair requests</h4>
-                                        </div>
-                                        
+                                        </div> 
                                     </div>
                                 </div>
                                 <!-- rent card -->
                                 <div class="rent-overview-card">
                                      <div class="rent-heading">Rent Overview</div>
                                      <div class="rent-totals">
-                                        <h1 class="total-rent">$1,500,000</h1>
+                                        <h1 class="total-rent" style="font-size: 3em;">$1,500,000</h1>
                                         <h4>Total rent</h4>
                                         <p>As of <span>*current month</span></p>
                                     </div>
-                                    <div class="rent-counts">
-                                        <div class="paid-rent">
+                                    <div class="rent-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
+                                        <div class="paid-rent" style="background-color: #8cb9c5;; padding: 1em; border-radius: 0.2em; text-align: end;">
                                             <h1 class="paid">132</h1>
                                             <h4>Tenants paid rent</h4>
                                         </div>
-                                        <div class="upaid-rent">
+                                        <div class="upaid-rent" style="background-color: #8cb9c5;; padding: 1em; border-radius: 0.2em; text-align: end;">
                                             <h1 class="unpaid">23</h1>
                                             <h4>Tenants with arrears</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                    
                 </section>
             </main>
         </div>
