@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date Range Picker</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .select-date {
+      color: #007BFF;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 18px;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .popup input {
+      margin: 10px 0;
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .popup button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      width: 100%;
+    }
+    .popup button:hover {
+      background-color: #0056b3;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #333;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Date Range Selector</h1>
+    <span class="select-date" id="openPopup">Select Date Range</span>
+    <div class="result" id="selectedRange">No date range selected.</div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Popup -->
+  <div class="popup" id="datePopup">
+    <h3>Select Date Range</h3>
+    <input type="date" id="startDate" placeholder="Start Date" required>
+    <input type="date" id="endDate" placeholder="End Date" required>
+    <button id="submitDate">Submit</button>
+  </div>
+
+  <script>
+    // Get elements
+    const openPopup = document.getElementById("openPopup");
+    const overlay = document.getElementById("overlay");
+    const datePopup = document.getElementById("datePopup");
+    const submitDate = document.getElementById("submitDate");
+    const selectedRange = document.getElementById("selectedRange");
+
+    // Open popup
+    openPopup.addEventListener("click", () => {
+      overlay.style.display = "block";
+      datePopup.style.display = "block";
+    });
+
+    // Close popup and overlay
+    const closePopup = () => {
+      overlay.style.display = "none";
+      datePopup.style.display = "none";
+    };
+
+    // Submit selected dates
+    submitDate.addEventListener("click", () => {
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+
+      if (startDate && endDate) {
+        selectedRange.textContent = `Selected Date Range: ${startDate} to ${endDate}`;
+        closePopup();
+      } else {
+        alert("Please select both start and end dates.");
+      }
+    });
+
+    // Close popup when clicking outside
+    overlay.addEventListener("click", closePopup);
+  </script>
+</body>
+</html>
