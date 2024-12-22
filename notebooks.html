@@ -597,9 +597,11 @@
       <button id="deleteSelectedButton" disabled>Delete Selected Notes</button>
     </div>
 
-    <!-- Notes Display Area -->
-    <div class="notes-container" id="notesContainer"></div>
+
   </div>
+
+      <!-- Notes Display Area -->
+      <div class="notes-container" id="notesContainer"></div>
 
   <!-- Modal for Full Note View -->
   <div id="noteModal" class="modal">
@@ -678,7 +680,7 @@ const addNoteButton = document.getElementById("addNoteButton");
 
       // If there are any notes, apply yellow background to container
       if (notes.length > 0) {
-        notesContainer.style.backgroundColor = "#FFEB3B";
+        notesContainer.style.backgroundColor = "#8cb9c5";
       } else {
         notesContainer.style.backgroundColor = ""; // Reset background if no notes
       }
