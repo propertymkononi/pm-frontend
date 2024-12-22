@@ -300,14 +300,14 @@
 
 
                     <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
-                    <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Dashboard</div>
-                    <div  class="menu-btn" onclick="toggleMenu(window.open('tenants.html'))" style="color: black; text-decoration-style: none;  " >Tenants</div>
-                    <div  class="menu-btn" onclick="toggleMenu(window.open('properties.html'))" style="color: black; text-decoration-style: none;  " >Properties</div>
-                    <div  class="menu-btn" onclick="toggleMenu(window.open('rent.html'))" style="color: black; text-decoration-style: none;  " >Rent Status</div>
-                    <div  class="menu-btn" onclick="toggleMenu(window.open('evictions.html'))" style="color: black; text-decoration-style: none;  " >Evictions</div>
-                    <div  class="menu-btn" onclick="toggleMenu(window.open('requests.html'))" style="color: black; text-decoration-style: none;  " >Requests</div>
-                    <div  class="menu-btn" onclick="toggleMenu(window.open('notebooks.html'))" style="color: black; text-decoration-style: none;  " >Notebooks</div>
-
+                    <a href="dashboard.html" class="menu-btn" style="background-color: #8cb9c5; color: white; text-decoration: none;">Dashboard</a>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='tenants.html';" style="color: black; text-decoration-style: none;">Tenants</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='properties.html';" style="color: black; text-decoration-style: none;">Properties</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='rent.html';" style="color: black; text-decoration-style: none;">Rent Status</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='evictions.html';" style="color: black; text-decoration-style: none;">Evictions</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='requests.html';" style="color: black; text-decoration-style: none;">Requests</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='notebooks.html';" style="color: black; text-decoration-style: none;">Notebooks</div>
+                 
 
                 <br>
                 <footer style="padding: 1em; text-align: center;">
