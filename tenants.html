@@ -536,7 +536,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Jane Doe</td>
             <td>D2A</td>
             <td>+254700123456</td>
@@ -562,7 +562,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Emily Brown</td>
             <td>B4D</td>
             <td>+254722543210</td>
@@ -588,7 +588,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Lisa White</td>
             <td>F6F</td>
             <td>+254745908123</td>
@@ -601,7 +601,6 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <!-- Rows 7-30 continue with the same alternating pattern -->
         <tr>
             <td>Alex Carter</td>
             <td>G7G</td>
@@ -615,7 +614,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Sophia Turner</td>
             <td>H8H</td>
             <td>+254720345678</td>
@@ -654,7 +653,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Jane Doe</td>
             <td>D2A</td>
             <td>+254700123456</td>
@@ -680,7 +679,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Emily Brown</td>
             <td>B4D</td>
             <td>+254722543210</td>
@@ -719,7 +718,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Alice Johnson</td>
             <td>J10A</td>
             <td>+254729876543</td>
@@ -745,7 +744,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>John Doe</td>
             <td>B2A</td>
             <td>+254702345678</td>
@@ -771,7 +770,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Chris Wanjiru</td>
             <td>K1D</td>
             <td>+254701234567</td>
@@ -797,7 +796,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Alice Johnson</td>
             <td>J10A</td>
             <td>+254729876543</td>
@@ -823,7 +822,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>John Doe</td>
             <td>B2A</td>
             <td>+254702345678</td>
@@ -849,7 +848,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Chris Wanjiru</td>
             <td>K1D</td>
             <td>+254701234567</td>
@@ -875,7 +874,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Peter Mwangi</td>
             <td>F2C</td>
             <td>+254721234567</td>
@@ -901,7 +900,7 @@
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
-        <tr style="background-color: #8cb9c5;">
+        <tr>
             <td>Esther Njeri</td>
             <td>H10D</td>
             <td>+254734567890</td>
@@ -917,20 +916,64 @@
         
                                         `;
 
+
+// Function to alternate row background colors
+function updateRowColors() {
+    const rows = tenantTableBody.querySelectorAll('tr');
+    rows.forEach((row, index) => {
+        row.style.backgroundColor = (index % 2 === 0) ? '#f5f5f5' : '#8cb9c5';
+    });
+}
+
+// Call the function after the table is populated
+updateRowColors();
+
+
+// Style for Edit and Delete buttons
+
+
                                         // Add event listeners to the dynamically created Edit and Delete buttons
-                                        const editButton = rentTableBody.querySelector('.edit-btn');
-                                        const deleteButton = rentTableBody.querySelector('.delete-btn');
+                                        const editButton = tenantTableBody.querySelector('.edit-btn');
+                                        const deleteButton = tenantTableBody.querySelector('.delete-btn');
 
                                         editButton.addEventListener('click', function () {
-                                            const name = editButton.parentElement.parentElement.cells[0].textContent;
+                                            const tenantName = editButton.parentElement.parentElement.cells[0].textContent;
                                             alert(`You are about to edit ${tenantName}'s information.`);
                                         });
 
                                         deleteButton.addEventListener('click', function () {
-                                            const name = deleteButton.parentElement.parentElement.cells[0].textContent;
+                                            const tenantName = deleteButton.parentElement.parentElement.cells[0].textContent;
                                             alert(`You are about to delete ${tenantName}'s information.`);
                                         });
                                     });
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    // Use event delegation to handle Edit and Delete button events
+document.getElementById('tenantTableBody').addEventListener('click', function (event) {
+    const target = event.target;
+
+    // Check if the clicked element is an Edit button
+    if (target.classList.contains('edit-btn')) {
+        const tenantName = target.parentElement.parentElement.cells[0].textContent;
+        alert(`You are about to edit ${tenantName}'s information.`);
+    }
+
+    // Check if the clicked element is a Delete button
+    if (target.classList.contains('delete-btn')) {
+        const tenantName = target.parentElement.parentElement.cells[0].textContent;
+        const confirmation = confirm(`By taking this action, you will no longer be able to access ${tenantName}'s information. Press "OK" to completely erase tenant data.`);
+        if (confirmation) {
+            // Remove the row from the table
+            target.parentElement.parentElement.remove();
+        }
+    }
+});
+
                                 </script>
 
                             </tr>
