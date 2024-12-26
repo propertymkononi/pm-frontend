@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <!--      Define keywords for search engines:-->
  <meta name="keywords" content="HTML, CSS, JavaScript">
@@ -19,6 +20,7 @@
  <!--Setting the viewport to make your website look good on all devices:-->
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      
+    
     <title>Tenant Status</title>
     <style>
 
@@ -107,7 +109,7 @@
         }
 
         .btn-edit {
-            background-color: #8cb9c5;
+            background-color: blue;
         }
 
         .checkbox-group {
@@ -337,8 +339,8 @@
                 <div class="settings-container">
                     <div class="profile-icon" onclick="toggleDropdown()">...</div>
                     <div class="dropdown-menu" id="dropdown">
-                        <a href="#">Edit Profile</a>
-                        <a href="#">Settings</a>
+                        <!-- <a href="#">Edit Profile</a> -->
+                        <!-- <a href="#">Settings</a> -->
                         <a href="index.html">Logout</a>
                     </div>
                 </div>
@@ -379,14 +381,13 @@
                 <img src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1737590400&v=beta&t=BbRNbENLlyJ6fMEu0Ig4LNBtxkHoCWh9XSFMLY5Kdqs"
                     height="100px" width="100px" alt="pm-logo" style="margin: 2em; border-radius: 3em;" />
                     <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
-<div class="menu-btn" onclick="toggleMenu(); window.location.href='dashboard.html';" style="color: black;">Dashboard</div>
-<div class="menu-btn" onclick="toggleMenu();" style="background-color: #8cb9c5; color: white;">Tenants</div>
-<div class="menu-btn" onclick="toggleMenu(); window.location.href='properties.html';" style="color: black; text-decoration-style: none;">Properties</div>
-<div class="menu-btn" onclick="toggleMenu(); window.location.href='rent.html';" style="color: black; text-decoration-style: none;">Rent Status</div>
-<div class="menu-btn" onclick="toggleMenu(); window.location.href='evictions.html';" style="color: black; text-decoration-style: none;">Evictions</div>
-<div class="menu-btn" onclick="toggleMenu(); window.location.href='requests.html';" style="color: black; text-decoration-style: none;">Requests</div>
-<div class="menu-btn" onclick="toggleMenu(); window.location.href='notebooks.html';" style="color: black; text-decoration-style: none;">Notebook</div>
-
+                    <div  class="menu-btn" onclick="toggleMenu(window.open('dashboard.html'))" style="color: black; " >Dashboard</div>
+                    <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Tenants</div>
+                   <div  class="menu-btn" onclick="toggleMenu(window.open('properties.html'))" style="color: black; text-decoration-style: none;  " >Properties</div>
+                   <div  class="menu-btn" onclick="toggleMenu(window.open('rent.html'))" style="color: black; text-decoration-style: none;  " >Rent Status</div>
+                    <div  class="menu-btn" onclick="toggleMenu(window.open('evctions.html'))" style="color: black; text-decoration-style: none;  " >Evictions</div>
+                    <div  class="menu-btn" onclick="toggleMenu(window.open('requests.html'))" style="color: black; text-decoration-style: none;  " >Requests</div>
+                    <div  class="menu-btn" onclick="toggleMenu(window.open('notebooks.html'))" style="color: black; text-decoration-style: none;  " >Notebook</div>
     
                     <br>
                 
@@ -496,21 +497,17 @@
                                 <th>House No.</th>
                                 <th>Phone No.</th>
                                 <th>Apartment</th>
-                                <th>Rent Status (monthly rent)</th>
+                                <th>Rent Status</th>
                                 <th>House Condition</th>
-                                <th>Lease Date</th>
+                                <th>Tenancy Duration</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="tenantTableBody" style="background-color: #f5f5f5;">
                             <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
                         </tbody>
-                        <!-- Now, This is a sample Table Body only shown on the demo when a user clicks "view sample record" -->
+
+                        <!-- This is a sample Table Body only shown on the demo when a user clicks "view sample record" -->
                         <tbody>
                             <tr>
                                 <td colspan="8">No rent records found. 
@@ -520,11 +517,24 @@
                                 <!-- Javascript for sample data populated on the UI -->
                                 <script>
                                     // Add event listener to the View Sample Record button
-                                    const viewSampleRecordButton = document.querySelector('.rent-details button:first-child');
+                                    const viewSampleRecordButton = document.querySelector('.tenant-details button:first-child');
                                     viewSampleRecordButton.addEventListener('click', function () {
-                                        const rentTableBody = document.getElementById('rentTableBody');
-                                        rentTableBody.innerHTML = `
+                                        const tenantTableBody = document.getElementById('tenantTableBody');
+                                        tenantTableBody.innerHTML = `
                                             <tr>
+                                                <td>Oscar Omondi</td>
+                                                <td>E3B</td>
+                                                <td>+254723006046</td>
+                                                <td>Triple A Heights</td>
+                                                <td>No Arrears</td>
+                                                <td>December 23, 2024</td>
+                                                <td>January 5, 2025</td>
+                                                <td>
+                                                    <button class="edit-btn">Edit</button>
+                                                    <button class="delete-btn">Delete</button>
+                                                </td>
+                                            </tr>
+                                            <tr style="background-color: #8cb9c5">
                                                 <td>Oscar Omondi</td>
                                                 <td>E3B</td>
                                                 <td>+254723006046</td>
@@ -550,20 +560,7 @@
                                                     <button class="delete-btn">Delete</button>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Oscar Omondi</td>
-                                                <td>E3B</td>
-                                                <td>+254723006046</td>
-                                                <td>Triple A Heights</td>
-                                                <td>No Arrears</td>
-                                                <td>December 23, 2024</td>
-                                                <td>January 5, 2025</td>
-                                                <td>
-                                                    <button class="edit-btn">Edit</button>
-                                                    <button class="delete-btn">Delete</button>
-                                                </td>
-                                            </tr>
-                                            <tr>
+                                            <tr style="background-color: #8cb9c5">
                                                 <td>Oscar Omondi</td>
                                                 <td>E3B</td>
                                                 <td>+254723006046</td>
@@ -584,12 +581,12 @@
 
                                         editButton.addEventListener('click', function () {
                                             const name = editButton.parentElement.parentElement.cells[0].textContent;
-                                            alert(`You are about to edit ${name}'s information.`);
+                                            alert(`You are about to edit ${tenantName}'s information.`);
                                         });
 
                                         deleteButton.addEventListener('click', function () {
                                             const name = deleteButton.parentElement.parentElement.cells[0].textContent;
-                                            alert(`You are about to delete ${name}'s information.`);
+                                            alert(`You are about to delete ${tenantName}'s information.`);
                                         });
                                     });
                                 </script>
@@ -628,8 +625,9 @@
             document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
         }
 
+        // Function to add or update a tenant
  // Add javascript to add or update tenant information in the database
-    function addOrUpdateTenant() {
+ function addOrUpdateTenant() {
         //tenant details
         const tenantName = document.getElementById("tenantName").value;
         const phoneNumber = document.getElementById("phoneNumber").value;
@@ -658,7 +656,6 @@
         const leaseStartDate = document.getElementById("leaseStartDate").value;
         const leaseEndDate = document.getElementById("leaseEndDate").value;
 
-
             if (tenantName === "" || houseNumber === "" || phoneNumber === "" || !emailAddress 
             || nationality === "" || idNumber === "" || employmentStatus === "" || householdSize === "" || 
             householdMinors === "" || householdManager === "" || householdHelpName === "" || householdHelpId === "" ||
@@ -669,17 +666,12 @@
                 return;
             }
 
-
+            // table body on UI
             const table = document.getElementById("tenantTableBody");
-
-//codes for profile and ID pictures have been removed here
 
             const profilePictureSrc = document.getElementById("profilePicture").files[0] ? URL.createObjectURL(document.getElementById("profilePicture").files[0]) : "";
             const passportPhotoSrc = document.getElementById("passportPhoto").files[0] ? URL.createObjectURL(document.getElementById("passportPhoto").files[0]) : "";
 
-
-
-  // Table body on UI
             if (editIndex === -1) {
                 // Add a new row
                 const newRow = table.insertRow();
@@ -688,13 +680,22 @@
                     <td>${houseNumber}</td>
                     <td>${phoneNumber}</td>
                     <td>${apartment}</td>
-                    <td>${monthlyRent}</td>
-                    <td>${houseCondition}</td>
-                    <td>${leaseStartDate}</td>
+                    <td>${rentStatus}</td>
+                    <td>${tenancyDuration}</td>
                     <td>
                         <button class="btn-edit" onclick="editTenant(this)">Edit</button>
                         <button class="btn-delete" onclick="deleteTenant(this)">Delete</button>
-
+                    </td>
+                    <td>${houseCondition}</td>
+                    <td>${leaseDate}</td>
+                    <td>${emailAddress}</td>
+                    <td>${idNumber}</td>
+                    <td><img src="${profilePictureSrc}" alt="Profile Picture" width="100"></td>
+                    <td>${passportPhoto}</td>
+                    <td><img src="${passportPhotoSrc}" alt="Passport Photo" width="100"></td>
+                    <td>${employmentStatus}</td>
+                    <td>${houseConditionVerified}</td>
+                    <td>Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}</td>
                 `;
             } else {
                 // Update existing row
@@ -703,10 +704,18 @@
                 row.cells[1].textContent = houseNumber;
                 row.cells[2].textContent = phoneNumber;
                 row.cells[3].textContent = apartment;
-                row.cells[4].textContent = monthlyRent;
-                row.cells[5].textContent = houseCondition;
-                row.cells[6].textContent = leaseStartDate;
-    
+                row.cells[4].textContent = rentStatus;
+                row.cells[5].textContent = tenancyDuration;
+                row.cells[7].textContent = houseCondition;
+                row.cells[8].textContent = leaseDate;
+                row.cells[9].textContent = emailAddress;
+                row.cells[10].textContent = idNumber;
+                row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="20">`;
+                row.cells[12].textContent = passportPhoto;
+                row.cells[13].innerHTML = `<img src="${passportPhotoSrc}" alt="Passport Photo" width="20">`;
+                row.cells[14].textContent = employmentStatus;
+                row.cells[15].textContent = houseConditionVerified;
+                row.cells[16].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}`;
 
                 // Reset editIndex and button text
                 editIndex = -1;
@@ -730,6 +739,7 @@
             const row = button.parentNode.parentNode;
             editIndex = row.rowIndex - 1; // Set edit index
 
+            // Populate form fields with the row data
             document.getElementById("tenantName").value = row.cells[0].textContent;
             document.getElementById("houseNumber").value = row.cells[1].textContent;
             document.getElementById("phoneNumber").value = row.cells[2].textContent;
@@ -738,6 +748,9 @@
             document.getElementById("houseCondition").value = row.cells[5].textContent;
             document.getElementById("leaseStartDate").value = row.cells[6].textContent;
 
+
+
+            // Change button text to "Update" and color to blue
             const submitButton = document.getElementById("submitButton");
             submitButton.textContent = "Update Tenant";
             submitButton.style.backgroundColor = "blue";
@@ -771,15 +784,37 @@
 
         // Function to clear the form fields
         function clearForm() {
-           	document.getElementById("tenantName").value = '';
+            document.getElementById("tenantName").value = '';
             document.getElementById("houseNumber").value = '';
             document.getElementById("phoneNumber").value = '';
             document.getElementById("apartment").value = '';
-            document.getElementById("monthlyRent").value = '';
+            document.getElementById("rentStatus").value = '';
+            document.getElementById("tenancyDuration").value = '';
             document.getElementById("houseCondition").value = '';
-            document.getElementById("leaseStartDate").value = '';
-
-            //DEAL WITH DATABASE LATER
+            document.getElementById("leaseDate").value = '';
+            document.getElementById("emailAddress").value = '';
+            document.getElementById("idNumber").value = '';
+            document.getElementById("employmentStatus").value = '';
+            document.getElementById("reference1Name").value = '';
+            document.getElementById("reference1Contact").value = '';
+            document.getElementById("reference1ID").value = '';
+            document.getElementById("reference2Name").value = '';
+            document.getElementById("reference2Contact").value = '';
+            document.getElementById("reference2ID").value = '';
+            document.getElementById("profilePicture").value = '';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+            document.getElementById('passportPreview').src = '';
+            document.getElementById('passportPreviewContainer').style.display = 'none';
+            
+            // Uncheck checkboxes
+           /* document.getElementById("tapWater").checked = false;
+            document.getElementById("windows").checked = false;
+            document.getElementById("doorLocks").checked = false;
+            document.getElementById("electricalSockets").checked = false;
+            document.getElementById("wallPainted").checked = false;
+            document.getElementById("otherCondition").checked = false; */
+            
 
             // Function to load tenants from the DATABASE
 function loadTenants() {
@@ -802,6 +837,8 @@ function loadTenants() {
                         <button class="btn-edit" onclick="editTenant(${tenant.id})">Edit</button>
                         <button class="btn-delete" onclick="deleteTenant(${tenant.id})">Delete</button>
                     </td>
+                    <td>${tenant.houseCondition}</td>
+                    <td>${tenant.leaseDate}</td>
                 `;
             });
         });
