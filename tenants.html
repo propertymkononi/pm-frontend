@@ -510,6 +510,92 @@
                             <!-- Rows will be populated here -->
                             <!-- Rows will be populated here -->
                         </tbody>
+                        <!-- Now, This is a sample Table Body only shown on the demo when a user clicks "view sample record" -->
+                        <tbody>
+                            <tr>
+                                <td colspan="8">No rent records found. 
+                                    <button class="sample-records-btn"  onclick="viewSampleRecord()">View Sample Record</button>
+                                </td>
+
+                                <!-- Javascript for sample data populated on the UI -->
+                                <script>
+                                    // Add event listener to the View Sample Record button
+                                    const viewSampleRecordButton = document.querySelector('.rent-details button:first-child');
+                                    viewSampleRecordButton.addEventListener('click', function () {
+                                        const rentTableBody = document.getElementById('rentTableBody');
+                                        rentTableBody.innerHTML = `
+                                            <tr>
+                                                <td>Oscar Omondi</td>
+                                                <td>E3B</td>
+                                                <td>+254723006046</td>
+                                                <td>Triple A Heights</td>
+                                                <td>No Arrears</td>
+                                                <td>December 23, 2024</td>
+                                                <td>January 5, 2025</td>
+                                                <td>
+                                                    <button class="edit-btn">Edit</button>
+                                                    <button class="delete-btn">Delete</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Oscar Omondi</td>
+                                                <td>E3B</td>
+                                                <td>+254723006046</td>
+                                                <td>Triple A Heights</td>
+                                                <td>No Arrears</td>
+                                                <td>December 23, 2024</td>
+                                                <td>January 5, 2025</td>
+                                                <td>
+                                                    <button class="edit-btn">Edit</button>
+                                                    <button class="delete-btn">Delete</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Oscar Omondi</td>
+                                                <td>E3B</td>
+                                                <td>+254723006046</td>
+                                                <td>Triple A Heights</td>
+                                                <td>No Arrears</td>
+                                                <td>December 23, 2024</td>
+                                                <td>January 5, 2025</td>
+                                                <td>
+                                                    <button class="edit-btn">Edit</button>
+                                                    <button class="delete-btn">Delete</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Oscar Omondi</td>
+                                                <td>E3B</td>
+                                                <td>+254723006046</td>
+                                                <td>Triple A Heights</td>
+                                                <td>No Arrears</td>
+                                                <td>December 23, 2024</td>
+                                                <td>January 5, 2025</td>
+                                                <td>
+                                                    <button class="edit-btn">Edit</button>
+                                                    <button class="delete-btn">Delete</button>
+                                                </td>
+                                            </tr>                                            
+                                        `;
+
+                                        // Add event listeners to the dynamically created Edit and Delete buttons
+                                        const editButton = rentTableBody.querySelector('.edit-btn');
+                                        const deleteButton = rentTableBody.querySelector('.delete-btn');
+
+                                        editButton.addEventListener('click', function () {
+                                            const name = editButton.parentElement.parentElement.cells[0].textContent;
+                                            alert(`You are about to edit ${name}'s information.`);
+                                        });
+
+                                        deleteButton.addEventListener('click', function () {
+                                            const name = deleteButton.parentElement.parentElement.cells[0].textContent;
+                                            alert(`You are about to delete ${name}'s information.`);
+                                        });
+                                    });
+                                </script>
+
+                            </tr>
+                        </tbody>
                     </table>
                 </section>
             </main>
