@@ -1,2 +1,2 @@
 Updates on process
-The application can allow users to register 
+Landlord can register and login 
