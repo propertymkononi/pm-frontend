@@ -405,7 +405,7 @@
                 <section>
 
                     <h2 style="color: #f5f5f5;">Property Status</h2> <br>
-
+<div class="filter-section" style="display: flex; justify-content: space-between; ">
                     <!-- Add property Button -->
                     <button id="addPropertyBtn" onclick="showForm()" style="
                         padding: 10px;
@@ -414,6 +414,37 @@
                         border: none;
                         cursor: pointer;
                     ">Add Property</button>
+                     <!-- tenant filter -->
+                     <div style="background-color: #f5f5f5; padding: 0.3em; border-radius: 0.2em; font-size: smaller;" >
+                        <!-- Filter options -->
+                         <div style="display: flex; flex-direction: row; justify-content: end; ">
+                            <label for="filterCategory">Filter By: </label>
+                            <select id="filterCategory">
+                                <option value="">Select a Category</option>
+                                <option value="tenantName">Tenant Name</option>
+                                <option value="houseNo">House No.</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="rentStatus">Rent Status</option>
+                                <option value="houseCondition">House Condition</option>
+                                <option value="tenancyDuration">Tenancy Duration</option>
+                            </select>
+                        
+                            <!-- Sub-dropdown for specific values -->
+                            <label for="filterDetails" style="margin-left: 10px;">Details: </label>
+                            <select id="filterDetails" disabled>
+                                <option value="">Select Details</option>
+                            </select>
+                                <!-- Clear Filters Button -->
+                            <button id="clearFilters" style="margin-left: 10px; color: red;">Clear Filters</button>
+                         </div>
+                         
+
+                    
+                        <!-- Filter message -->
+                        <p id="filterMessage" style="margin-top: 10px; font-weight: bold; color:red; "></p>
+                    </div>
+
+</div>            
 
 <!-- property Form -->
                     <!-- property Household Details -->
