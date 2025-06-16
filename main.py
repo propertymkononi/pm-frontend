@@ -152,13 +152,13 @@ def editTenant():
        
     return render_template('')
 
-@app.route('/employee/delete/<int:id>', methods=['POST'])
-def delete_employee(id):
+@app.route('/Tenant/delete/<int:id>', methods=['POST'])
+def delete_tenant(id):
     tenant = Tenant.query.get_or_404(id)
     db.session.delete(tenant)
     db.session.commit()
     flash("Tenant deleted.")
-    return redirect(url_for(''))
+    return redirect(url_for('views_tenats'))
 
 # @app.route('/delete_all_users', methods=['GET','POST'])
 # def delete_all_users():
