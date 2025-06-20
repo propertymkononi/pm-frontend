@@ -10,6 +10,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy 
 from datetime import datetime
 from sqlalchemy.sql import func
+from flask_mail import Mail, Message
+
+
 
 
 app = Flask(__name__)
@@ -18,56 +21,111 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///propertym" #Change username, password, table name
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 db = SQLAlchemy(app)
+mail = Mail(app)
 
 
 app.config['SECRET_KEY'] = "fdfafhqwee73jbhzx" # Change to a long random string in production
 
+#Email configurations 
+app.config['MAIL_SERVER'] = 'smtp.example.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'your_admin_email@example.com'
+app.config['MAIL_PASSWORD'] = 'your_email_password'
+
+
 
 #User models
-landlord_property = db.Table('landlord_property',
-    db.Column('User_id', db.Integer, db.ForeignKey('User.id')),
-    db.Column('property_id', db.Integer, db.ForeignKey('property.id'))
-)
-
-class Property(db.model):
+class Property(db.Model):
+     __tablename__ = 'property'
      id = db.Column(db.Integer, primary_key=True)
      propertyname = db.Column(db.String(255), unique=True, nullable=False)
      Units = db.Column(db.Integer, unique=True, nullable=False)
-     tenants = db.relationship('Tenant', backref='property')
-     landlord = db.relationship('Landlord', secondary=landlord_property, back_populates='Properties' )
-     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+     Location = db.Column(db.String(255), unique=True, nullable=False)
+     Land_no = db.Column(db.String(255), unique=True, nullable=False)
+     caretaker = db.Column(db.String(255), unique=True, nullable=False)
+     caretaker_id = db.Column(db.String(255), unique=True, nullable=False)
+     security_name = db.Column(db.String(255), unique=True, nullable=False)
+     security_buss_no = db.Column(db.String(255), unique=True, nullable=False)
+     tenants = db.relationship('Tenant', backref='property', lazy=True)
+     landlords = db.relationship("Landlord", secondary='landlord_property', back_populates='properties')
+
+     date_created = db.Column(db.DateTime, default=datetime.utcnow)
+   
 
      def __repr__(self):
-      return f"User('{self.id}','{self.propertyname}', '{self.Units}','{self.date_created}', '{self.tenants}' )"
+      return f"Property('{self.id}','{self.propertyname}', '{self.Units}','{self.date_created}', '{self.tenants}' )"
 
 
-class User(db.Model):
+class Landlord(db.Model):
+    __tablename__ = 'landlord'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=True)
-    properties = db.relationship('Property', secondary=landlord_property, back_populates='Landlord')
-    date_created = db.Column(db.DateTime(timezone=True), default=func.now())
-
+    properties = db.relationship('Property', secondary='landlord_property', back_populates='landlords')
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-      return f"User('{self.id}','{self.username}', '{self.email}','{self.date_created}' )"
+      return f"Landlord('{self.id}','{self.username}', '{self.email}','{self.date_created}' )"
 
-class Tenant(db.model):
+class Tenant(db.Model):
+     __tablename__ = 'Tenant'
      id = db.Column(db.Integer, primary_key=True)
      tenantname = db.Column(db.String(255), unique=True, nullable=False)
      tenantemail = db.Column(db.String(255), unique=True, nullable=True)
+     housenumber = db.Column(db.String(255), unique=True, nullable=True)
+     phonenumber = db.Column(db.String(255), unique=True, nullable=False)
+     identification_number = db.Column(db.String(255), unique=True, nullable=True)
+     family_size =   db.Column(db.Integer, unique=True)
+     children =  db.Column(db.String(255), unique=True, nullable=True)
+     employment_status = db.Column(db.String(255), unique=True, nullable=True)
+     housemanager_name =  db.Column(db.String(255), unique=True, nullable=True)
+     housemanager_ID =  db.Column(db.String(255), unique=True, nullable=True)
+     nationality = db.Column(db.String(255), unique=True, nullable=True)
+     emergency_name1 =  db.Column(db.String(255), unique=True, nullable=False)
+     emergency_contact1 =  db.Column(db.String(255), unique=True, nullable=False)
+     emergency_name2 =  db.Column(db.String(255), unique=True, nullable=True)
+     emergency_contact2 =  db.Column(db.String(255), unique=True, nullable=True)
+     apartment_name = db.Column(db.String(255), unique=True, nullable=True)
      housenumber = db.Column(db.String(255), unique=True, nullable=False)
-     Property_id = db.Column(db.Integer, db.ForeignKey('Property.id'))
-     date_created = db.Column(db.DateTime(timezone=True), default=func.now())
+     rent = db.Column(db.String(255), unique=True, nullable=True)
+     deposit = db.Column(db.String(255), unique=True, nullable=True)
+     bedrooms = db.Column(db.String(255), unique=True, nullable=True)
+     house_condition = db.Column(db.String(255), unique=True, nullable=True)
+     lease_start = db.Column(db.Date)
+     lease_end = db.Column(db.Date)
+     Property_id = db.Column(db.Integer, db.ForeignKey('property.id'), nullable=False)
+     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
      def __repr__(self):
-      return f"User('{self.id}','{self.tenantname}', '{self.tenantemail}','{self.date_created}' )"
+      return f"Tenant('{self.id}','{self.tenantname}', '{self.tenantemail}','{self.date_created}','{self.phonenumber}', '{self.housenumber}' )"
+     
+class Admin(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+ 
+    def __repr__(self):
+      return f"Admin('{self.id}','{self.username}' )"
+    
+landlord_property = db.Table('landlord_property',
+    db.Column('landlord_id', db.Integer, db.ForeignKey('landlord.id'), primary_key=True),
+    db.Column('property_id', db.Integer, db.ForeignKey('property.id'), primary_key=True)
+)
+
+#Insert the admin data only once 
+# admin = Admin(username='Nelson123',password=generate_password_hash('Nelson123', 10))
+# db.session.add(admin)
+# db.session.commit()
 
 
 @app.route('/')
 def index():
   return render_template('index.html')
+
+"""Landlord Section
+---------------------------------------------------------------------------------------------------"""
 
 @app.route('/landlord_login', methods=['POST','GET'] )   #The main route takes the landlord to the dashoard after procesing the login credentials
 def landlord_login():
@@ -75,22 +133,23 @@ def landlord_login():
         username = request.form.get('username')
         password = request.form.get('password')
       
-
-        user = User.query.filter_by(username=username).first()
-        # print(f"Logging in user: {username}")
-        # print(f"User found: {user}")
-        # if user:
-        #     print(f"Stored hash: {user.password}")
-        #     print(f"Entered password: {password}")
+        landlord = Landlord.query.filter_by(username=username).first()
+      #   print(f"Logging in user: {username}")
+      #   print(f"User found: {user}")
+      #   if user:
+      #        print(f"Stored hash: {user.password}")
+      #        print(f"Entered password: {password}")
        
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            session['username'] = user.username
+        if landlord and check_password_hash(landlord.password, password):
+            session['landlord_id'] = landlord.id
+            session['username'] = landlord.username
             print("logged in successfully!",)
             return redirect(url_for('landlord_dashboard'))
-        else:
+        else:     
             flash("Invalid username or password",'danger')
             print("failed login")
+            users = Landlord.query.all()
+            print(users) 
         return render_template('landlord_login.html', error='Invalid username or password')
    return render_template('landlord_login.html')
    
@@ -102,16 +161,16 @@ def landlord_register():
       username = request.form.get('username')
       email = request.form.get('email')
       password = generate_password_hash(request.form.get('password'))
-      user = User.query.filter_by(username=username).first()
+      user = Landlord.query.filter_by(username=username).first()
 
 
       if user:
          return render_template('landlord_login.html', error="User already exists")
       else:
-         new_user = User(username=username , email=email, password=password)
+         new_user = Landlord(username=username , email=email, password=password)
          print(request.form.get('password'))
          db.session.add(new_user)
-         users = User.query.all()
+         users = Landlord.query.all()
          print(users) 
          db.session.commit()
          flash("Registered successfully!")
@@ -129,14 +188,15 @@ def addTenant():
       tenantemail = request.form.get('tenantemail')
       housenumber = request.form.get('housenumber')
       property_id = request.form.get('property')
+      phonenumber = request.form.get('phonenumber')
 
-      n_tenant = Tenant(tenantname=tenantname, tenantemail=tenantemail, housenumber=housenumber ,property_id=property_id)
+      n_tenant = Tenant(tenantname=tenantname, tenantemail=tenantemail, housenumber=housenumber, property_id=property_id, phonenumber=phonenumber)
       db.session.add(n_tenant)
       db.session.commit()
       flash("Tenant added successfuly")
-      return redirect(url_for(''))
+      return redirect(url_for('tenants'))
     
-   return render_template('landlord_dashboard.html')
+   return render_template('tenants.html')
 
 @app.route('/Tenant/edit/<int:id>', methods=['GET','POST'])
 def editTenant():
@@ -148,9 +208,9 @@ def editTenant():
        ten.tenantemail = request.form.get('tenatemail')
        db.session.commit()
        flash("Tenant updated.")
-       return redirect(url_for(''))
-       
-    return render_template('')
+       return redirect(url_for('tenants'))
+    
+    return render_template('tenants.html')
 
 @app.route('/Tenant/delete/<int:id>', methods=['POST'])
 def delete_tenant(id):
@@ -203,71 +263,31 @@ def notebooks():
   return render_template('notebooks.html')
 
 
-@app.route('/tenant_login', methods=['GET','POST'])
-def tenant_login():
-  if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-      
-
-        user = User.query.filter_by(username=username).first()
-       
-        if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            session['username'] = user.username
-            print("logged in successfully", "success")
-            return redirect(url_for('landlord_dashboard'))
-        else:
-            flash("Invalid username or password",'danger')
-            print("failed login")
-        return render_template('landlord_login.html', error='Invalid username or password')
-  return render_template('tenant_login.html')
-
-@app.route('/tenant_register', methods=['GET','POST'])
-def tenant_register():
-  if request.method == 'POST':
-      username = request.form.get('username')
-      email = request.form.get('email')
-      password = generate_password_hash(request.form.get('password'))
-      user = User.query.filter_by(username=username).first()
-
-
-      if user:
-         return render_template('landlord_login.html', error="User already exists")
-      else:
-         new_user = User(username=username , email=email, password=password)
-         print(request.form.get('password'))
-         db.session.add(new_user)
-         users = User.query.all()
-         print(users) 
-         db.session.commit()
-         flash("Registered successfully!")
-         return redirect(url_for('landlord_login'))
-         
-      
-  return render_template('tenant_form.html')
+failed_attempts = {}
 
 @app.route('/changepassword' , methods=['GET','POST'])
 def changepassword():
    if request.method == 'POST':
       email = email.form.get('email')
       password = password.form.get('password')
+      
       if email == '' or password == '':
          flash("please fill the field!")
          return redirect(url_for('changepassword'))
       else:
-         user = User.query.filter_by(email=email).first()
-         db.session.delete(user)
-         db.session.commit()
-         if user:
+         user = Landlord.query.filter_by(email=email).first()
+         if not user:
+            failed_attempts[email] = failed_attempts.get(email, 0) + 1
+
+            if failed_attempts[email] >= 3:
+                flash('Too many failed attempts. Please Contact admin.', 'danger')
+                notify_admin(email)
+         else:
             n_password = generate_password_hash(request.form.get('password'))
-            ch_password = User(password = n_password)
+            ch_password = Landlord(password = n_password)
             db.session.add(ch_password)
             db.session.commit()
             flash('password changed successfully', 'Success')
-            return redirect(url_for('changepassword'))
-         else:
-            flash('Invalid email')
             return redirect(url_for('changepassword'))
    else:
       return render_template('landlord_forgot_password.html')
@@ -277,9 +297,66 @@ def changepassword():
 def logout():
     session.clear()
     flash('You have been logged out.')
-    return redirect(url_for('landlord_login'))
+    return redirect(url_for('index'))
+
+
+"""Admin Section
+----------------------------------------------------------------------------------"""
+
+@app.route('/admin_login', methods=['GET','POST'])
+def admin_login():
+   if request.method == 'POST':
+      username = request.form.get('username')
+      password = request.form.get('password')
+
+      if username == "" and password == "":
+         flash("please fill all the fields", 'danger')
+         return redirect('/admin_login')
+   
+   admin = Admin.query.filter_by(username=username).first()
+   if admin and check_password_hash(admin.password, password):
+      session['admin_id'] = admin.id
+      session['admin_name'] = admin.username
+      print("logged in successfully!")
+      flash("logged in successfully!")
+   else:
+      flash("Inavalid username or password")
+      return redirect(url_for('admin_login'))
+   
+   return render_template('admin_login.html')
+      
+@app.route('/admin_dashboard')
+def admin_dashboard():
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    landlords = Landlord.query.all()
+    tenants = Tenant.query.all()
+    properties = Property.query.all()
+    
+    return render_template('admin_dashboard.html', landlords=landlords, tenants=tenants, properties=properties)
+
+@app.route('/admin/create_landlord', methods=['GET', 'POST'])
+def create_landlord():
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+    if request.method == 'POST':
+        username = request.form.get('username')
+        email = request.form.get('email')
+        password = generate_password_hash(request.form('password'))
+        new_landlord = Landlord(username=username, email=email, password=password)
+        db.session.add(new_landlord)
+        db.session.commit()
+        return redirect(url_for('admin_dashboard'))
+    return render_template('create_landlord.html')
+
+def notify_admin(email):
+    msg = Message('ALERT: Suspicious Password Reset Attempt',
+                  sender='your_admin_email@example.com',
+                  recipients=['admin_notify@example.com'])
+    msg.body = f"There have been multiple failed password reset attempts using this email: {email}"
+    mail.send(msg)
 
 if (__name__) == ('__main__'):
-  # with app.app_context():
-  #     db.create_all()
+      # with app.app_context():
+      #    db.create_all()
   app.run(debug=True)
