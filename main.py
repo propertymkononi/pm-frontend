@@ -61,6 +61,7 @@ class Landlord(db.Model):
     __tablename__ = 'landlord'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
+    #phonenumber = db.Column(db.String(255), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=True)
     properties = db.relationship('Property', secondary='landlord_property', back_populates='landlords')
@@ -198,23 +199,25 @@ def addTenant():
     
    return render_template('tenants.html')
 
-@app.route('/Tenant/edit/<int:id>', methods=['GET','POST'])
-def editTenant():
-    ten = Tenant.query.get_or_404(id)
+@app.route('/Tenant/edit/<int:Tenant_id>', methods=['GET','POST'])
+def editTenant(Tenant_id):
+    ten = Tenant.query.get_or_404(Tenant_id)
 
     if request.method == 'POST':
        ten.tenantname = request.form.get('tenantname')
        ten.tenanthouse = request.form.get('tenanthouse')
        ten.tenantemail = request.form.get('tenatemail')
+       ten.phonenumber = request.form.get('phonenumber')
+       ten.housenumber = request.form.get('housenumber')
        db.session.commit()
        flash("Tenant updated.")
        return redirect(url_for('tenants'))
     
     return render_template('tenants.html')
 
-@app.route('/Tenant/delete/<int:id>', methods=['POST'])
-def delete_tenant(id):
-    tenant = Tenant.query.get_or_404(id)
+@app.route('/Tenant/delete/<int:Tenant_id>', methods=['POST'])
+def delete_tenant(Tenant_id):
+    tenant = Tenant.query.get_or_404(Tenant_id)
     db.session.delete(tenant)
     db.session.commit()
     flash("Tenant deleted.")
@@ -236,7 +239,10 @@ def landlord_password():
 
 @app.route('/landlord_dashboard')
 def landlord_dashboard():
-  return render_template('landlord_dashboard.html')
+    if 'landlord_id' not in session:
+       return redirect(url_for('landlord_login'))
+    else:
+       return render_template('landlord_dashboard.html')
 
 @app.route('/tenants')
 def tenants():
@@ -261,7 +267,6 @@ def requests():
 @app.route('/notebooks')
 def notebooks():
   return render_template('notebooks.html')
-
 
 failed_attempts = {}
 
@@ -306,20 +311,15 @@ def logout():
 @app.route('/admin_login', methods=['GET','POST'])
 def admin_login():
    if request.method == 'POST':
-      username = request.form.get('username')
-      password = request.form.get('password')
-
-      if username == "" and password == "":
-         flash("please fill all the fields", 'danger')
-         return redirect('/admin_login')
-   
-   admin = Admin.query.filter_by(username=username).first()
-   if admin and check_password_hash(admin.password, password):
-      session['admin_id'] = admin.id
-      session['admin_name'] = admin.username
-      print("logged in successfully!")
-      flash("logged in successfully!")
-   else:
+      
+     admin = Admin.query.filter_by(username=request.form.get('username')).first()
+     if admin and check_password_hash(admin.password, request.form.get('password')):
+       session['admin_id'] = admin.id
+       session['admin_name'] = admin.username
+       print("logged in successfully!")
+       flash("logged in successfully!")
+       return redirect(url_for('admin_dashboard'))
+     else:
       flash("Inavalid username or password")
       return redirect(url_for('admin_login'))
    
