@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+
+        /*Basic Styling*/
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Regular.woff2') format('woff2'),
+                 url('fonts/Inter-Regular.woff') format('woff'),
+                 url('fonts/Inter-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+          }
+        
+          @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Bold.woff2') format('woff2'),
+                 url('fonts/Inter-Bold.woff') format('woff'),
+                 url('fonts/Inter-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+          }
+        
+          body {
+            font-family: 'Inter', sans-serif;
+          }
+
+        main {
+            background-image: url('https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D');
+            background-size: cover;
+        }
+          .header {
+            font-size: 0.7rem;
+            color: #f5f5f5;
+            filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
+        
+          }
+
+        /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Container Styling */
+        .app-container {
+            display: flex;
+            flex-direction: row;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+
+        /* Header Styling */
+
+
+        /* Navigation Menu Styling */
+        nav {
+            background-color: #f5f5f5;
+            width: 250px;
+            transition: all 0.3s ease;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        nav.mobile-hidden {
+            display: none;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1em;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .menu-icon {
+            margin-right: 10px;
+        }
+
+        /* Dashboard Content Styling */
+        main {
+            padding: 20px;
+            flex: 1;
+            background-color: #f0f0f0;
+            overflow-y: auto;
+        }
+
+        /* Dropdown Button Styling for Mobile */
+        .dropdown-btn {
+            display: none;
+        }
+
+        /* Responsive Styling */
+        @media screen and (max-width: 768px) {
+            .dropdown-btn {
+                display: block;
+                background-color:#C1B49C;
+                color: white;
+                border: none;
+                padding: 1em;
+                font-size: 1em;
+                cursor: pointer;
+            }
+
+            nav {
+                position: fixed;
+                left: -250px;
+                top: 0;
+                height: 100vh;
+                width: 250px;
+            }
+
+            nav.open {
+                left: 0;
+            }
+
+            .app-container {
+                flex-direction: column;
+            }
+
+            main {
+                margin-top: 60px;
+            }
+
+            nav.mobile-hidden {
+                display: block;
+                position: absolute;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="header" style=" background-color:#C1B49C;
+        color: white;
+        padding-right: 1em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;">
+        <div>
+            <button class="dropdown-btn" onclick="toggleMenu()">☰ </button>
+        </div>
+
+        <!-- User Profile -->
+        <div id="user-profile" style="display: flex; flex-direction: row; justify-content: end; align-items:center">
+            <!-- profile icon -->
+            <div class="user-profile-icon">
+                <img src="https://media.licdn.com/dms/image/v2/D4D03AQHs_4PTdUj85g/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1679936241072?e=1735171200&v=beta&t=1_asUXdWHvu_z8NQ4nAC7Jze18IBchkabwL8XYN2t54"
+                    alt="user_profile" height="50em" style="border-radius: 5em; margin: 1em; align-content: center" />
+            </div>
+            <!-- name and date -->
+            <div class="user-name-and-date" style="margin: 0.2em">
+                <p style="font-size: 1.5em; font-weight: bold">
+                    <span id="user-greeting"></span> Oscar
+                </p>
+                <div id="datetime"></div>
+            </div>
+
+            <script>
+                function updateDateTime() {
+                    let greeting; //Good morning/Afternoon User
+
+                    const now = new Date();
+                    const options = {
+                        weekday: "short",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        timeZoneName: "short",
+                        hour12: true,
+                    };
+                    const dateTimeString = now.toLocaleString("en-US", options);
+                    document.getElementById("datetime").textContent = dateTimeString;
+                }
+
+                setInterval(updateDateTime, 1000);
+                updateDateTime(); // initial call to set the time immediately
+
+                // Conditions for Greetings - Good Morning or Good Afternoon
+                if (new Date().getHours() < 12) {
+                    greeting = "Good Morning";
+                } else if (new Date().getHours() < 16) {
+                    greeting = "Good Afternoon";
+                } else {
+                    greeting = "Good Evening";
+                }
+                document.getElementById("user-greeting").innerHTML = greeting;
+            </script>
+
+            <!-- User Profile Settings -->
+            <div>
+                <style>
+                    .settings-container {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    .profile-icon {
+                        width: 40px;
+                        height: 40px;
+                        color: white;
+                        display: flex;
+                        justify-content: center;
+                        font-size: 18px;
+                        cursor: pointer;
+                    }
+
+                    .dropdown-menu {
+                        display: none;
+                        position: absolute;
+                        top: 50px;
+                        right: 0;
+                        background-color: #fff;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                        border-radius: 8px;
+                        width: 150px;
+                        z-index: 1;
+                    }
+
+                    .dropdown-menu a {
+                        display: block;
+                        padding: 10px 15px;
+                        color: #333;
+                        text-decoration: none;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .dropdown-menu a:hover {
+                        background-color: #f1f1f1;
+                    }
+
+                    .dropdown-menu a:last-child {
+                        border-bottom: none;
+                    }
+                </style>
+
+                <div class="settings-container">
+                    <div class="profile-icon" onclick="toggleDropdown()">...</div>
+                    <div class="dropdown-menu" id="dropdown">
+                        <a href="#">Edit Profile</a>
+                        <a href="#">Settings</a>
+                        <a href="/">Logout</a>
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("dropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches(".profile-icon")) {
+                            const dropdown = document.getElementById("dropdown");
+                            if (dropdown.style.display === "block") {
+                                dropdown.style.display = "none";
+                            }
+                        }
+                    };
+                </script>
+            </div>
+
+            <!-- End of User Profile Settings -->
+        </div>
+    </header>
+
+    <!-- End of Header -->
+
+    <!-- SECTION -->
+
+    <section>
+        <div class="app-container">
+            <!-- <button class="dropdown-btn" onclick="toggleMenu()">☰ </button> -->
+
+            <nav id="nav-bar">
+                <!-- logo -->
+                <img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;" src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1752105600&v=beta&t=f3T2oxwMtA_dSjM9CpFBxc6oLtdBVhpjuS4ns3N-crE"> <!-- Replace 'logo.png' with your logo file path -->
+
+
+                    <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #C1B49C; color: white;">Rent Status</div> -->
+                    <a href="/landlord_dashboard" class="menu-btn" style="background-color: #C1B49C; color: white; text-decoration: none;">Dashboard</a>                       
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/notebooks';" style="color: black; text-decoration-style: none;">Landlord</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/tenants';" style="color: black; text-decoration-style: none;">Tenants</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/properties';" style="color: black; text-decoration-style: none;">Properties</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/rent';" style="color: black; text-decoration-style: none;">Rent Status</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/evictions';" style="color: black; text-decoration-style: none;">Evictions</div>
+                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/requests';" style="color: black; text-decoration-style: none;">Requests</div>
+                 
+
+                <br>
+                <footer style="padding: 1em; text-align: center;">
+                    <button style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact
+                        IT Support</button>
+                </footer>
+            </nav>
+
+            <main>
+                <style>
+                    /* CSS for the dashboard page */
+                    .main-container {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: flex-start;
+                    max-width:auto;
+                    padding: 20px;
+                    background-color: #C1B49C;
+                    opacity: 97%;
+                    border-radius: 0.3em;
+                                       
+                    }
+
+                   .property-overview-card, .tenant-overview-card, .rent-overview-card, .landlord-overview-card {
+                    padding: 20px;
+                    margin: 20px;
+                    width: 30em;
+                    border-radius: 1em;
+                    background-color: whitesmoke;
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5)
+                   }
+
+                   .landlord-heading, .property-heading, .tenant-heading, .rent-heading {
+                    background-color: #333; color: white; padding: 0.3em;
+                    border-radius: 0.3em; font-size: 1.5em;
+                    
+                   }
+                   .landlord-totals,.property-totals, .tenant-totals, .rent-totals {
+                    text-align: end; padding-top: 1em; color: #427685; 
+                   }
+
+                   /* Container for Rent Overview Date Range */
+                   .select-date {
+      color: #007BFF;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 18px;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      z-index: 10;
+    }
+    .popup input {
+      margin: 10px 0;
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .popup button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      width: 100%;
+    }
+    .popup button:hover {
+      background-color: #0056b3;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 5;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #333;
+      font-weight: bold;
+    }
+
+                </style>
+                <section>
+
+                    <h2 style="color: #f5f5f5;">Dashboard</h2> <br>
+
+                           <!-- DASHBOARD UI to be added HERE -->
+
+                            <div class="main-container" id="mainContainer">
+
+                                <!--  Landlord card -->
+                                <div class="landlord-overview-card" >
+                                     <div class="landlord-heading"> Landlord Overview </div>
+                                     <div class="landlord-totals" >
+                                        <h1 class="active-landlords" style="font-size: 3em;"> 6 </h1>
+                                        <h4>Landlords</h4>
+                                    </div>
+                                    <div class="landlord-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
+                                        <div class="new_landlord" style="background-color: #C1B49C;; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="new_landlord">2</h1>
+                                            <h4>New Landlords</h4>
+                                        </div>
+                                        <div class="old_landlord" style="background-color: #C1B49C;; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="current_landlord">4</h1>
+                                            <h4>Current Landlords</h4>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <!-- property card -->
+                                <div class="property-overview-card">
+
+                                    <div class="property-heading"> Property Overview
+                                    </div>
+                                    <div class="property-totals" >
+                                        <h1 class="property-sum" style="font-size: 3em;">15</h1>
+                                        <h4>Properties</h4>
+                                    </div>
+                                    <div class="property-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em; ">
+                                        <div class="rented-properties" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="rented" >10</h1>
+                                            <h4>Rented</h4>
+                                        </div>
+                                        <div class="vacant-properties"  style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="vacant">3</h1>
+                                            <h4>Vacant</h4>
+                                        </div>
+                                        <div class="maintenance-properties"  style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="maintenance">2</h1>
+                                            <h4>Maintenance</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- tenant card -->
+                                <div class="tenant-overview-card" >
+                                     <div class="tenant-heading"> Tenant Overview </div>
+                                     <div class="tenant-totals" >
+                                        <h1 class="active-tenants" style="font-size: 3em;"> 200 </h1>
+                                        <h4>Tenants</h4>
+                                    </div>
+                                    <div class="tenant-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
+                                        <div class="eviction-notice" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="notice">10</h1>
+                                            <h4>Eviction notice</h4>
+                                        </div>
+                                        <div class="repair-requests" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="requests">13</h1>
+                                            <h4>Repair requests</h4>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <!-- rent card -->
+                                <div class="rent-overview-card">
+                                     <div class="rent-heading">Rent Overview</div>
+                                     <div class="rent-totals">
+                                        <h1 class="total-rent" style="font-size: 3em;">$1,500,000</h1>
+                                        <h4>Total rent</h4>
+                                        <!-- Rent date range here -->
+                                        <div style="display: flex; justify-content: end;">
+                                            <div class="date-range-container">
+                                                <p>as of <span class="result" id="selectedRange" style="font-size: 1em;"> no date is selected</span></p>
+                                                <br>
+                                                <p class="select-date" id="openPopup" style="font-size: 1em; color: red; text-decoration: none">Select date range</p>
+                                            </div>
+                                            
+                                              <!-- Overlay -->
+                                              <div class="overlay" id="overlay"></div>
+                                            
+                                              <!-- Popup -->
+                                              <div class="popup" id="datePopup">
+                                                <p>Select date range</p>
+                                                <input type="date" id="startDate" placeholder="Start Date" required>
+                                                <input type="date" id="endDate" placeholder="End Date" required>
+                                                <button id="submitDate">Set Period</button>
+                                              </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="rent-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
+                                        <div class="paid-rent" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="paid">134</h1>
+                                            <h4>Tenants paid rent</h4>
+                                        </div>
+                                        <div class="upaid-rent" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="unpaid">23</h1>
+                                            <h4>Tenants with arrears</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end of cards -->
+                            </div>
+                </section>
+            </main>
+        </div>
+    </section>
+
+    <script>
+//Dropdown Menu Script
+        function toggleMenu() {
+            const navBar = document.getElementById('nav-bar');
+            navBar.classList.toggle('open');
+        }
+               // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches(".profile-icon")) {
+                            const navBar= document.getElementById("nav-bar");
+                            if (navBar.style.display === "block") {
+                                navBar.style.display = "none";
+                            }
+                        }
+                    };
+//Container for Rent Overview Container
+
+    // Date range selector
+    const openPopup = document.getElementById("openPopup");
+    const overlay = document.getElementById("overlay");
+    const datePopup = document.getElementById("datePopup");
+    const submitDate = document.getElementById("submitDate");
+    const selectedRange = document.getElementById("selectedRange");
+
+    // Open popup
+    openPopup.addEventListener("click", () => {
+      overlay.style.display = "block";
+      datePopup.style.display = "block";
+    });
+
+    // Close popup and overlay
+    const closePopup = () => {
+      overlay.style.display = "none";
+      datePopup.style.display = "none";
+    };
+
+    // Submit selected dates
+    submitDate.addEventListener("click", () => {
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+
+      if (startDate && endDate) {
+        selectedRange.textContent = `${startDate} to ${endDate}`;
+        selectedRange.style.color = "green"
+        
+        closePopup();
+      } else {
+        alert("Please select both start and end dates.");
+      }
+    });
+
+    // Close popup when clicking outside
+    overlay.addEventListener("click", closePopup);
+
+    // Prevent overlay from blocking input interactions
+    datePopup.addEventListener("click", (event) => {
+      event.stopPropagation(); // Prevents click on popup from closing it
+    });
+
+    </script>
+  
+</body>
+
+</html>
