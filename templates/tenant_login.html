@@ -1,0 +1,198 @@
+<!-- 
+ Below is a simple Sign In form with HTML, CSS, and JavaScript for the frontend, and backend integration using Node.js and SQLite.
+
+Sign In Form UI (Frontend)
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Login</title>
+   <style>
+        /* General styling */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Background styling */
+        body {
+            background: url('https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Login container styling */
+        .login-container {
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%; /* Responsive width */
+            max-width: 40%; /* Limit maximum width */
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1080px) {
+            .login-container {
+                padding: 15px;
+                width: 95%;
+            }
+
+            input {
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+
+        .login-container p{
+            font-size: x-small;
+        }
+
+                /* Overlay for contrast */
+                .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+            z-index: -1;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <!-- logo -->
+         <img height="50px" width="50px" alt="pm-logo" style="border-radius: 100em;" src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1752105600&v=beta&t=f3T2oxwMtA_dSjM9CpFBxc6oLtdBVhpjuS4ns3N-crE"> <!-- Replace 'logo.png' with your logo file path -->
+        <h2>Log In</h2>
+        <p>Property Mkononi accounts are part of registered domain,
+            Please proceed and sign in using your Corporate credentials.</p>
+        <form  action="/tenant_login" method="post">
+            <input type="username" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <span class="error" id="errorMessage"></span>
+            <button type="submit"  style="background-color: #FFAA64">Log In</button>
+        </form>
+<!--         {% with messages = get_flashed_messages(with_categories=true) %}
+               {% for category, message in messages %}
+                  <p style="color:red;">{{ message }}</p>
+               {% endfor %}
+        {% endwith %} -->
+  
+        <br>
+        <p>
+            <a href="/tenant_password">Forgot Password?</a>
+            <br>
+            <br>
+            <a href="terms_and_conditions.html">Terms and Conditions</a>
+        </p>
+    </div>
+    <div class="overlay"></div>
+
+    <script>
+        function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const errorMessage = document.getElementById("errorMessage");
+
+            // Clear previous error messages
+            errorMessage.style.display = "none";
+
+            if (!email || !password) {
+                errorMessage.textContent = "Both fields are required.";
+                errorMessage.style.display = "block";
+                window.location.href = "tenant_dashboard.html"; // Redirect to Dashboard ONLY for demo but delete !!!!!!
+                return;
+            }
+
+            // Send login credentials to the server
+            fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("Login successful! Redirecting...");
+                    window.location.href = "dashboard.html"; // Redirect to Dashboard
+                } else {
+                    errorMessage.textContent = "Invalid email or password.";
+                    errorMessage.style.display = "block";
+                }
+            })
+            .catch(error => {
+                errorMessage.textContent = "An error occurred. Please try again.";
+                errorMessage.style.display = "block";
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+<!-- 
+Key Feature
+
+Background Image:
+A full-screen background image (background-size: cover;).
+Replace 'background.jpg' in the body CSS with the actual path to your image file, e.g., images/login-bg.jpg.
+
+Floating Form:
+The form is centrally aligned using Flexbox for both horizontal and vertical centering.
+It adjusts its size responsively to different screen sizes.
+
+Responsive Design:
+The form width dynamically adjusts with width: 90% and a max-width: 400px.
+Includes smaller font sizes for inputs and buttons on narrower screens.
+
+Error Display:
+Error messages are displayed conditionally using the .error class.
+-->
