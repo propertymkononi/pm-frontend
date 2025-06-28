@@ -30,7 +30,7 @@ Sign In Form UI (Frontend)
 
         /* Login container styling */
         .login-container {
-            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            background: #C1B49C; /* Semi-transparent white */
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -110,10 +110,10 @@ Sign In Form UI (Frontend)
     <div class="login-container">
         <!-- logo -->
          <img height="50px" width="50px" alt="pm-logo" style="border-radius: 100em;" src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1752105600&v=beta&t=f3T2oxwMtA_dSjM9CpFBxc6oLtdBVhpjuS4ns3N-crE"> <!-- Replace 'logo.png' with your logo file path -->
-        <h2>Log In</h2>
+        <h2>Admin Log In</h2>
         <p>Property Mkononi accounts are part of registered domain,
             Please proceed and sign in using your Corporate credentials.</p>
-        <form  action="/landlord_login" method="post">
+        <form  action="/admin_login" method="post">
             <input type="username" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <span class="error" id="errorMessage"></span>
@@ -127,13 +127,9 @@ Sign In Form UI (Frontend)
   
         <br>
         <p>
-            <a href="/landlord_password">Forgot Password?</a>
+            <a href="/admin_password">Forgot Password?</a>
             <br>
-            <br> 
-            <a href="/landlord_register">Signup</a>
-            <br>
-            <br>
-            <a href="terms_and_conditions.html">Terms and Conditions</a>
+            
         </p>
     </div>
     <div class="overlay"></div>
