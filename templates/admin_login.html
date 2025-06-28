@@ -1,3 +1,9 @@
+<!-- 
+ Below is a simple Sign In form with HTML, CSS, and JavaScript for the frontend, and backend integration using Node.js and SQLite.
+
+Sign In Form UI (Frontend)
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -113,14 +119,22 @@
             <span class="error" id="errorMessage"></span>
             <button type="submit"  style="background-color: #8cb9c5">Log In</button>
         </form>
-        {% with messages = get_flashed_messages() %}
-           {% if messages %}
-               <ul>{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
-           {% endif %}
-        {% endwith %}
+<!--         {% with messages = get_flashed_messages(with_categories=true) %}
+               {% for category, message in messages %}
+                  <p style="color:red;">{{ message }}</p>
+               {% endfor %}
+        {% endwith %} -->
   
         <br>
-        
+        <p>
+            <a href="/landlord_password">Forgot Password?</a>
+            <br>
+            <br> 
+            <a href="/landlord_register">Signup</a>
+            <br>
+            <br>
+            <a href="terms_and_conditions.html">Terms and Conditions</a>
+        </p>
     </div>
     <div class="overlay"></div>
 
