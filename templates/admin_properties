@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Status</title>
+    <style>
+
+        /*Basic Styling*/
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Regular.woff2') format('woff2'),
+                 url('fonts/Inter-Regular.woff') format('woff'),
+                 url('fonts/Inter-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+          }
+        
+          @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Bold.woff2') format('woff2'),
+                 url('fonts/Inter-Bold.woff') format('woff'),
+                 url('fonts/Inter-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+          }
+
+
+        
+          body {
+            font-family: 'Inter', sans-serif;
+          
+          }
+
+          main {
+            background-image: url('https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D');
+          background-size: cover;
+          
+          }
+
+                                /* Overlay for contrast */
+          main {
+   
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+           
+        }
+          .header {
+            font-size: 0.7rem;
+            color: #f5f5f5;
+            filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
+        
+          }
+
+        /* Form styling */
+        .property-form {
+            margin-bottom: 20px;
+            display: none;
+            /* Initially hidden */
+        }
+
+        .property-form input,
+        .property-form select {
+            padding: 10px;
+            margin: 5px;
+            width: calc(100% / 3 - 20px);
+        }
+
+        .property-form button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Table styling */
+        .property-details {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .property-details th,
+        .property-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .property-details th {
+            background-color: #C1B49C;
+            color: white;
+        }
+
+        .btn-delete,
+        .btn-edit {
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .btn-delete {
+            background-color:red;
+        }
+
+        .btn-edit {
+            background-color: #8cb9c5;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .checkbox-group label {
+            margin-left: 10px;
+        }
+
+        .preview {
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Container Styling */
+        .app-container {
+            display: flex;
+            flex-direction: row;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+
+        /* Header Styling */
+
+
+        /* Navigation Menu Styling */
+        nav {
+            background-color: #f5f5f5;
+            width: 250px;
+            transition: all 0.3s ease;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        nav.mobile-hidden {
+            display: none;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1em;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .menu-icon {
+            margin-right: 10px;
+        }
+
+        /* Dashboard Content Styling */
+        main {
+            padding: 20px;
+            flex: 1;
+            background-color: #f0f0f0;
+            overflow-y: auto;
+        }
+
+        /* Dropdown Button Styling for Mobile */
+        .dropdown-btn {
+            display: none;
+        }
+
+        /* Responsive Styling */
+        @media screen and (max-width: 768px) {
+            .dropdown-btn {
+                display: block;
+                background-color: #C1B49C;
+                color: white;
+                border: none;
+                padding: 1em;
+                font-size: 1em;
+                cursor: pointer;
+            }
+
+            nav {
+                position: fixed;
+                left: -250px;
+                top: 0;
+                height: 100vh;
+                width: 250px;
+            }
+
+            nav.open {
+                left: 0;
+            }
+
+            .app-container {
+                flex-direction: column;
+            }
+
+            main {
+                margin-top: 60px;
+            }
+
+            nav.mobile-hidden {
+                display: block;
+                position: absolute;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="header" style=" background-color: #C1B49C;
+        color: white;
+        padding-right: 1em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;">
+        <div>
+            <button class="dropdown-btn" onclick="toggleMenu()">☰ </button>
+        </div>
+
+        <!-- User Profile -->
+        <div id="user-profile" style="display: flex; flex-direction: row; justify-content: end; align-items:center">
+            <!-- profile icon -->
+            <div class="user-profile-icon">
+                <img src="https://media.licdn.com/dms/image/v2/D4D03AQHs_4PTdUj85g/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1679936241072?e=1735171200&v=beta&t=1_asUXdWHvu_z8NQ4nAC7Jze18IBchkabwL8XYN2t54"
+                    alt="user_profile" height="50em" style="border-radius: 5em; margin: 1em; align-content: center" />
+            </div>
+            <!-- name and date -->
+            <div class="user-name-and-date" style="margin: 0.2em">
+                <p style="font-size: 1.5em; font-weight: bold">
+                    <span id="user-greeting"></span> Doe
+                </p>
+                <div id="datetime"></div>
+            </div>
+
+            <script>
+                function updateDateTime() {
+                    let greeting; //Good morning/Afternoon User
+
+                    const now = new Date();
+                    const options = {
+                        weekday: "short",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        timeZoneName: "short",
+                        hour12: true,
+                    };
+                    const dateTimeString = now.toLocaleString("en-US", options);
+                    document.getElementById("datetime").textContent = dateTimeString;
+                }
+
+                setInterval(updateDateTime, 1000);
+                updateDateTime(); // initial call to set the time immediately
+
+                // Conditions for Greetings - Good Morning or Good Afternoon
+                if (new Date().getHours() < 12) {
+                    greeting = "Good Morning";
+                } else if (new Date().getHours() < 16) {
+                    greeting = "Good Afternoon";
+                } else {
+                    greeting = "Good Evening";
+                }
+                document.getElementById("user-greeting").innerHTML = greeting;
+            </script>
+
+            <!-- User Profile Settings -->
+            <div>
+                <style>
+                    .settings-container {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    .profile-icon {
+                        width: 40px;
+                        height: 40px;
+                        color: white;
+                        display: flex;
+                        justify-content: center;
+                        font-size: 18px;
+                        cursor: pointer;
+                    }
+
+                    .dropdown-menu {
+                        display: none;
+                        position: absolute;
+                        top: 50px;
+                        right: 0;
+                        background-color: #fff;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                        border-radius: 8px;
+                        width: 150px;
+                        z-index: 1;
+                    }
+
+                    .dropdown-menu a {
+                        display: block;
+                        padding: 10px 15px;
+                        color: #333;
+                        text-decoration: none;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .dropdown-menu a:hover {
+                        background-color: #f1f1f1;
+                    }
+
+                    .dropdown-menu a:last-child {
+                        border-bottom: none;
+                    }
+                </style>
+
+                <div class="settings-container">
+                    <div class="profile-icon" onclick="toggleDropdown()">...</div>
+                    <div class="dropdown-menu" id="dropdown">
+                        <!-- <a href="#">Edit Profile</a>
+                        <a href="#">Settings</a> -->
+                        <a href="/admin_logout">Logout</a>
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("dropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches(".profile-icon")) {
+                            const dropdown = document.getElementById("dropdown");
+                            if (dropdown.style.display === "block") {
+                                dropdown.style.display = "none";
+                            }
+                        }
+                    };
+                </script>
+            </div>
+
+            <!-- End of User Profile Settings -->
+        </div>
+    </header>
+
+    <!-- End of Header -->
+
+    <!-- SECTION -->
+
+    <section>
+        <div class="app-container">
+            <!-- <button class="dropdown-btn" onclick="toggleMenu()">☰ </button> -->
+
+            <nav id="nav-bar">
+                <!-- logo -->
+                <img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;" src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1752105600&v=beta&t=f3T2oxwMtA_dSjM9CpFBxc6oLtdBVhpjuS4ns3N-crE"> <!-- Replace 'logo.png' with your logo file path -->
+
+                    <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+<div class="menu-btn" onclick="toggleMenu(); window.location.href='/landlord_dashboard';" style="color: black; text-decoration-style: none;">Dashboard</div>
+<div class="menu-btn" onclick="toggleMenu(); window.location.href='/tenants';" style="color: black; text-decoration-style: none;">Tenants</div>
+<div class="menu-btn" onclick="toggleMenu();" style="background-color: #C1B49C; color: white;">Properties</div>
+<div class="menu-btn" onclick="toggleMenu(); window.location.href='/rent';" style="color: black; text-decoration-style: none;">Rent Status</div>
+<div class="menu-btn" onclick="toggleMenu(); window.location.href='/evictions';" style="color: black; text-decoration-style: none;">Evictions</div>
+<div class="menu-btn" onclick="toggleMenu(); window.location.href='/requests';" style="color: black; text-decoration-style: none;">Requests</div>
+<div class="menu-btn" onclick="toggleMenu(); window.location.href='/notebooks';" style="color: black; text-decoration-style: none;">Notebooks</div>
+
+
+
+
+                    <br>
+                <footer style="padding: 1em; text-align: center;">
+                    <button style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact IT
+                        Support</button>
+                </footer>
+            </nav>
+
+            <main>
+                <section>
+
+                    <h2 style="color: #f5f5f5;">Property Status</h2> <br>
+<div class="filter-section" style="display: flex; justify-content: space-between; ">
+                    <!-- Add property Button -->
+                    <button id="addPropertyBtn" onclick="showForm()" style="
+                        padding: 10px;
+                        background-color: #4CAF50;
+                        color: white;
+                        border: none;
+                        cursor: pointer;
+                    ">Add Property</button>
+                     <!-- tenant filter -->
+                     <div style="background-color: #f5f5f5; padding: 0.3em; border-radius: 0.2em; font-size: smaller;" >
+                        <!-- Filter options -->
+                         <div style="display: flex; flex-direction: row; justify-content: end; ">
+                            <label for="filterCategory">Filter By: </label>
+                            <select id="filterCategory">
+                                <option value="">Select a Category</option>
+                                <option value="tenantName">Tenant Name</option>
+                                <option value="houseNo">House No.</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="rentStatus">Rent Status</option>
+                                <option value="houseCondition">House Condition</option>
+                                <option value="tenancyDuration">Tenancy Duration</option>
+                            </select>
+                        
+                            <!-- Sub-dropdown for specific values -->
+                            <label for="filterDetails" style="margin-left: 10px;">Details: </label>
+                            <select id="filterDetails" disabled>
+                                <option value="">Select Details</option>
+                            </select>
+                                <!-- Clear Filters Button -->
+                            <button id="clearFilters" style="margin-left: 10px; color: red;">Clear Filters</button>
+                         </div>
+                         
+
+                    
+                        <!-- Filter message -->
+                        <p id="filterMessage" style="margin-top: 10px; font-weight: bold; color:red; "></p>
+                    </div>
+
+</div>            
+
+<!-- property Form -->
+                    <!-- property Household Details -->
+
+                    <div class="propert-form" id="propertyForm" style="background-color: aliceblue;">
+                        <br>
+                        <h4 style="background-color: #C1B49C; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Property Information:</h4>
+                        <input type="text" id="propertyName" placeholder="Property Name" required>
+                        <input type="number" id="propertyCapacity" placeholder="No. of Houses" required>
+                        <input type="date" placeholder="Year of Construction" name="" id="propertyYearOfConstruction">
+                        <input type="text" id="propertyLandNumber" placeholder="Land No." required>
+                        <input type="text" id="propertyLocation" placeholder="Location" required>
+                        
+                        <br><br>
+                        <!-- property Management Details -->
+                        <h4 style="background-color: #C1B49C; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Property Management:</h4>
+                        <input type="text" id="propertyManager" placeholder="Caretaker/Agent Name" required>
+                        <input type="text" id="propertyManagerIdentification" placeholder="Caretaker/Agent ID" required>
+
+                        <br><br>
+                        <!-- property security Details -->
+                        <h4 style="background-color: #C1B49C; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Property security:</h4>
+
+                        <input type="text" id="propertySecurityAgent" placeholder="Security Agent Name" required>
+                        <input type="text" id="propertySecurityRegistration" placeholder="Security Agent Reg No." required>
+
+
+                        <br> <br>
+
+                        
+                        <button id="submitButton" onclick="addOrUpdateProperty()"
+                        style="
+                        padding: 10px;
+                        background-color: #4CAF50;
+                        color: white;
+                        border: none;
+                        cursor: pointer"                   
+                        >Add Property</button>
+                        <button onclick="hideForm()"              \
+                        Style="
+                        padding: 10px;
+                        background-color: red;
+                        color: white;
+                        border: none;
+                        cursor: pointer"
+                        >Cancel</button> 
+                        <p style="padding: 0.5em;"></p>
+                    </div>
+
+                    <!-- property UI Table -->
+                    <table class="property-details">
+                        <thead>
+                            <tr>
+                                <th>Property Name</th>
+                                <th>No. of Tenants</th>
+                                <th>Occupancy</th>
+                                <th>Maintenance</th>
+                                <th>Rent Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="propertiesTableBody" style="background-color: #f5f5f5;">
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
+                            <!-- Rows will be populated here -->
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const navBar = document.getElementById('nav-bar');
+            navBar.classList.toggle('open');
+        }
+    </script>
+     <!-- JavaScript to Toggle Form Visibility -->
+     <script>
+        // Keep track of the row being edited
+        let editIndex = -1; 
+
+        // Function to show the form
+        function showForm() {
+            document.getElementById("propertyForm").style.display = "block";
+            document.getElementById("addPropertyBtn").style.display = "none"; // Hide "Add PROPERTY" button
+        }
+
+        // Function to hide the form
+        function hideForm() {
+            document.getElementById("propertyForm").style.display = "none";
+            document.getElementById("addPropertyBtn").style.display = "block"; // Show "Add PROPERTY" button
+            clearForm(); // Clear the form when hiding
+            editIndex = -1; // Reset the edit index
+            document.getElementById("submitButton").textContent = "Add Property";
+            document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
+        }
+
+
+
+
+// Function to add or update a PROPERTY
+// Add javascript to add or update PROPERTY information in the database
+ function addOrUpdateProperty() {
+        //property information
+        const propertyName = document.getElementById("propertyName").value; //Triple A Heights
+        const propertyCapacity = document.getElementById("propertyCapacity").value; // 30 houses
+        const propertyYearOfConstruction = document.getElementById("propertyYearOfConstruction").value; //Built in 2027
+        const propertyLandNumber = document.getElementById("propertyLandNumber").value; // LR 0002343
+        const propertyLocation = document.getElementById("propertyLocation").value; // Muhuri Road
+        //property management
+        const propertyManager = document.getElementById("propertyManager").value; //Kevin
+        const propertyManagerIdentification = document.getElementById("propertyManagerIdentification").value; //234567890
+
+        //property security
+        const propertySecurityAgent = document.getElementById("propertySecurityAgent").value; // Cash Security
+        const propertySecurityRegistration = document.getElementById("propertySecurityAgent").value; // BN-3456789
+
+
+            if (propertyName === "" || propertyCapacity === "" || propertyYearOfConstruction === "" || !propertyLandNumber 
+            || propertyLocation === "" || propertyManager === "" || propertyManagerIdentification === "" || 
+            !propertySecurityAgent || !propertySecurityRegistration ) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // table body on UI
+            const table = document.getElementById("propertiesTableBody");
+
+
+            if (editIndex === -1) {
+                // Add a new row
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${propertyName}</td>
+                    <td>${propertyTenants}</td>
+                    <td>${propertyOccupancy}</td>
+                    <td>${propertyMaintenance}</td>
+                    <td>${propertyRentStatus}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editProperty(this)">Edit</button>
+                        <button class="btn-delete" onclick="deleteProperty(this)">Delete</button>
+                    </td>
+                    <td>${propertyCapacity}</td>
+                    <td>${propertyYearOfConstruction}</td>
+                    <td>${propertyLandNumber}</td>
+                    <td>${propertyLocation}</td>
+                    <td>${propertyManager}</td>
+                    <td>${propertyManagerIdentification}</td>
+                    <td>${propertySecurityAgent}</td>
+                    <td>${propertySecurityRegistration}</td>
+
+                `;
+            } else {
+                // Update existing row
+                const row = table.rows[editIndex];
+                row.cells[0].textContent = propertyName;
+                row.cells[1].textContent = propertyTenants;
+                row.cells[2].textContent = propertyOccupancy;
+                row.cells[3].textContent = propertyMaintenance;
+                row.cells[4].textContent = propertyRentStatus;
+
+                row.cells[5].textContent = propertyCapacity;
+                row.cells[7].textContent = propertyYearOfConstruction;
+                row.cells[8].textContent = propertyLandNumber;
+                row.cells[9].textContent = propertyLocation;
+                row.cells[10].textContent = propertyManager;
+                row.cells[11].textContent = propertyManagerIdentification;
+                row.cells[12].textContent = propertySecurityAgent;
+
+
+
+                // Reset editIndex and button text
+                editIndex = -1;
+                document.getElementById("submitButton").textContent = "Add Property";
+                document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
+            }
+
+            // Hide the form and clear fields
+            hideForm();
+        }
+
+        // Function to delete a PROPERTY row
+        function deleteProperty(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        // Function to edit a tenant row
+        function editProperty(button) {
+            showForm(); // Show form when editing
+            const row = button.parentNode.parentNode;
+            editIndex = row.rowIndex - 1; // Set edit index
+
+            // Populate form fields with the row data
+            document.getElementById("propertyName").value = row.cells[0].textContent;
+            document.getElementById("propertyTenants").value = row.cells[1].textContent;
+            document.getElementById("propertyOccupancy").value = row.cells[2].textContent;
+            document.getElementById("propertyMaintenance").value = row.cells[3].textContent;
+            document.getElementById("propertyRentStatus").value = row.cells[4].textContent; 
+
+            // Change button text to "Update" and color to blue
+            const submitButton = document.getElementById("submitButton");
+            submitButton.textContent = "Update Property";
+            submitButton.style.backgroundColor = "blue";
+        }
+
+        // Function to clear the form fields
+        function clearForm() {
+
+            document.getElementById("propertyName").value = '';
+            document.getElementById("propertyCapacity").value = '';
+            document.getElementById("propertyYearOfConstruction").value = '';
+            document.getElementById("propertyLandNumber").value = '';
+            document.getElementById("propertyLocation").value = '';
+            document.getElementById("propertyManager").value = '';
+            document.getElementById("propertyManagerIdentification").value = '';
+            document.getElementById("propertySecurityAgent").value = '';
+            document.getElementById("propertySecurityRegistration").value = '';
+            
+
+            // Function to load tenants from the DATABASE
+
+            // Function to load tenants from the DATABASE
+function loadProperties() {
+    fetch('http://localhost:3000/properties')
+        .then(response => response.json())
+        .then(properties => {
+            const table = document.getElementById("propertiesTableBody");
+            table.innerHTML = ''; // Clear existing rows
+
+            properties.forEach(property => {
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${property.propertyName}</td>
+                    <td>${property.propertyTenants}</td>
+                    <td>${property.propertyOccupancy}</td>
+                    <td>${property.propertyMaintenance}</td>
+                    <td>${property.propertyRentStatus}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editProperty(${property.id})">Edit</button>
+                        <button class="btn-delete" onclick="deleteProperty(${property.id})">Delete</button>
+                    </td>
+                `;
+            });
+        });
+}
+
+// Function to add or update a PROPERTY
+function addOrUpdateProperty() {
+
+    const propertyName = document.getElementById("propertyName").value;
+    const propertyCapacity = document.getElementById("propertyCapacity").value;
+    const propertyYearOfConstruction = document.getElementById("propertyYearOfConstruction").value;
+    const propertyLandNumber = document.getElementById("propertyLandNumber").value;
+    const propertyLocation = document.getElementById("propertyLocation").value;
+    const propertyManager = document.getElementById("propertyManager").value;
+    const houseCondition = document.getElementById("houseCondition").value;
+    const propertyManagerIdentification = document.getElementById("propertyManagerIdentification").value;
+    const propertySecurityAgent = document.getElementById("propertySecurityAgent").value;
+    const propertySecurityRegistration = document.getElementById("propertySecurityRegistration").value;
+
+    const propertyData = {
+        propertyName, propertyCapacity
+    };
+
+    if (editIndex === -1) {
+        // Add a PROPERTY
+        fetch('http://localhost:3000/properties', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(propertyData)
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadProperties(); // Reload PROPERTIES
+            hideForm(); // Hide form
+        });
+    } else {
+        // Update PROPERTY
+        fetch(`http://localhost:3000/properties/${editIndex}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(propertyData)
+        })
+        .then(response => response.json())
+        .then(() => {
+            loadProperties(); // Reload PROPERTIES
+            hideForm(); // Hide form
+        });
+    }
+}
+
+// Function to delete a PROPERTY
+function deleteProperty(id) {
+    fetch(`http://localhost:3000/properties/${id}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(() => {
+        loadProperties(); // Reload PROPERTIES
+    });
+}
+
+        }
+    </script>
+</body>
+
+</html>
