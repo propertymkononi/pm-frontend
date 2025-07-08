@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <!--      Define keywords for search engines:-->
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+
+    <!-- Define a description of your web page:-->
+    <meta name="description"
+        content="This is a landlord-centric property management application designed to make landlordhood heavenly">
+
+    <!-- Define the author of a page:-->
+    <meta name="author" content="Oscar Omondi">
+
+    <!-- 
+ Refresh document every 30 seconds:
+ <meta http-equiv="refresh" content="30">  -->
+
+    <!--Setting the viewport to make your website look good on all devices:-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>Property Status</title>
+    <style>
+        /*Basic Styling*/
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Regular.woff2') format('woff2'),
+                url('fonts/Inter-Regular.woff') format('woff'),
+                url('fonts/Inter-Regular.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('fonts/Inter-Bold.woff2') format('woff2'),
+                url('fonts/Inter-Bold.woff') format('woff'),
+                url('fonts/Inter-Bold.ttf') format('truetype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+
+        }
+
+        .header {
+            font-size: 0.7rem;
+            color: #f5f5f5;
+            filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
+
+        }
+
+        /* Form styling */
+        .landlord-form {
+            margin-bottom: 20px;
+            display: none;
+            /* Initially hidden */
+        }
+
+        .landlord-form input,
+        .landlord-form select {
+            padding: 10px;
+            margin: 5px;
+            width: calc(100% / 3 - 20px);
+        }
+
+        .landlord-form button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Table styling */
+        .landlord-details {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .landlord-details th,
+        .landlord-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .landlord-details th {
+            background-color: #3c3024;
+            color: white;
+        }
+
+        .btn-delete,
+        .btn-edit {
+            color: white;
+            cursor: pointer;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .btn-delete {
+            background-color: red;
+        }
+
+        .btn-edit {
+            background-color: blue;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .checkbox-group label {
+            margin-left: 10px;
+        }
+
+        .preview {
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Container Styling */
+        .app-container {
+            display: flex;
+            flex-direction: row;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+        }
+
+        /* Header Styling */
+
+
+        /* Navigation Menu Styling */
+        nav {
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 250px;
+            transition: all 0.3s ease;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        nav.mobile-hidden {
+            display: none;
+        }
+
+        .menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1em;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .menu-icon {
+            margin-right: 10px;
+        }
+
+        /* Dashboard Content Styling */
+        main {
+            padding: 20px;
+            flex: 1;
+            background-color: #f0f0f0;
+            overflow-y: auto;
+            background-image: url('https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvcGVydHl8ZW58MHx8MHx8fDA%3D');
+            background-size: cover;
+        }
+
+        /* Dropdown Button Styling for Mobile */
+        .dropdown-btn {
+            display: none;
+        }
+
+        /* Responsive Styling */
+        @media screen and (max-width: 962px) {
+            .dropdown-btn {
+                display: block;
+                background-color: #C1B49C;
+                ;
+                color: white;
+                border: none;
+                padding: 1em;
+                font-size: 1em;
+                cursor: pointer;
+            }
+
+            nav {
+                position: fixed;
+                left: -250px;
+                top: 0;
+                height: 100vh;
+                width: 250px;
+            }
+
+            nav.open {
+                left: 0;
+            }
+
+            .app-container {
+                flex-direction: column;
+            }
+
+            nav.mobile-hidden {
+                display: block;
+                position: absolute;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="header" style=" background-color: #C1B49C;
+        color: white;
+        padding-right: 1em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;">
+        <div>
+            <button class="dropdown-btn" onclick="toggleMenu()">☰ </button>
+        </div>
+
+        <!-- User Profile -->
+        <div id="user-profile" style="display: flex; flex-direction: row; justify-content: end; align-items:center">
+            <!-- profile icon -->
+            <div class="user-profile-icon">
+                <img src="https://media.licdn.com/dms/image/v2/D4D03AQHs_4PTdUj85g/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1679936241072?e=1735171200&v=beta&t=1_asUXdWHvu_z8NQ4nAC7Jze18IBchkabwL8XYN2t54"
+                    alt="user_profile" height="50em" style="border-radius: 5em; margin: 1em; align-content: center" />
+            </div>
+            <!-- name and date -->
+            <div class="user-name-and-date" style="margin: 0.2em">
+                <p style="font-size: 1.5em; font-weight: bold">
+                    <span id="user-greeting"></span> Doe
+                </p>
+                <div id="datetime"></div>
+            </div>
+
+            <script>
+                function updateDateTime() {
+                    let greeting; //Good morning/Afternoon User
+
+                    const now = new Date();
+                    const options = {
+                        weekday: "short",
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                        timeZoneName: "short",
+                        hour12: true,
+                    };
+                    const dateTimeString = now.toLocaleString("en-US", options);
+                    document.getElementById("datetime").textContent = dateTimeString;
+                }
+
+                setInterval(updateDateTime, 1000);
+                updateDateTime(); // initial call to set the time immediately
+
+                // Conditions for Greetings - Good Morning or Good Afternoon
+                if (new Date().getHours() < 12) {
+                    greeting = "Good Morning";
+                } else if (new Date().getHours() < 16) {
+                    greeting = "Good Afternoon";
+                } else {
+                    greeting = "Good Evening";
+                }
+                document.getElementById("user-greeting").innerHTML = greeting;
+            </script>
+
+            <!-- User Profile Settings -->
+            <div>
+                <style>
+                    .settings-container {
+                        position: relative;
+                        display: inline-block;
+                    }
+
+                    .profile-icon {
+                        width: 40px;
+                        height: 40px;
+                        color: white;
+                        display: flex;
+                        justify-content: center;
+                        font-size: 18px;
+                        cursor: pointer;
+                    }
+
+                    .dropdown-menu {
+                        display: none;
+                        position: absolute;
+                        top: 50px;
+                        right: 0;
+                        background-color: #fff;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                        border-radius: 8px;
+                        width: 150px;
+                        z-index: 1;
+                    }
+
+                    .dropdown-menu a {
+                        display: block;
+                        padding: 10px 15px;
+                        color: #333;
+                        text-decoration: none;
+                        border-bottom: 1px solid #ddd;
+                    }
+
+                    .dropdown-menu a:hover {
+                        background-color: #f1f1f1;
+                    }
+
+                    .dropdown-menu a:last-child {
+                        border-bottom: none;
+                    }
+                </style>
+
+                <div class="settings-container">
+                    <div class="profile-icon" onclick="toggleDropdown()">...</div>
+                    <div class="dropdown-menu" id="dropdown">
+                        <!-- <a href="#">Edit Profile</a> -->
+                        <!-- <a href="#">Settings</a> -->
+                        <a href="/admin_logout">Logout</a>
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDropdown() {
+                        const dropdown = document.getElementById("dropdown");
+                        dropdown.style.display =
+                            dropdown.style.display === "block" ? "none" : "block";
+                    }
+
+                    // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches(".profile-icon")) {
+                            const dropdown = document.getElementById("dropdown");
+                            if (dropdown.style.display === "block") {
+                                dropdown.style.display = "none";
+                            }
+                        }
+                    };
+                </script>
+            </div>
+
+            <!-- End of User Profile Settings -->
+        </div>
+    </header>
+
+    <!-- End of Header -->
+
+    <!-- SECTION -->
+
+    <section>
+        <div class="app-container">
+            <!-- <button class="dropdown-btn" onclick="toggleMenu()">☰ </button> -->
+
+
+            <!--START OF NAVBAR MENU XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+            <nav id="nav-bar">
+                <!-- logo -->
+                <img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;"
+                    src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1752105600&v=beta&t=f3T2oxwMtA_dSjM9CpFBxc6oLtdBVhpjuS4ns3N-crE">
+                <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+                <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_dashboard';"
+                    style="color: black; text-decoration-style: none;">Dashboard</div>
+                <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color: black;">Landlords
+                </div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_properties';"
+                    style="color: black; text-decoration-style: none;">Properties</div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin.vendors';"
+                    style="color: black; text-decoration-style: none;">Vendors</div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_requests';"
+                    style="color: black; text-decoration-style: none;">Requests</div>
+
+                <br>
+
+                <footer style="padding: 1em; text-align: center;">
+                    <button onclick="contactItSupportBtn()"
+                        style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact IT
+                        Support</button>
+                </footer>
+                <script>
+                    function contactItSupportBtn() {
+                        window.location =
+                            "mailto:propertymkononi@gmail.com"
+                            + "?subject=" + encodeURIComponent("Hello there,")
+                            + "&body=" + encodeURIComponent("Hi,\n\nThis is a test email from the IT Support team.\n\nRegards.");
+                    }
+                </script>
+            </nav>
+            <!-- END OF NAVBAR MENU XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+
+
+
+
+            <!-- THE MAIN CONTENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+            <main>
+                <section>
+
+                    <h2 style="color: #f5f5f5;"> Landlords Portal </h2>
+
+                    <br>
+
+                    <!-- Add new landlord button and filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+                    <div class="filter-section" style="display: flex; justify-content: space-between; ">
+                        <!-- Add new landlord Button xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+                        <button id="addLandlordBtn" onclick="showForm()" style="
+                        padding: 10px;
+                        background-color: #4CAF50;
+                        color: white;
+                        border: none;
+                        cursor: pointer;">Add New Landlord
+                        </button>
+
+
+                        <!-- Property filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+                        <div
+                            style="background-color: #f5f5f5; padding: 0.3em; border-radius: 0.2em; font-size: smaller; padding: 1em;">
+                            <!-- Filter options -->
+                            <div style="display: flex; flex-direction: row; justify-content: end; ">
+                                <label for="filterCategory">Filter By: </label>
+                                <select id="filterCategory">
+                                    <option value="">Select a Category</option>
+                                    <option value="landlordName">Landlord Name</option>
+                                    <option value="propertyName">Property Name</option>
+
+                                    <!-- CONSIDER ADDING NEW FILTERS INCLUDING ARREARS
+                                    <option value="rentStatus">Rent Status</option>
+                                    <option value="houseCondition">House Condition</option>
+                                    <option value="tenancyDuration">Tenancy Duration</option> -->
+                                </select>
+
+                                <!-- Sub-dropdown for specific values -->
+                                <label for="filterDetails" style="margin-left: 10px;">Details: </label>
+                                <select id="filterDetails" disabled>
+                                    <option value="">Select Details</option>
+                                </select>
+                                <!-- Clear Filters Button -->
+                                <button id="clearFilters" style="margin-left: 10px; color: red;">Clear Filters</button>
+                            </div>
+
+                            <!-- Filter message -->
+                            <p id="filterMessage" style="margin-top: 10px; font-weight: bold; color:red; "></p>
+                        </div>
+                    </div>
+
+                    <!-- landlord Form xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+                    <div class="landlord-form" id="landlordForm" style="background-color: aliceblue;">
+                        <br>
+
+
+                        <!-- 👤 Ownership Information xxxxxxxxxxxxxxxxxxxxxxx-->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Personal Information:</h4>
+                        <input type="text" id="ownersFullName" placeholder="Owner's Full Name" required>
+                        <input type="text" id="physicalAddressLocation" placeholder="National ID or Passport" required>
+                        <input type="text" id="reference1Contact" placeholder="Contact Number (Phone/WhatsApp)"
+                            required> <br>
+                        <input type="text" id="reference2Name" placeholder="Email Address" required>
+                        <input type="text" id="physicalAddressLocation" placeholder="Physical Address / Location"
+                            required>
+                        <input type="text" id="reference2Contact" placeholder="KRA PIN (Kenya-specific)" required> <br>
+                        <select name="nationality" id="landlordNationality" required>
+                            <option value="" disabled selected>Nationality</option>
+                            <option value="Kenyan">Kenyan</option>
+                            <option value="Ugandan">Ugandan</option>
+                            <option value="Tanzanian">Tanzanian</option>
+                            <option value="Burundian">Burundian</option>
+                            <option value="Congolese">Congolese</option>
+                            <option value="Sudanese">Sudanese</option>
+                            <option value="Somalian">Somalian</option>
+                            <option value="Ethiopian">Ethiopian</option>
+                            <option value="Nigerian">Nigerian</option>
+                            <option value="Ghanian">Ghanian</option>
+                            <option value="Southafrican">Southafrican</option>
+                            <option value="Angolan">Angolan</option>
+                            <option value="Malawian">Malawian</option>
+                            <!-- Add more countries as needed -->
+                        </select>
+                        <select name="payment" id="preferredPaymentMethod" required>
+                            <option value="" disabled selected>Preferred Payment Method</option>
+                            <option value="apartment">Bank</option>
+                            <option value="bungalow">Mpesa</option>
+                            <option value="bedsitter">Paypal</option>
+                            <option value="airbnb">Other</option>
+                        </select>
+
+                        <!-- landlord References -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Referees:</h4>
+                        <input type="text" id="reference1Name" placeholder="Reference 1: Name" required>
+                        <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" required> <br>
+                        <input type="text" id="reference2Name" placeholder="Reference 2: Name" required>
+                        <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" required> <br> <br>
+
+                        <!-- Basic Property Information xxxxxxxxxxxxxxxxxxxx -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Basic Property Information:</h4>
+                        <input type="text" id="propertyName" placeholder="Property Name" required>
+                        <select name="propertytype" id="propertyType" required>
+                            <option value="" disabled selected>Property Type</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="bungalow">Bungalo</option>
+                            <option value="bedsitter">Bedsitter</option>
+                            <option value="airbnb">AirBnB</option>
+                            <option value="commercial">Commercial</option>
+
+                            <!-- Add more types as needed -->
+                        </select>
+                        <input type="number" id="yearOfConstruction" placeholder="Number of Units/Houses" required>
+                        <br>
+                        <input type="text" id="physicalAddressLocation" placeholder="Physical Address / Location"
+                            required>
+                        <input type="text" id="nearestLandmarkRoad" placeholder="Nearest Landmark or Road" require>
+
+                        <!-- Add more types as needed -->
+                        </select>
+                        <select name="payment" id="physicalAddressLocation" required>
+                            <option value="" disabled selected>Ownership Document</option>
+                            <option value="titleDeed">Title Deed</option>
+                            <option value="leaseAgreement">Lease Agreement</option>
+                            <option value="businessRegistration">Business Registration Certificate</option>
+                            <option value="companyRegistration">Company Registration Certificate</option>
+
+                            <!-- Add more types as needed -->
+                        </select>
+                        <br> <br>
+
+
+                        <!-- Physical Features xxxxxxxxxxxxxxxxxxxx -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Physical Features:</h4>
+                        <input type="text" id="reference2Name" placeholder="Number of Floors" required>
+                        <input type="text" id="reference1Name" placeholder="Unit Types (e.g., 1BR, 2BR, bedsitter)"
+                            required>
+                        <input type="text" id="reference1Name"
+                            placeholder="Size of Each Unit (optional: square footage)" required>
+                        <select name="features" id="propertyFeatures" required>
+                            <option value="" disabled selected>Property Features:</option>
+                            <option value="Kenyan">Borehole / Water Tank</option>
+                            <option value="Ugandan">Parking</option>
+                            <option value="Tanzanian">Balcony</option>
+                            <option value="Burundian">Perimeter Wall</option>
+                            <option value="Congolese">Power Supply Type (Token, Postpaid)</option>
+                            <option value="Sudanese">Internet Availability</option>
+
+                            <!-- Add more features as needed and change into checkbox-->
+                        </select>
+
+
+                        <br> <br>
+
+                        <!-- Financial & Rent Details xxxxxxxxxxxxxxxxxxxxxx -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Financial & Rent Details:</h4>
+                        <input type="text" id="reference1Name"
+                            placeholder="Rent per Unit Type (1BR: 15k, 2BR: 22k, etc.)" required>
+                        <input type="text" id="reference2Name" placeholder="Security Deposit Required" required>
+                        <input type="text" id="reference1Contact"
+                            placeholder="Service Charges (garbage, security, etc.)" required> <br>
+                        <input type="text" id="reference2Name" placeholder="Penalties for Late Rent (if applicable)"
+                            required>
+                        <input type="text" id="reference2Name" placeholder="Rent Collection Method (cash, bank, Mpesa)"
+                            required>
+                        <input type="text" id="reference2Contact" placeholder="Rent Payment Due Date" required>
+
+                        <br> <br>
+
+
+                        <!-- Management Details xxxxxxxxxxxxxxxxxxxx -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Management Details:</h4>
+                        <input type="text" id="reference1Name" placeholder="Caretaker / Agent Full Name" required>
+                        <input type="text" id="reference2Name" placeholder="Caretaker Phone Number" required>
+                        <input type="text" id="reference1Contact" placeholder="Caretaker ID" required> <br>
+                        <input type="text" id="reference2Name" placeholder="On-site Office Availability" required>
+                        <input type="text" id="reference2Name" placeholder="Maintenance Contact or Contractor" required>
+                        <input type="text" id="reference2Contact"
+                            placeholder="Inspection Frequency (monthly, quarterly)" required>
+
+                        <br> <br>
+
+
+                        <!-- Security Details xxxxxxxxxxxxxxxxxxxx -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Security Details:</h4>
+                        <input type="text" id="reference1Name" placeholder="Security Company Name" required>
+                        <input type="text" id="reference2Name" placeholder="Security Guard Contact Info" required>
+                        <input type="text" id="reference1Contact" placeholder="Number of Guards (Day/Night)" required>
+                        <br>
+                        <input type="text" id="reference2Name" placeholder="CCTV Availability" required>
+                        <input type="text" id="reference2Name" placeholder="Gate Locking Protocols" required>
+                        <input type="text" id="reference2Contact"
+                            placeholder="Inspection Frequency (monthly, quarterly)" required>
+
+                        <br> <br>
+
+                        <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Attach Digital Documents:</h4>
+                        <div style="padding: 1em;">
+                            <!-- Ownership Documents (title, lease) -->
+                            <label for="ownership" style="font-size:1em">Ownership Documents (title, lease)</label>
+                            <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                            <div class="preview" id="imagePreviewContainer">
+                                <img id="ownershipPreview" src="" alt="Ownership Document Preview" width="100">
+                            </div> <br>
+                            <!-- passport photo -->
+                            <label for="passportPhoto" style="font-size:1em">Profile Photo</label>
+                            <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)"
+                                required>
+                            <div class="preview" id="passportPreviewContainer">
+                                <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
+                            </div> <br>
+                            <!-- property photo -->
+                            <label for="passportPhoto" style="font-size:1em">Property Photos</label>
+                            <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)"
+                                required>
+                            <div class="preview" id="passportPreviewContainer">
+                                <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
+                            </div> <br>
+                            <!-- Rent Agreement Template photo -->
+                            <label for="passportPhoto" style="font-size:1em">Rent Agreement Template</label>
+                            <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)"
+                                required>
+                            <div class="preview" id="passportPreviewContainer">
+                                <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
+                            </div> <br>
+                            <!-- Agent Agreement (if managed by Property Mkononi)photo -->
+                            <label for="passportPhoto" style="font-size:1em">Agent Agreement (if managed by Property
+                                Mkononi)</label>
+                            <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)"
+                                required>
+                            <div class="preview" id="passportPreviewContainer">
+                                <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
+                            </div>
+                        </div>
+
+                        <!-- Optional (but Valuable) Extras xxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Optional (but Valuable) Extras:</h4>
+                        <input type="text" id="reference1Name" placeholder="Floor Plans">
+                        <input type="text" id="reference2Name" placeholder="Historical Rent Changes">
+                        <input type="text" id="reference1Contact" placeholder="Occupancy Rate (%)"> <br>
+                        <input type="text" id="reference2Name" placeholder="Current Tenant List (with house numbers)">
+                        <input type="text" id="reference2Name" placeholder="Lease Start & End Dates">
+
+                        <br> <br>
+
+                        <!-- landlord References xxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            References:</h4>
+                        <input type="text" id="reference1Name" placeholder="Reference 1: Name" required>
+                        <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" required> <br>
+                        <input type="text" id="reference2Name" placeholder="Reference 2: Name" required>
+                        <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" required>
+
+                        <br> <br>
+
+                        <br> <br>
+
+                        <button id="submitButton" onclick="addOrUpdateProperty()">Add New Landlord</button>
+                        <button onclick="hideForm()" style="background-color: red">Cancel</button>
+                        <p style="padding: 0.5em;"></p>
+                    </div>
+
+                    <!-- landlord UI Table -->
+                    <table class="property-details">
+                        <thead>
+                            <tr>
+                                <th>landlord Name</th>
+                                <th>House No.</th>
+                                <th>Phone No.</th>
+                                <th>Apartment</th>
+                                <th>Rent Status</th>
+                                <th>House Condition</th>
+                                <th>Tenancy Duration</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="landlordTableBody" style="background-color: #f5f5f5;">
+                            <!-- Rows will be populated here -->
+                        </tbody>
+
+                        <!-- This is a sample Table Body only shown on the demo when a user clicks "view sample record" -->
+                        <tbody>
+                            <tr>
+                                <td colspan="8">No landlord records found.
+                                    <button class="sample-records-btn" onclick="viewSampleRecord()">View Sample
+                                        Record</button>
+                                </td>
+
+                                <!-- Javascript for sample data populated on the UI -->
+                                <script>
+                                    // Add event listener to the View Sample Record button
+                                    const viewSampleRecordButton = document.querySelector('.landlord-details button:first-child');
+                                    viewSampleRecordButton.addEventListener('click', function () {
+                                        const landlordTableBody = document.getElementById('landlordTableBody');
+                                        landlordTableBody.style.fontSize = "small";
+
+                                        landlordTableBody.innerHTML = `
+                                            <tr>
+            <td>Oscar Omondi</td>
+            <td>E3B</td>
+            <td>+254723006046</td>
+            <td>Triple A Heights</td>
+            <td>No Arrears</td>
+            <td>December 23, 2024</td>
+            <td>January 5, 2025</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Jane Doe</td>
+            <td>D2A</td>
+            <td>+254700123456</td>
+            <td>Sunny Apartments</td>
+            <td>1 Month</td>
+            <td>November 15, 2024</td>
+            <td>December 1, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>John Smith</td>
+            <td>C1C</td>
+            <td>+254711987654</td>
+            <td>Ocean View</td>
+            <td>2 Months</td>
+            <td>October 10, 2024</td>
+            <td>October 25, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Emily Brown</td>
+            <td>B4D</td>
+            <td>+254722543210</td>
+            <td>Mountain Ridge</td>
+            <td>Clear</td>
+            <td>September 5, 2024</td>
+            <td>September 20, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Michael Green</td>
+            <td>A5E</td>
+            <td>+254733765432</td>
+            <td>Palm Villas</td>
+            <td>No Arrears</td>
+            <td>August 20, 2024</td>
+            <td>September 3, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Lisa White</td>
+            <td>F6F</td>
+            <td>+254745908123</td>
+            <td>Greenview Estate</td>
+            <td>3 Months</td>
+            <td>July 15, 2024</td>
+            <td>August 1, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Alex Carter</td>
+            <td>G7G</td>
+            <td>+254748001234</td>
+            <td>Crystal Towers</td>
+            <td>Clear</td>
+            <td>June 10, 2024</td>
+            <td>June 25, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Sophia Turner</td>
+            <td>H8H</td>
+            <td>+254720345678</td>
+            <td>Hilltop Residences</td>
+            <td>2 Months</td>
+            <td>May 1, 2024</td>
+            <td>May 15, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Chris Adams</td>
+            <td>I9I</td>
+            <td>+254712987654</td>
+            <td>Maple Suites</td>
+            <td>1 Month</td>
+            <td>April 10, 2024</td>
+            <td>April 25, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+                <tr>
+            <td>Oscar Omondi</td>
+            <td>E3B</td>
+            <td>+254723006046</td>
+            <td>Triple A Heights</td>
+            <td>No Arrears</td>
+            <td>December 23, 2024</td>
+            <td>January 5, 2025</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Jane Doe</td>
+            <td>D2A</td>
+            <td>+254700123456</td>
+            <td>Sunny Apartments</td>
+            <td>1 Month</td>
+            <td>November 15, 2024</td>
+            <td>December 1, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>John Smith</td>
+            <td>C1C</td>
+            <td>+254711987654</td>
+            <td>Ocean View</td>
+            <td>2 Months</td>
+            <td>October 10, 2024</td>
+            <td>October 25, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Emily Brown</td>
+            <td>B4D</td>
+            <td>+254722543210</td>
+            <td>Mountain Ridge</td>
+            <td>Clear</td>
+            <td>September 5, 2024</td>
+            <td>September 20, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Michael Green</td>
+            <td>A5E</td>
+            <td>+254733765432</td>
+            <td>Palm Villas</td>
+            <td>No Arrears</td>
+            <td>August 20, 2024</td>
+            <td>September 3, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+                <tr>
+            <td>Oscar Omondi</td>
+            <td>E3B</td>
+            <td>+254723006046</td>
+            <td>Triple A Heights</td>
+            <td>No Arrears</td>
+            <td>December 23, 2024</td>
+            <td>January 5, 2025</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Alice Johnson</td>
+            <td>J10A</td>
+            <td>+254729876543</td>
+            <td>Sunrise Apartments</td>
+            <td>No Arrears</td>
+            <td>February 15, 2024</td>
+            <td>March 1, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Jane Smith</td>
+            <td>C4C</td>
+            <td>+254713005678</td>
+            <td>Elmwood Residences</td>
+            <td>1 Month Late</td>
+            <td>November 28, 2024</td>
+            <td>December 15, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>John Doe</td>
+            <td>B2A</td>
+            <td>+254702345678</td>
+            <td>Green Valley</td>
+            <td>No Arrears</td>
+            <td>December 1, 2024</td>
+            <td>January 1, 2025</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Mary Atieno</td>
+            <td>D12F</td>
+            <td>+254745678910</td>
+            <td>Brookview Estate</td>
+            <td>2 Weeks Late</td>
+            <td>November 30, 2024</td>
+            <td>December 20, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Chris Wanjiru</td>
+            <td>K1D</td>
+            <td>+254701234567</td>
+            <td>Lakeview Apartments</td>
+            <td>No Arrears</td>
+            <td>October 10, 2024</td>
+            <td>November 10, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+                <tr>
+            <td>Oscar Omondi</td>
+            <td>E3B</td>
+            <td>+254723006046</td>
+            <td>Triple A Heights</td>
+            <td>No Arrears</td>
+            <td>December 23, 2024</td>
+            <td>January 5, 2025</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Alice Johnson</td>
+            <td>J10A</td>
+            <td>+254729876543</td>
+            <td>Sunrise Apartments</td>
+            <td>No Arrears</td>
+            <td>February 15, 2024</td>
+            <td>March 1, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Jane Smith</td>
+            <td>C4C</td>
+            <td>+254713005678</td>
+            <td>Elmwood Residences</td>
+            <td>1 Month Late</td>
+            <td>November 28, 2024</td>
+            <td>December 15, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>John Doe</td>
+            <td>B2A</td>
+            <td>+254702345678</td>
+            <td>Green Valley</td>
+            <td>No Arrears</td>
+            <td>December 1, 2024</td>
+            <td>January 1, 2025</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Mary Atieno</td>
+            <td>D12F</td>
+            <td>+254745678910</td>
+            <td>Brookview Estate</td>
+            <td>2 Weeks Late</td>
+            <td>November 30, 2024</td>
+            <td>December 20, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Chris Wanjiru</td>
+            <td>K1D</td>
+            <td>+254701234567</td>
+            <td>Lakeview Apartments</td>
+            <td>No Arrears</td>
+            <td>October 10, 2024</td>
+            <td>November 10, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Emily Karanja</td>
+            <td>A1A</td>
+            <td>+254725678901</td>
+            <td>Hilltop Villas</td>
+            <td>No Arrears</td>
+            <td>July 15, 2024</td>
+            <td>August 15, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Peter Mwangi</td>
+            <td>F2C</td>
+            <td>+254721234567</td>
+            <td>Silverline Apartments</td>
+            <td>3 Weeks Late</td>
+            <td>October 20, 2024</td>
+            <td>November 10, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Daniel Ochieng</td>
+            <td>G3B</td>
+            <td>+254712345678</td>
+            <td>Maplewood Heights</td>
+            <td>2 Months Late</td>
+            <td>August 1, 2024</td>
+            <td>September 1, 2024</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Esther Njeri</td>
+            <td>H10D</td>
+            <td>+254734567890</td>
+            <td>Royal Palm Estate</td>
+            <td>No Arrears</td>
+            <td>December 5, 2024</td>
+            <td>January 5, 2025</td>
+            <td>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </td>
+        </tr>
+        
+                                        `;
+
+
+                                        // Function to alternate row background colors
+                                        function updateRowColors() {
+                                            const rows = landlordTableBody.querySelectorAll('tr');
+                                            rows.forEach((row, index) => {
+                                                row.style.backgroundColor = (index % 2 === 0) ? '#f5f5f5' : '#8cb9c5';
+                                            });
+                                        }
+
+                                        // Call the function after the table is populated
+                                        updateRowColors();
+
+
+                                        // Style for Edit and Delete buttons
+
+
+                                        // Add event listeners to the dynamically created Edit and Delete buttons
+                                        const editButton = landlordTableBody.querySelector('.edit-btn');
+                                        const deleteButton = landlordTableBody.querySelector('.delete-btn');
+
+                                        editButton.addEventListener('click', function () {
+                                            const landlordName = editButton.parentElement.parentElement.cells[0].textContent;
+                                            alert(`You are about to edit ${landlordName}'s information.`);
+                                        });
+
+                                        deleteButton.addEventListener('click', function () {
+                                            const landlordName = deleteButton.parentElement.parentElement.cells[0].textContent;
+                                            alert(`You are about to delete ${landlordName}'s information.`);
+                                        });
+                                    });
+
+
+
+
+
+
+
+                                    // Use event delegation to handle Edit and Delete button events
+                                    document.getElementById('landlordTableBody').addEventListener('click', function (event) {
+                                        const target = event.target;
+
+                                        // Check if the clicked element is an Edit button
+                                        if (target.classList.contains('edit-btn')) {
+                                            const landlordName = target.parentElement.parentElement.cells[0].textContent;
+                                            alert(`You are about to edit ${landlordName}'s information.`);
+                                        }
+
+                                        // Check if the clicked element is a Delete button
+                                        if (target.classList.contains('delete-btn')) {
+                                            const landlordName = target.parentElement.parentElement.cells[0].textContent;
+                                            const confirmation = confirm(`By taking this action, you will no longer be able to access ${landlordName}'s information. Press "OK" to completely erase landlord data.`);
+                                            if (confirmation) {
+                                                // Remove the row from the table
+                                                target.parentElement.parentElement.remove();
+                                            }
+                                        }
+                                    });
+
+                                </script>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Javascript for filter -->
+                    <script>
+                        const filterCategory = document.getElementById('filterCategory');
+                        const filterDetails = document.getElementById('filterDetails');
+                        const filterMessage = document.getElementById('filterMessage');
+                        const landlordTableBody = document.getElementById('landlordTableBody');
+                        const clearFilters = document.getElementById('clearFilters');
+
+
+                        const filterMap = {
+                            landlordName: 0,
+                            propertyName: 1,
+                            apartment: 3,
+                            rentStatus: 4,
+                            houseCondition: 5,
+                            tenancyDuration: 6,
+                        };
+
+                        // Populate sub-dropdown dynamically based on the selected category
+                        function populateFilterDetails() {
+                            const selectedCategory = filterCategory.value;
+                            filterDetails.innerHTML = `<option value="">Select Details</option>`;
+                            filterDetails.disabled = true;
+
+                            if (!selectedCategory) return;
+
+                            const columnIndex = filterMap[selectedCategory];
+                            const uniqueValues = new Set();
+
+                            // Gather unique values from the table
+                            Array.from(landlordTableBody.rows).forEach(row => {
+                                const cellValue = row.cells[columnIndex].textContent.trim();
+                                uniqueValues.add(cellValue);
+                            });
+
+                            // Populate the dropdown with unique values
+                            uniqueValues.forEach(value => {
+                                const option = document.createElement('option');
+                                option.value = value;
+                                option.textContent = value;
+                                filterDetails.appendChild(option);
+                            });
+
+                            filterDetails.disabled = false;
+                        }
+
+                        // Apply the filter based on the selected details
+                        function applyFilter() {
+                            const selectedCategory = filterCategory.value;
+                            const selectedDetail = filterDetails.value;
+
+                            if (!selectedCategory || !selectedDetail) {
+                                Array.from(landlordTableBody.rows).forEach(row => {
+                                    row.style.display = '';
+                                });
+                                filterMessage.textContent = '';
+                                return;
+                            }
+
+                            const columnIndex = filterMap[selectedCategory];
+                            Array.from(landlordTableBody.rows).forEach(row => {
+                                const cellValue = row.cells[columnIndex].textContent.trim();
+                                row.style.display = cellValue === selectedDetail ? '' : 'none';
+                            });
+
+                            filterMessage.textContent = `"${selectedDetail}" has been filtered`;
+                        }
+
+                        // Clear all filters
+                        function clearAllFilters() {
+                            filterCategory.value = '';
+                            filterDetails.innerHTML = `<option value="">Select Details</option>`;
+                            filterDetails.disabled = true;
+
+                            Array.from(landlordTableBody.rows).forEach(row => {
+                                row.style.display = '';
+                            });
+
+                            filterMessage.textContent = '';
+                        }
+
+                        // Add event listeners
+                        filterCategory.addEventListener('change', populateFilterDetails);
+                        filterDetails.addEventListener('change', applyFilter);
+                        clearFilters.addEventListener('click', clearAllFilters);
+
+
+                    </script>
+                </section>
+            </main>
+        </div>
+    </section>
+
+    <script>
+        function toggleMenu() {
+            const navBar = document.getElementById('nav-bar');
+            navBar.classList.toggle('open');
+        }
+    </script>
+    <!-- JavaScript to Toggle Form Visibility -->
+    <script>
+        let editIndex = -1; // Keeps track of the row being edited
+
+        // Function to show the form
+        function showForm() {
+            document.getElementById("landlordForm").style.display = "block";
+            document.getElementById("addLandlordBtn").style.display = "none"; // Hide "Add landlord" button
+        }
+
+        // Function to hide the form
+        function hideForm() {
+            document.getElementById("landLordForm").style.display = "none";
+            document.getElementById("addlandlordBtn").style.display = "block"; // Show "Add landlord" button
+            clearForm(); // Clear the form when hiding
+            editIndex = -1; // Reset the edit index
+            document.getElementById("submitButton").textContent = "Add landlord";
+            document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
+        }
+
+        // Function to add or update a landlord
+        // Add javascript to add or update landlord information in the database
+        function addOrUpdatelandlord() {
+            //landlord details
+            const landlordName = document.getElementById("landlordName").value;
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            const emailAddress = document.getElementById("emailAddress").value;
+            const nationality = document.getElementById("landlordNationality").value;
+            const idNumber = document.getElementById("idNumber").value;
+            const employmentStatus = document.getElementById("employmentStatus").value;
+            //household details
+            const householdSize = document.getElementById("householdSize").value;
+            const householdMinors = document.getElementById("householdMinors").value;
+            const householdManager = document.getElementById("householdManager").value;
+            const householdHelpName = document.getElementById("householdHelpName").value;
+            const householdHelpId = document.getElementById("householdHelpId").value;
+            //references
+            const reference1Name = document.getElementById("reference1Name").value;
+            const reference1Contact = document.getElementById("reference1Contact").value;
+            const reference2Name = document.getElementById("reference2Name").value;
+            const reference2Contact = document.getElementById("reference2Contact").value;
+            //property details
+            const apartment = document.getElementById("apartment").value;
+            const houseNumber = document.getElementById("houseNumber").value;
+            const monthlyRent = document.getElementById("monthlyRent").value;
+            const securityDeposit = document.getElementById("securityDeposit").value;
+            const bedrooms = document.getElementById("bedrooms").value;
+            const houseCondition = document.getElementById("houseCondition").value;
+            const leaseStartDate = document.getElementById("leaseStartDate").value;
+            const leaseEndDate = document.getElementById("leaseEndDate").value;
+
+            if (landlordName === "" || houseNumber === "" || phoneNumber === "" || !emailAddress
+                || nationality === "" || idNumber === "" || employmentStatus === "" || householdSize === "" ||
+                householdMinors === "" || householdManager === "" || householdHelpName === "" || householdHelpId === "" ||
+                reference1Name === "" || reference1Contact === "" || reference2Name === "" || reference2Contact === "" ||
+                !apartment || !houseNumber || !monthlyRent | !securityDeposit ||
+                !bedrooms || !houseCondition || !leaseStartDate || !leaseEndDate) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // table body on UI
+            const table = document.getElementById("landlordTableBody");
+
+            const profilePictureSrc = document.getElementById("profilePicture").files[0] ? URL.createObjectURL(document.getElementById("profilePicture").files[0]) : "";
+            const passportPhotoSrc = document.getElementById("passportPhoto").files[0] ? URL.createObjectURL(document.getElementById("passportPhoto").files[0]) : "";
+
+            if (editIndex === -1) {
+                // Add a new row
+                const newRow = table.insertRow();
+                newRow.innerHTML = `
+                    <td>${landlordName}</td>
+                    <td>${houseNumber}</td>
+                    <td>${phoneNumber}</td>
+                    <td>${apartment}</td>
+                    <td>${rentStatus}</td>
+                    <td>${tenancyDuration}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editlandLord(this)">Edit</button>
+                        <button class="btn-delete" onclick="deleteLandlord(this)">Delete</button>
+                    </td>
+                    <td>${houseCondition}</td>
+                    <td>${leaseDate}</td>
+                    <td>${emailAddress}</td>
+                    <td>${idNumber}</td>
+                    <td><img src="${profilePictureSrc}" alt="Profile Picture" width="100"></td>
+                    <td>${passportPhoto}</td>
+                    <td><img src="${passportPhotoSrc}" alt="Passport Photo" width="100"></td>
+                    <td>${employmentStatus}</td>
+                    <td>${houseConditionVerified}</td>
+                    <td>Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}</td>
+                `;
+            } else {
+                // Update existing row
+                const row = table.rows[editIndex];
+                row.cells[0].textContent = landlordName;
+                row.cells[1].textContent = houseNumber;
+                row.cells[2].textContent = phoneNumber;
+                row.cells[3].textContent = apartment;
+                row.cells[4].textContent = rentStatus;
+                row.cells[5].textContent = tenancyDuration;
+                row.cells[7].textContent = houseCondition;
+                row.cells[8].textContent = leaseDate;
+                row.cells[9].textContent = emailAddress;
+                row.cells[10].textContent = idNumber;
+                row.cells[11].innerHTML = `<img src="${profilePictureSrc}" alt="Profile Picture" width="20">`;
+                row.cells[12].textContent = passportPhoto;
+                row.cells[13].innerHTML = `<img src="${passportPhotoSrc}" alt="Passport Photo" width="20">`;
+                row.cells[14].textContent = employmentStatus;
+                row.cells[15].textContent = houseConditionVerified;
+                row.cells[16].innerHTML = `Ref1: ${reference1Name}, ${reference1Contact} <br>Ref2: ${reference2Name}, ${reference2Contact}`;
+
+                // Reset editIndex and button text
+                editIndex = -1;
+                document.getElementById("submitButton").textContent = "Add landlord";
+                document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
+            }
+
+            // Hide the form and clear fields
+            hideForm();
+        }
+
+        // Function to delete a landlord row
+        function deleteLandlord(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        // Function to edit a landlord row
+        function editLandlord(button) {
+            showForm(); // Show form when editing
+            const row = button.parentNode.parentNode;
+            editIndex = row.rowIndex - 1; // Set edit index
+
+            // Populate form fields with the row data
+            document.getElementById("landlordName").value = row.cells[0].textContent;
+            document.getElementById("houseNumber").value = row.cells[1].textContent;
+            document.getElementById("phoneNumber").value = row.cells[2].textContent;
+            document.getElementById("apartment").value = row.cells[3].textContent;
+            document.getElementById("monthlyRent").value = row.cells[4].textContent;
+            document.getElementById("houseCondition").value = row.cells[5].textContent;
+            document.getElementById("leaseStartDate").value = row.cells[6].textContent;
+
+
+
+            // Change button text to "Update" and color to blue
+            const submitButton = document.getElementById("submitButton");
+            submitButton.textContent = "Update landlord";
+            submitButton.style.backgroundColor = "blue";
+        }
+
+        // Function to preview the profile picture
+        function previewImage(event) {
+            const imagePreview = document.getElementById('imagePreview');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const file = event.target.files[0];
+            if (file) {
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreviewContainer.style.display = 'block';
+            } else {
+                imagePreviewContainer.style.display = 'none';
+            }
+        }
+
+        // Function to preview the passport photo
+        function previewImage(event) {
+            const passportPreview = document.getElementById('passportPreview');
+            const passportPreviewContainer = document.getElementById('passportPreviewContainer');
+            const file = event.target.files[0];
+            if (file) {
+                passportPreview.src = URL.createObjectURL(file);
+                passportPreviewContainer.style.display = 'block';
+            } else {
+                passportPreviewContainer.style.display = 'none';
+            }
+        }
+
+        // Function to clear the form fields
+        function clearForm() {
+            document.getElementById("landlordName").value = '';
+            document.getElementById("houseNumber").value = '';
+            document.getElementById("phoneNumber").value = '';
+            document.getElementById("apartment").value = '';
+            document.getElementById("rentStatus").value = '';
+            document.getElementById("tenancyDuration").value = '';
+            document.getElementById("houseCondition").value = '';
+            document.getElementById("leaseDate").value = '';
+            document.getElementById("emailAddress").value = '';
+            document.getElementById("idNumber").value = '';
+            document.getElementById("employmentStatus").value = '';
+            document.getElementById("reference1Name").value = '';
+            document.getElementById("reference1Contact").value = '';
+            document.getElementById("reference1ID").value = '';
+            document.getElementById("reference2Name").value = '';
+            document.getElementById("reference2Contact").value = '';
+            document.getElementById("reference2ID").value = '';
+            document.getElementById("profilePicture").value = '';
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+            document.getElementById('passportPreview').src = '';
+            document.getElementById('passportPreviewContainer').style.display = 'none';
+
+            // Uncheck checkboxes
+            /* document.getElementById("tapWater").checked = false;
+             document.getElementById("windows").checked = false;
+             document.getElementById("doorLocks").checked = false;
+             document.getElementById("electricalSockets").checked = false;
+             document.getElementById("wallPainted").checked = false;
+             document.getElementById("otherCondition").checked = false; */
+
+
+            // Function to load landlords from the DATABASE
+            function loadLandlords() {
+                fetch('http://localhost:3000/landlords')
+                    .then(response => response.json())
+                    .then(landlords => {
+                        const table = document.getElementById("landlordTableBody");
+                        table.innerHTML = ''; // Clear existing rows
+
+                        landlords.forEach(landlord => {
+                            const newRow = table.insertRow();
+                            newRow.innerHTML = `
+                    <td>${landlord.landlordName}</td>
+                    <td>${landlord.houseNumber}</td>
+                    <td>${landlord.phoneNumber}</td>
+                    <td>${landlord.apartment}</td>
+                    <td>${landlord.rentStatus}</td>
+                    <td>${landlord.tenancyDuration}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editlandLord(${landlord.id})">Edit</button>
+                        <button class="btn-delete" onclick="deleteLandlord(${landlord.id})">Delete</button>
+                    </td>
+                    <td>${landlord.houseCondition}</td>
+                    <td>${landlord.leaseDate}</td>
+                `;
+                        });
+                    });
+            }
+
+            // Function to add or update a landlord
+            function addOrUpdateLandlord() {
+                const landlordName = document.getElementById("landlordName").value;
+                const houseNumber = document.getElementById("houseNumber").value;
+                const phoneNumber = document.getElementById("phoneNumber").value;
+                const apartment = document.getElementById("apartment").value;
+                const rentStatus = document.getElementById("rentStatus").value;
+                const tenancyDuration = document.getElementById("tenancyDuration").value;
+                const houseCondition = document.getElementById("houseCondition").value;
+                const leaseDate = document.getElementById("leaseDate").value;
+
+                const landlordData = {
+                    landlordName, houseNumber, phoneNumber, apartment,
+                    rentStatus, tenancyDuration, houseCondition, leaseDate
+                };
+
+                if (editIndex === -1) {
+                    // Add landlord
+                    fetch('http://localhost:3000/landlords', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(landlordData)
+                    })
+                        .then(response => response.json())
+                        .then(() => {
+                            loadLandlords(); // Reload landlords
+                            hideForm(); // Hide form
+                        });
+                } else {
+                    // Update landlord
+                    fetch(`http://localhost:3000/landlords/${editIndex}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(landlordData)
+                    })
+                        .then(response => response.json())
+                        .then(() => {
+                            loadLandlords(); // Reload landlords
+                            hideForm(); // Hide form
+                        });
+                }
+            }
+
+            // Function to delete a landlord
+            function deleteLandlord(id) {
+                fetch(`http://localhost:3000/landlords/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => response.json())
+                    .then(() => {
+                        loadLandlords(); // Reload landlords
+                    });
+            }
+
+        }
+    </script>
+</body>
+
+</html>
