@@ -293,22 +293,33 @@
         <div class="app-container">
             <!-- <button class="dropdown-btn" onclick="toggleMenu()">☰ </button> -->
 
-            <nav id="nav-bar">
+            <!--NAVBAR MENU COMPONENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+            <nav id="nav-bar" >
                 <!-- logo -->
-                <img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;" src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1752105600&v=beta&t=f3T2oxwMtA_dSjM9CpFBxc6oLtdBVhpjuS4ns3N-crE"> <!-- Replace 'logo.png' with your logo file path -->
+                 <div style="display: flex; justify-content:center; padding: 1em">
+<img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;"
+                    src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1755129600&v=beta&t=HBVVXrd_4RmLt9LvW6E6n478L8_6AuZQxA4RGta25_A">
 
-
-                    <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #C1B49C; color: white;">Rent Status</div> -->
-                    <a href="/admin_dashboard" class="menu-btn" style="background-color: #C1B49C; color: white; text-decoration: none;">Dashboard</a>                       
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_properties';" style="color: black; text-decoration-style: none;">Properties</div>
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_vendors';" style="color: black; text-decoration-style: none;">Vendors</div>
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_requests';" style="color: black; text-decoration-style: none;">Requests</div>
-                 
+                 </div>
+                <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+                <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+                <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color:#C1B49C;">Dashboard
+                </div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_landlords';"
+                    style="color: #C1B49C; text-decoration-style: none;">Landlords</div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_properties';"
+                    style="color: #C1B49C; text-decoration-style: none;">Properties</div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin.vendors';"
+                    style="color: #C1B49C; text-decoration-style: none;">Vendors</div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_requests';"
+                    style="color: #C1B49C; text-decoration-style: none;">Requests <div class="notification-alert"> <button id="requests-alert" style="border-radius: 1em; background-color: red ; color: white; height: 2em; width: 2em" >6</button> </div></div>
 
                 <br>
+
                 <footer style="padding: 1em; text-align: center;">
-                    <button style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact
-                        IT Support</button>
+                    <button onclick="contactItSupportBtn()"
+                        style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact IT
+                        Support</button>
                 </footer>
             </nav>
 
