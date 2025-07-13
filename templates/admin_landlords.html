@@ -22,7 +22,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>Property Status</title>
+    <title>Landlord Status</title>
     <style>
         /*Basic Styling*/
         @font-face {
@@ -381,6 +381,7 @@
             <!-- <button class="dropdown-btn" onclick="toggleMenu()">☰ </button> -->
 
 
+
             <!--NAVBAR MENU COMPONENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
             <nav id="nav-bar" >
                 <!-- logo -->
@@ -391,11 +392,11 @@
                  </div>
                 <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
                 <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_dashboard';"
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='pm-frontend/templates/admin_dashboard';"
                     style="color: #C1B49C; text-decoration-style: none;">Dashboard</div>
                 <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color:#C1B49C;">Landlords
                 </div>
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_properties';"
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_properties';"
                     style="color: #C1B49C; text-decoration-style: none;">Properties</div>
                 <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin.vendors';"
                     style="color: #C1B49C; text-decoration-style: none;">Vendors</div>
@@ -433,17 +434,22 @@
 
                     <!-- Add new landlord button and filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
                     <div class="filter-section" style="display: flex; justify-content: space-between; ">
+
+
                         <!-- Add new landlord Button xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-                        <button id="addLandlordBtn" onclick="showForm()" style="
+                        <div>
+                            <button id="addLandlordBtn" onclick="showForm()" style="
                         padding: 10px;
                         background-color: #4CAF50;
                         color: white;
                         border: none;
-                        cursor: pointer;">Add New Landlord
-                        </button>
+                        cursor: pointer;">Register New Landlord
+                            </button>
+                        </div>
 
 
-                        <!-- Property filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+                        <!-- Landlord FILTER xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
                         <div
                             style="background-color: #f5f5f5; padding: 0.3em; border-radius: 0.2em; font-size: smaller; padding: 1em;">
                             <!-- Filter options -->
@@ -451,8 +457,8 @@
                                 <label for="filterCategory">Filter By: </label>
                                 <select id="filterCategory">
                                     <option value="">Select a Category</option>
-                                    <option value="landlordName">Landlord Name</option>
-                                    <option value="propertyName">Property Name</option>
+                                    <option value="landlordName">Client ID</option>
+                                    <option value="propertyName">Landlord Name</option>
 
                                     <!-- CONSIDER ADDING NEW FILTERS INCLUDING ARREARS
                                     <option value="rentStatus">Rent Status</option>
@@ -475,7 +481,7 @@
                     </div>
 
                     <!-- landlord Form xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-                    <div class="landlord-form" id="landlordForm" style="background-color: aliceblue;">
+                    <form class="landlord-form" id="landlordForm" style="background-color: aliceblue;" action="/addlandord" method="post">
                         <br>
 
 
@@ -483,7 +489,7 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Personal Information:</h4>
-                        <input type="text" id="ownersFullName" placeholder="Owner's Full Name" required>
+                        <input type="text" id="ownersFullName" placeholder="Landlord Full Name" required>
                         <input type="text" id="physicalAddressLocation" placeholder="National ID or Passport" required>
                         <input type="text" id="reference1Contact" placeholder="Contact Number (Phone/WhatsApp)"
                             required> <br>
@@ -516,14 +522,7 @@
                             <option value="airbnb">Other</option>
                         </select>
 
-                        <!-- landlord References -->
-
-                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
-                            Referees:</h4>
-                        <input type="text" id="reference1Name" placeholder="Reference 1: Name" required>
-                        <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" required> <br>
-                        <input type="text" id="reference2Name" placeholder="Reference 2: Name" required>
-                        <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" required> <br> <br>
+                        <br> <br>
 
                         <!-- Basic Property Information xxxxxxxxxxxxxxxxxxxx -->
 
@@ -637,6 +636,12 @@
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Attach Digital Documents:</h4>
                         <div style="padding: 1em;">
+                            <!-- KRA pin document -->
+                            <label for="kraDocument" style="font-size:1em">KRA Pin Document</label>
+                            <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                            <div class="preview" id="imagePreviewContainer">
+                                <img id="ownershipPreview" src="" alt="Ownership Document Preview" width="100">
+                            </div> <br>
                             <!-- Ownership Documents (title, lease) -->
                             <label for="ownership" style="font-size:1em">Ownership Documents (title, lease)</label>
                             <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
@@ -699,22 +704,23 @@
 
                         <br> <br>
 
-                        <button id="submitButton" onclick="addOrUpdateProperty()">Add New Landlord</button>
+                        <button id="submitButton" onclick="addOrUpdateLandlord()">Register New Landlord</button>
                         <button onclick="hideForm()" style="background-color: red">Cancel</button>
                         <p style="padding: 0.5em;"></p>
-                    </div>
+                        </form>
 
-                    <!-- landlord UI Table -->
-                    <table class="property-details">
+                    <!-- admin landlord UI Table -->
+                    <table class="landlord-details">
                         <thead>
                             <tr>
-                                <th>landlord Name</th>
-                                <th>House No.</th>
+                                <th>Client ID</th>
+                                <!-- client ID should be auto assigned upon registration. use this taxonomy - PM_L_251223_001 (company - PM, user type, registration date, registration position) -->
+                                <th>Landlord Name</th>
+                                <th>No. of Apartments</th>
                                 <th>Phone No.</th>
-                                <th>Apartment</th>
-                                <th>Rent Status</th>
-                                <th>House Condition</th>
-                                <th>Tenancy Duration</th>
+                                <th>Email Address</th>
+                                <th>Repair/Maintenance Status</th>
+                                <th>Pending Arrears</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -722,7 +728,7 @@
                             <!-- Rows will be populated here -->
                         </tbody>
 
-                        <!-- This is a sample Table Body only shown on the demo when a user clicks "view sample record" -->
+                        <!-- This is a sample Table Body only shown on the demo when a user clicks "view sample record" xxxxxxxxxxxxxxxxxxxx-->
                         <tbody>
                             <tr>
                                 <td colspan="8">No landlord records found.
@@ -740,390 +746,49 @@
 
                                         landlordTableBody.innerHTML = `
                                             <tr>
+            <td>PM_L_251223_001</td>
             <td>Oscar Omondi</td>
-            <td>E3B</td>
+            <td>
+                        <select name="PM_L_251223_001Properties" id="propertyList" required>
+                            <option value="" disabled selected>Select a Property:</option>
+                            <option value="property1001">Triple A Heights</option>
+                            <option value="property2001">Movenpick</option>
+                            <option value="property3001">Aluta House</option>
+                            <option value="property4001">Perimeter Wall</option> <!-- Add more listings. in the DB, each property is added in a separate row -->
+                        </select>
+
+            </td>
             <td>+254723006046</td>
-            <td>Triple A Heights</td>
-            <td>No Arrears</td>
-            <td>December 23, 2024</td>
-            <td>January 5, 2025</td>
+            <td>fghjkl@gmail.com</td>
+            <td>Active</td> <!-- when repairs are active, click on the text and listings with active repairs will pop up, then you can select one -->
+            <td>No Arrears</td> <!-- The arrears will be in total, as long as a listing is not selected. When selected, arrears data from the specific listing will be retrieved and populated here -->
+
             <td>
                 <button class="edit-btn">Edit</button>
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
         <tr>
+            <td>PM_L_251224_002</td>
             <td>Jane Doe</td>
-            <td>D2A</td>
-            <td>+254700123456</td>
             <td>Sunny Apartments</td>
-            <td>1 Month</td>
-            <td>November 15, 2024</td>
-            <td>December 1, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>John Smith</td>
-            <td>C1C</td>
-            <td>+254711987654</td>
-            <td>Ocean View</td>
-            <td>2 Months</td>
-            <td>October 10, 2024</td>
-            <td>October 25, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Emily Brown</td>
-            <td>B4D</td>
-            <td>+254722543210</td>
-            <td>Mountain Ridge</td>
-            <td>Clear</td>
-            <td>September 5, 2024</td>
-            <td>September 20, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Michael Green</td>
-            <td>A5E</td>
-            <td>+254733765432</td>
-            <td>Palm Villas</td>
+             <td>+2541112238902</td>
+            <td>fghjkl@gmail.com</td>
+            <td>Active</td>
             <td>No Arrears</td>
-            <td>August 20, 2024</td>
-            <td>September 3, 2024</td>
             <td>
                 <button class="edit-btn">Edit</button>
                 <button class="delete-btn">Delete</button>
             </td>
         </tr>
         <tr>
-            <td>Lisa White</td>
-            <td>F6F</td>
-            <td>+254745908123</td>
-            <td>Greenview Estate</td>
-            <td>3 Months</td>
-            <td>July 15, 2024</td>
-            <td>August 1, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Alex Carter</td>
-            <td>G7G</td>
-            <td>+254748001234</td>
-            <td>Crystal Towers</td>
-            <td>Clear</td>
-            <td>June 10, 2024</td>
-            <td>June 25, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Sophia Turner</td>
-            <td>H8H</td>
-            <td>+254720345678</td>
-            <td>Hilltop Residences</td>
-            <td>2 Months</td>
-            <td>May 1, 2024</td>
-            <td>May 15, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Chris Adams</td>
-            <td>I9I</td>
-            <td>+254712987654</td>
-            <td>Maple Suites</td>
-            <td>1 Month</td>
-            <td>April 10, 2024</td>
-            <td>April 25, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-                <tr>
-            <td>Oscar Omondi</td>
-            <td>E3B</td>
-            <td>+254723006046</td>
-            <td>Triple A Heights</td>
-            <td>No Arrears</td>
-            <td>December 23, 2024</td>
-            <td>January 5, 2025</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Jane Doe</td>
-            <td>D2A</td>
-            <td>+254700123456</td>
-            <td>Sunny Apartments</td>
-            <td>1 Month</td>
-            <td>November 15, 2024</td>
-            <td>December 1, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>John Smith</td>
-            <td>C1C</td>
-            <td>+254711987654</td>
-            <td>Ocean View</td>
-            <td>2 Months</td>
-            <td>October 10, 2024</td>
-            <td>October 25, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Emily Brown</td>
-            <td>B4D</td>
-            <td>+254722543210</td>
-            <td>Mountain Ridge</td>
-            <td>Clear</td>
-            <td>September 5, 2024</td>
-            <td>September 20, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Michael Green</td>
-            <td>A5E</td>
-            <td>+254733765432</td>
-            <td>Palm Villas</td>
-            <td>No Arrears</td>
-            <td>August 20, 2024</td>
-            <td>September 3, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-                <tr>
-            <td>Oscar Omondi</td>
-            <td>E3B</td>
-            <td>+254723006046</td>
-            <td>Triple A Heights</td>
-            <td>No Arrears</td>
-            <td>December 23, 2024</td>
-            <td>January 5, 2025</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Alice Johnson</td>
-            <td>J10A</td>
-            <td>+254729876543</td>
-            <td>Sunrise Apartments</td>
-            <td>No Arrears</td>
-            <td>February 15, 2024</td>
-            <td>March 1, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Jane Smith</td>
-            <td>C4C</td>
-            <td>+254713005678</td>
-            <td>Elmwood Residences</td>
-            <td>1 Month Late</td>
-            <td>November 28, 2024</td>
-            <td>December 15, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>John Doe</td>
-            <td>B2A</td>
-            <td>+254702345678</td>
-            <td>Green Valley</td>
-            <td>No Arrears</td>
-            <td>December 1, 2024</td>
-            <td>January 1, 2025</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Mary Atieno</td>
-            <td>D12F</td>
-            <td>+254745678910</td>
-            <td>Brookview Estate</td>
-            <td>2 Weeks Late</td>
-            <td>November 30, 2024</td>
-            <td>December 20, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Chris Wanjiru</td>
-            <td>K1D</td>
-            <td>+254701234567</td>
-            <td>Lakeview Apartments</td>
-            <td>No Arrears</td>
-            <td>October 10, 2024</td>
-            <td>November 10, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-                <tr>
-            <td>Oscar Omondi</td>
-            <td>E3B</td>
-            <td>+254723006046</td>
-            <td>Triple A Heights</td>
-            <td>No Arrears</td>
-            <td>December 23, 2024</td>
-            <td>January 5, 2025</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Alice Johnson</td>
-            <td>J10A</td>
-            <td>+254729876543</td>
-            <td>Sunrise Apartments</td>
-            <td>No Arrears</td>
-            <td>February 15, 2024</td>
-            <td>March 1, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Jane Smith</td>
-            <td>C4C</td>
-            <td>+254713005678</td>
-            <td>Elmwood Residences</td>
-            <td>1 Month Late</td>
-            <td>November 28, 2024</td>
-            <td>December 15, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>John Doe</td>
-            <td>B2A</td>
-            <td>+254702345678</td>
-            <td>Green Valley</td>
-            <td>No Arrears</td>
-            <td>December 1, 2024</td>
-            <td>January 1, 2025</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Mary Atieno</td>
-            <td>D12F</td>
-            <td>+254745678910</td>
-            <td>Brookview Estate</td>
-            <td>2 Weeks Late</td>
-            <td>November 30, 2024</td>
-            <td>December 20, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Chris Wanjiru</td>
-            <td>K1D</td>
-            <td>+254701234567</td>
-            <td>Lakeview Apartments</td>
-            <td>No Arrears</td>
-            <td>October 10, 2024</td>
-            <td>November 10, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Emily Karanja</td>
-            <td>A1A</td>
-            <td>+254725678901</td>
-            <td>Hilltop Villas</td>
-            <td>No Arrears</td>
-            <td>July 15, 2024</td>
-            <td>August 15, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Peter Mwangi</td>
-            <td>F2C</td>
-            <td>+254721234567</td>
-            <td>Silverline Apartments</td>
-            <td>3 Weeks Late</td>
-            <td>October 20, 2024</td>
-            <td>November 10, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
-            <td>Daniel Ochieng</td>
-            <td>G3B</td>
-            <td>+254712345678</td>
-            <td>Maplewood Heights</td>
-            <td>2 Months Late</td>
-            <td>August 1, 2024</td>
-            <td>September 1, 2024</td>
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-        <tr>
+            <td>PM_L_251229_003</td>
             <td>Esther Njeri</td>
-            <td>H10D</td>
-            <td>+254734567890</td>
             <td>Royal Palm Estate</td>
-            <td>No Arrears</td>
-            <td>December 5, 2024</td>
-            <td>January 5, 2025</td>
+            <td>+254734567890</td>
+            <td>fghjkl@gmail.com</td>
+            <td>Inactive</td>
+            <td>Ksh. 52,000</td>
             <td>
                 <button class="edit-btn">Edit</button>
                 <button class="delete-btn">Delete</button>
