@@ -392,15 +392,15 @@
                  </div>
                 <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
                 <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='pm-frontend/templates/admin_dashboard';"
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_dashboard';"
                     style="color: #C1B49C; text-decoration-style: none;">Dashboard</div>
                 <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color:#C1B49C;">Landlords
                 </div>
                 <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_properties';"
                     style="color: #C1B49C; text-decoration-style: none;">Properties</div>
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin.vendors';"
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin.vendors';"
                     style="color: #C1B49C; text-decoration-style: none;">Vendors</div>
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_requests';"
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_requests';"
                     style="color: #C1B49C; text-decoration-style: none;">Requests <div class="notification-alert"> <button id="requests-alert" style="border-radius: 1em; background-color: red ; color: white; height: 2em; width: 2em" >6</button> </div></div>
 
                 <br>
@@ -428,7 +428,7 @@
             <main>
                 <section>
 
-                    <h2 style="color: #f5f5f5;"> Landlords Portal </h2>
+                    <h2 style="color: #f5f5f5;"> Landlord Portal </h2>
 
                     <br>
 
@@ -489,37 +489,33 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Personal Information:</h4>
-                        <input type="text" id="ownersFullName" placeholder="Landlord Full Name" required>
-                        <input type="text" id="physicalAddressLocation" placeholder="National ID or Passport" required>
-                        <input type="text" id="reference1Contact" placeholder="Contact Number (Phone/WhatsApp)"
-                            required> <br>
-                        <input type="text" id="reference2Name" placeholder="Email Address" required>
+                        <input type="text" id="lullName" placeholder="Landlord Full Name" >
+                        <input type="text" id="nationalIdentification" placeholder="National ID or Passport" >
+                        <input type="text" id="contactNumber" placeholder="Contact Number (Phone/WhatsApp)"
+                            > <br>
+                        <input type="text" id="emailAddress" placeholder="Email Address" >
                         <input type="text" id="physicalAddressLocation" placeholder="Physical Address / Location"
-                            required>
-                        <input type="text" id="reference2Contact" placeholder="KRA PIN (Kenya-specific)" required> <br>
-                        <select name="nationality" id="landlordNationality" required>
-                            <option value="" disabled selected>Nationality</option>
-                            <option value="Kenyan">Kenyan</option>
-                            <option value="Ugandan">Ugandan</option>
-                            <option value="Tanzanian">Tanzanian</option>
-                            <option value="Burundian">Burundian</option>
-                            <option value="Congolese">Congolese</option>
-                            <option value="Sudanese">Sudanese</option>
-                            <option value="Somalian">Somalian</option>
-                            <option value="Ethiopian">Ethiopian</option>
-                            <option value="Nigerian">Nigerian</option>
-                            <option value="Ghanian">Ghanian</option>
-                            <option value="Southafrican">Southafrican</option>
-                            <option value="Angolan">Angolan</option>
-                            <option value="Malawian">Malawian</option>
+                            >
+                        <input type="text" id="kraPin" placeholder="KRA PIN (Kenya-specific)" > <br>
+                        <select name="nationality" id="nationality" >
+                            <option value="" disabled selected>Select Country of Origin</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Uganda">Uganda</option>
+                            <option value="Tanzania">Tanzania</option>
+                            <option value="Burundi">Burundi</option>
+                            <option value="Rwanda">Rwanda</option>
+                            <option value="Bukinafaso">Bukinafaso</option>
+                            <option value="Ethiopia">Ethiopia</option>
+    
                             <!-- Add more countries as needed -->
+                             <!-- PAYMENT METHOD -->
                         </select>
-                        <select name="payment" id="preferredPaymentMethod" required>
+                        <select name="paymentmethod" id="preferredPaymentMethod" >
                             <option value="" disabled selected>Preferred Payment Method</option>
-                            <option value="apartment">Bank</option>
-                            <option value="bungalow">Mpesa</option>
-                            <option value="bedsitter">Paypal</option>
-                            <option value="airbnb">Other</option>
+                            <option value="Bank">Bank</option>
+                            <option value="Mpesa">Mpesa</option>
+                            <option value="Paypal">Paypal</option>
+                            <option value="Otherpaymentmethod">Other</option>
                         </select>
 
                         <br> <br>
@@ -528,26 +524,26 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Basic Property Information:</h4>
-                        <input type="text" id="propertyName" placeholder="Property Name" required>
-                        <select name="propertytype" id="propertyType" required>
+                        <input type="text" id="propertyName" placeholder="Property Name" >
+                        <select name="propertytype" id="propertyType" >
                             <option value="" disabled selected>Property Type</option>
                             <option value="apartment">Apartment</option>
-                            <option value="bungalow">Bungalo</option>
-                            <option value="bedsitter">Bedsitter</option>
+                            <option value="bungalow">Bungalow</option>
                             <option value="airbnb">AirBnB</option>
                             <option value="commercial">Commercial</option>
+                            <!-- automatically assign a unique ID to a listing -->
 
                             <!-- Add more types as needed -->
                         </select>
-                        <input type="number" id="yearOfConstruction" placeholder="Number of Units/Houses" required>
+                        <input type="number" id="units" placeholder="Number of Units/Houses" >
                         <br>
-                        <input type="text" id="physicalAddressLocation" placeholder="Physical Address / Location"
-                            required>
-                        <input type="text" id="nearestLandmarkRoad" placeholder="Nearest Landmark or Road" require>
+                        <input type="text" id="address" placeholder="Physical Address / Location"
+                            >
+                        <input type="text" id="landmark" placeholder="Nearest Landmark or Road" >
 
                         <!-- Add more types as needed -->
                         </select>
-                        <select name="payment" id="physicalAddressLocation" required>
+                        <select name="documenttype" id="documentType" >
                             <option value="" disabled selected>Ownership Document</option>
                             <option value="titleDeed">Title Deed</option>
                             <option value="leaseAgreement">Lease Agreement</option>
@@ -563,20 +559,43 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Physical Features:</h4>
-                        <input type="text" id="reference2Name" placeholder="Number of Floors" required>
-                        <input type="text" id="reference1Name" placeholder="Unit Types (e.g., 1BR, 2BR, bedsitter)"
-                            required>
-                        <input type="text" id="reference1Name"
-                            placeholder="Size of Each Unit (optional: square footage)" required>
-                        <select name="features" id="propertyFeatures" required>
+                        <input type="number" id="floors" placeholder="Number of Floors" >
+                        <input type="text" id="roomSize" placeholder="Unit Types (e.g., 1BR, 2BR, 3BR, Bedsitter, Studio)"
+                            >
+                        <input type="text" id="unitSize"
+                            placeholder="Size of Each Unit (optional: square footage)">
+                        <select name="features" id="propertyFeatures" >
                             <option value="" disabled selected>Property Features:</option>
-                            <option value="Kenyan">Borehole / Water Tank</option>
-                            <option value="Ugandan">Parking</option>
-                            <option value="Tanzanian">Balcony</option>
-                            <option value="Burundian">Perimeter Wall</option>
-                            <option value="Congolese">Power Supply Type (Token, Postpaid)</option>
-                            <option value="Sudanese">Internet Availability</option>
+                            <option value="Borehole">Borehole / Water Tank</option>
+                            <option value="Parking">Parking</option>
+                            <option value="Balcony">Balcony</option>
+                            <option value="Perimeter">Perimeter Wall</option>
+                            <option value="Power">Power Supply Type (Token, Postpaid)</option>
+                            <option value="Generator">Generator Availability</option>
+                            <option value="wifi">Internet Availability (WiFi)</option>
 
+                            <!-- checkbox option -->
+<!-- <div >
+      <fieldset style="">
+    <legend>Select your favorite fruits:</legend>
+    <label>
+      <input type="checkbox" name="features" value="Borehole">
+      Borehole
+    </label>
+    <label>
+      <input type="checkbox" name="features" value="Parking">
+      Parking
+    </label>
+    <label>
+      <input type="checkbox" name="features" value="Balcony">
+      Balcony
+    </label>
+    <label>
+      <input type="checkbox" name="features" value="Perimeter">
+      Perimeter Wall
+    </label>
+  </fieldset>
+</div> -->
                             <!-- Add more features as needed and change into checkbox-->
                         </select>
 
@@ -587,16 +606,16 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Financial & Rent Details:</h4>
-                        <input type="text" id="reference1Name"
-                            placeholder="Rent per Unit Type (1BR: 15k, 2BR: 22k, etc.)" required>
-                        <input type="text" id="reference2Name" placeholder="Security Deposit Required" required>
-                        <input type="text" id="reference1Contact"
-                            placeholder="Service Charges (garbage, security, etc.)" required> <br>
-                        <input type="text" id="reference2Name" placeholder="Penalties for Late Rent (if applicable)"
+                        <input type="number" id="rent"
+                            placeholder="Rent per Unit Type (1BR: 15k, 2BR: 22k, etc.)">
+                        <input type="number" id="deposit" placeholder="Deposit Paid">
+                        <input type="number" id="serviceCharge"
+                            placeholder="Service Charges (garbage, security, etc.)" > <br>
+                        <input type="number" id="penalty" placeholder="Penalties for Late Rent (per month if applicable)"
                             required>
-                        <input type="text" id="reference2Name" placeholder="Rent Collection Method (cash, bank, Mpesa)"
-                            required>
-                        <input type="text" id="reference2Contact" placeholder="Rent Payment Due Date" required>
+                        <input type="text" id="rentCollectionMethod" placeholder="Rent Collection Method (cash, bank, Mpesa)"
+                            >
+                        <input type="date" id="rentDate" placeholder="Rent Payment Due Date" >
 
                         <br> <br>
 
@@ -605,13 +624,11 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Management Details:</h4>
-                        <input type="text" id="reference1Name" placeholder="Caretaker / Agent Full Name" required>
-                        <input type="text" id="reference2Name" placeholder="Caretaker Phone Number" required>
-                        <input type="text" id="reference1Contact" placeholder="Caretaker ID" required> <br>
-                        <input type="text" id="reference2Name" placeholder="On-site Office Availability" required>
-                        <input type="text" id="reference2Name" placeholder="Maintenance Contact or Contractor" required>
-                        <input type="text" id="reference2Contact"
-                            placeholder="Inspection Frequency (monthly, quarterly)" required>
+                        <input type="text" id="caretakerName" placeholder="Caretaker / Agent Full Name" >
+                        <input type="text" id="caretakerContact" placeholder="Caretaker Phone Number" >
+                        <input type="text" id="caretakerId" placeholder="Caretaker ID" > <br>
+                        <input type="text" id="inspection"
+                            placeholder="Inspection Frequency (monthly, quarterly)" >
 
                         <br> <br>
 
@@ -620,91 +637,90 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Security Details:</h4>
-                        <input type="text" id="reference1Name" placeholder="Security Company Name" required>
-                        <input type="text" id="reference2Name" placeholder="Security Guard Contact Info" required>
-                        <input type="text" id="reference1Contact" placeholder="Number of Guards (Day/Night)" required>
+                        <input type="text" id="securityName" placeholder="Security Company Name" >
+                        <input type="text" id="securityContact" placeholder="Security Guard Contact Info" >
+                        <input type="number" id="securityQuantity" placeholder="Number of Guards (Day/Night)" >
                         <br>
-                        <input type="text" id="reference2Name" placeholder="CCTV Availability" required>
-                        <input type="text" id="reference2Name" placeholder="Gate Locking Protocols" required>
-                        <input type="text" id="reference2Contact"
-                            placeholder="Inspection Frequency (monthly, quarterly)" required>
+                        <input type="text" id="cctv" placeholder="CCTV Availability" >
+                        <input type="text" id="gate" placeholder="Gate Locking Protocols" >
+
 
                         <br> <br>
+
 
                         <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
 
+
+                        
+
+                        
+
+
+                        <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
+
+                    
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Attach Digital Documents:</h4>
                         <div style="padding: 1em;">
+                            
+                            <!-- profile picture -->
+                            <label for="profilePicture"> Profile Picture</label>
+                            <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                            <div class="preview" id="imagePreviewContainer">
+                                <img id="imagePreview" src="" alt="Image Preview" width="100">
+                            </div> <br>
                             <!-- KRA pin document -->
                             <label for="kraDocument" style="font-size:1em">KRA Pin Document</label>
-                            <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
-                            <div class="preview" id="imagePreviewContainer">
-                                <img id="ownershipPreview" src="" alt="Ownership Document Preview" width="100">
+                            <input type="file" id="kraDocument" accept="image/*" onchange="previewKra(event)">
+                            <div class="preview" id="kraPreviewContainer">
+                                <img id="kraPreview" src="" alt="Ownership Document Preview" width="100">
                             </div> <br>
                             <!-- Ownership Documents (title, lease) -->
-                            <label for="ownership" style="font-size:1em">Ownership Documents (title, lease)</label>
-                            <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
-                            <div class="preview" id="imagePreviewContainer">
+                            <label for="ownershipDocument" style="font-size:1em">Ownership Documents (title, lease)</label>
+                            <input type="file" id="ownershipDocument" accept="image/*" onchange="previewOwnership(event)">
+                            <div class="preview" id="ownershipPreviewContainer">
                                 <img id="ownershipPreview" src="" alt="Ownership Document Preview" width="100">
                             </div> <br>
-                            <!-- passport photo -->
-                            <label for="passportPhoto" style="font-size:1em">Profile Photo</label>
-                            <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)"
-                                required>
-                            <div class="preview" id="passportPreviewContainer">
-                                <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
-                            </div> <br>
+
                             <!-- property photo -->
-                            <label for="passportPhoto" style="font-size:1em">Property Photos</label>
-                            <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)"
-                                required>
-                            <div class="preview" id="passportPreviewContainer">
-                                <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
+                            <label for="propertyPhoto" style="font-size:1em">Property Photos</label>
+                            <input type="file" id="propertyPhoto" accept="image/*" onchange="previewProperty(event)"
+                                >
+                            <div class="preview" id="propertyPreviewContainer">
+                                <img id="propertyPreview" src="" alt="Property Photo Preview" width="100">
                             </div> <br>
                             <!-- Rent Agreement Template photo -->
-                            <label for="passportPhoto" style="font-size:1em">Rent Agreement Template</label>
-                            <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)"
-                                required>
-                            <div class="preview" id="passportPreviewContainer">
-                                <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
+                            <label for="agreementTemplate" style="font-size:1em">Rent Agreement Template</label>
+                            <input type="file" id="agreementTemplate" accept="image/*" onchange="previewAgreement(event)"
+                                >
+                            <div class="preview" id="agreementPreviewContainer">
+                                <img id="agreementPreview" src="" alt="Rent Agreement" width="100">
                             </div> <br>
                             <!-- Agent Agreement (if managed by Property Mkononi)photo -->
-                            <label for="passportPhoto" style="font-size:1em">Agent Agreement (if managed by Property
+                            <label for="caretakerAgreementPhoto" style="font-size:1em">Agent Agreement (if managed by Property
                                 Mkononi)</label>
-                            <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)"
+                            <input type="file" id="caretakerAgreementPhoto" accept="image/*" onchange="previewCaretaker(event)"
                                 required>
-                            <div class="preview" id="passportPreviewContainer">
-                                <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
+                            <div class="preview" id="caretakerPreviewContainer">
+                                <img id="caretakerPreview" src="" alt="Caretaker" width="100">
                             </div>
                         </div>
 
-                        <!-- Optional (but Valuable) Extras xxxxxxxxxxxxxxxxxxxxxxxxxxx-->
-
-                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
-                            Optional (but Valuable) Extras:</h4>
-                        <input type="text" id="reference1Name" placeholder="Floor Plans">
-                        <input type="text" id="reference2Name" placeholder="Historical Rent Changes">
-                        <input type="text" id="reference1Contact" placeholder="Occupancy Rate (%)"> <br>
-                        <input type="text" id="reference2Name" placeholder="Current Tenant List (with house numbers)">
-                        <input type="text" id="reference2Name" placeholder="Lease Start & End Dates">
-
-                        <br> <br>
 
                         <!-- landlord References xxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             References:</h4>
-                        <input type="text" id="reference1Name" placeholder="Reference 1: Name" required>
-                        <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" required> <br>
-                        <input type="text" id="reference2Name" placeholder="Reference 2: Name" required>
-                        <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" required>
+                        <input type="text" id="reference1Name" placeholder="Reference 1: Name" >
+                        <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" > <br>
+                        <input type="text" id="reference2Name" placeholder="Reference 2: Name" >
+                        <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" >
 
                         <br> <br>
 
                         <br> <br>
 
-                        <button id="submitButton" onclick="addOrUpdateLandlord()">Register New Landlord</button>
+                        <button id="addLandlordBtn" onclick="addOrUpdateLandlord()">Register New Landlord</button>
                         <button onclick="hideForm()" style="background-color: red">Cancel</button>
                         <p style="padding: 0.5em;"></p>
                         </form>
@@ -971,12 +987,12 @@
 
         // Function to hide the form
         function hideForm() {
-            document.getElementById("landLordForm").style.display = "none";
-            document.getElementById("addlandlordBtn").style.display = "block"; // Show "Add landlord" button
+            document.getElementById("landlordForm").style.display = "none";
+            document.getElementById("addLandlordBtn").style.display = "block"; // Show "Add landlord" button
             clearForm(); // Clear the form when hiding
             editIndex = -1; // Reset the edit index
-            document.getElementById("submitButton").textContent = "Add landlord";
-            document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
+            document.getElementById("addLandlordBtn").textContent = "Add landlord";
+            document.getElementById("addLandlordBtn").style.backgroundColor = "#4CAF50";
         }
 
         // Function to add or update a landlord
@@ -1073,8 +1089,8 @@
 
                 // Reset editIndex and button text
                 editIndex = -1;
-                document.getElementById("submitButton").textContent = "Add landlord";
-                document.getElementById("submitButton").style.backgroundColor = "#4CAF50";
+                document.getElementById("addLandlordBtn").textContent = "Add landlord";
+                document.getElementById("addLandlordBtn").style.backgroundColor = "#4CAF50";
             }
 
             // Hide the form and clear fields
@@ -1105,9 +1121,9 @@
 
 
             // Change button text to "Update" and color to blue
-            const submitButton = document.getElementById("submitButton");
-            submitButton.textContent = "Update landlord";
-            submitButton.style.backgroundColor = "blue";
+            const addLandlordBtn = document.getElementById("addLandlordBtn");
+            addLandlordBtn.textContent = "Update landlord";
+            addLandlordBtn.style.backgroundColor = "blue";
         }
 
         // Function to preview the profile picture
