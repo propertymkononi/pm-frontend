@@ -345,7 +345,8 @@
                     <div class="dropdown-menu" id="dropdown">
                         <!-- <a href="#">Edit Profile</a> -->
                         <!-- <a href="#">Settings</a> -->
-                        <a href="/admin_logout">Logout</a>
+                        <a href='/pm-frontend/templates/index.html'>Logout</a>
+                        <!-- this code ends the session for a user who MUST log back in to access the portal -->
                     </div>
                 </div>
 
@@ -398,7 +399,7 @@
                 </div>
                 <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_properties';"
                     style="color: #C1B49C; text-decoration-style: none;">Properties</div>
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin.vendors';"
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_vendors';"
                     style="color: #C1B49C; text-decoration-style: none;">Vendors</div>
                 <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_requests';"
                     style="color: #C1B49C; text-decoration-style: none;">Requests <div class="notification-alert"> <button id="requests-alert" style="border-radius: 1em; background-color: red ; color: white; height: 2em; width: 2em" >6</button> </div></div>
@@ -457,8 +458,10 @@
                                 <label for="filterCategory">Filter By: </label>
                                 <select id="filterCategory">
                                     <option value="">Select a Category</option>
-                                    <option value="landlordName">Client ID</option>
-                                    <option value="propertyName">Landlord Name</option>
+                                    <option value="landlordId">Client ID</option>
+                                    <option value="landlordName">Landlord Name</option>
+                                    <option value="propertyName">Property Name</option>
+
 
                                     <!-- CONSIDER ADDING NEW FILTERS INCLUDING ARREARS
                                     <option value="rentStatus">Rent Status</option>
@@ -732,7 +735,7 @@
                                 <th>Client ID</th>
                                 <!-- client ID should be auto assigned upon registration. use this taxonomy - PM_L_251223_001 (company - PM, user type, registration date, registration position) -->
                                 <th>Landlord Name</th>
-                                <th>No. of Apartments</th>
+                                <th>Apartment Name</th>
                                 <th>Phone No.</th>
                                 <th>Email Address</th>
                                 <th>Repair/Maintenance Status</th>
@@ -766,7 +769,7 @@
             <td>Oscar Omondi</td>
             <td>
                         <select name="PM_L_251223_001Properties" id="propertyList" required>
-                            <option value="" disabled selected>Select a Property:</option>
+                            <option value="" disabled selected>Oscar's Properties:</option>
                             <option value="property1001">Triple A Heights</option>
                             <option value="property2001">Movenpick</option>
                             <option value="property3001">Aluta House</option>
@@ -845,11 +848,6 @@
                                     });
 
 
-
-
-
-
-
                                     // Use event delegation to handle Edit and Delete button events
                                     document.getElementById('landlordTableBody').addEventListener('click', function (event) {
                                         const target = event.target;
@@ -876,7 +874,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- Javascript for filter -->
+                    <!-- Javascript for filter XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
                     <script>
                         const filterCategory = document.getElementById('filterCategory');
                         const filterDetails = document.getElementById('filterDetails');
@@ -886,12 +884,10 @@
 
 
                         const filterMap = {
-                            landlordName: 0,
-                            propertyName: 1,
-                            apartment: 3,
-                            rentStatus: 4,
-                            houseCondition: 5,
-                            tenancyDuration: 6,
+                           landlordId: 0,
+                           landlordName: 1,
+                            propertyName: 2,
+
                         };
 
                         // Populate sub-dropdown dynamically based on the selected category
