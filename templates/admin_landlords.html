@@ -492,7 +492,7 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Personal Information:</h4>
-                        <input type="text" id="lullName" placeholder="Landlord Full Name" >
+                        <input type="text" id="landlordFullName" placeholder="Landlord Full Name" >
                         <input type="text" id="nationalIdentification" placeholder="National ID or Passport" >
                         <input type="text" id="contactNumber" placeholder="Contact Number (Phone/WhatsApp)"
                             > <br>
@@ -753,6 +753,8 @@
                                 <td colspan="8">No landlord records found.
                                     <button class="sample-records-btn" onclick="viewSampleRecord()">View Sample
                                         Record</button>
+                                        <!-- view landlord information -->
+                                        <button class="landlord-information-btn" onclick=oggleMenu(); window.location.href='/pm-frontend/templates/admin_landlord_information'>Oscar Omondi (sample landlord information on Click)</button>
                                 </td>
 
                                 <!-- Javascript for sample data populated on the UI -->
@@ -766,7 +768,7 @@
                                         landlordTableBody.innerHTML = `
                                             <tr>
             <td>PM_L_251223_001</td>
-            <td>Oscar Omondi</td>
+            <td> <button class="view-landlord-information" style= "border:none";>Oscar Omondi </button> </td>
             <td>
                         <select name="PM_L_251223_001Properties" id="propertyList" required>
                             <option value="" disabled selected>Oscar's Properties:</option>
@@ -817,6 +819,8 @@
                                         `;
 
 
+
+
                                         // Function to alternate row background colors
                                         function updateRowColors() {
                                             const rows = landlordTableBody.querySelectorAll('tr');
@@ -837,12 +841,12 @@
                                         const deleteButton = landlordTableBody.querySelector('.delete-btn');
 
                                         editButton.addEventListener('click', function () {
-                                            const landlordName = editButton.parentElement.parentElement.cells[0].textContent;
+                                            const landlordName = editButton.parentElement.parentElement.cells[1].textContent;
                                             alert(`You are about to edit ${landlordName}'s information.`);
                                         });
 
                                         deleteButton.addEventListener('click', function () {
-                                            const landlordName = deleteButton.parentElement.parentElement.cells[0].textContent;
+                                            const landlordName = deleteButton.parentElement.parentElement.cells[1].textContent;
                                             alert(`You are about to delete ${landlordName}'s information.`);
                                         });
                                     });
@@ -854,13 +858,13 @@
 
                                         // Check if the clicked element is an Edit button
                                         if (target.classList.contains('edit-btn')) {
-                                            const landlordName = target.parentElement.parentElement.cells[0].textContent;
-                                            alert(`You are about to edit ${landlordName}'s information.`);
+                                            const landlordName = target.parentElement.parentElement.cells[1].textContent;
+                                            alert(`Editing ${landlordName}'s information may lead to data interferance. Do you want to proceed?`);
                                         }
 
                                         // Check if the clicked element is a Delete button
                                         if (target.classList.contains('delete-btn')) {
-                                            const landlordName = target.parentElement.parentElement.cells[0].textContent;
+                                            const landlordName = target.parentElement.parentElement.cells[1].textContent;
                                             const confirmation = confirm(`By taking this action, you will no longer be able to access ${landlordName}'s information. Press "OK" to completely erase landlord data.`);
                                             if (confirmation) {
                                                 // Remove the row from the table
@@ -868,6 +872,7 @@
                                             }
                                         }
                                     });
+        
 
                                 </script>
 
@@ -964,6 +969,35 @@
             </main>
         </div>
     </section>
+
+    <script>
+                                        // Style for viewing landlord information TRIAL CODE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+                                        // Add event listeners to the dynamically create a button for viewing landlord information when the landlord name is clicked. CHANGE THE landlordForm location.
+                                        const viewLandlordInformation = landlordForm.querySelector('.view-landlord-information');
+
+                                        viewLandlordInformation.addEventListener('click', function () {
+                                            const landlordName = viewLandlordInformation.parentElement.parentElement.cells[1].textContent;
+                                            alert(`You are about to view ${landlordName}'s information.`);
+                                        });
+
+                                    });
+
+                                    // Use event delegation to handle Edit and Delete button events
+                                    document.getElementById('landlordForm').addEventListener('click', function (event) {
+                                        const target = event.target;
+
+                                        // Check if the clicked element is an Edit button
+                                        if (target.classList.contains('view-landlord-information')) {
+                                            const landlordName = target.parentElement.parentElement.cells[1].textContent;
+                                            alert(`You are about to view ${landlordName}'s information.`);
+                                        }
+                                        }
+                                    });
+
+
+    </script>
 
     <script>
         function toggleMenu() {
