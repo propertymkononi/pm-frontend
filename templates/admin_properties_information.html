@@ -393,16 +393,25 @@
                 </div>
                 <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
                 <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_dashboard';"
+                <div class="menu-btn"
+                    onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_dashboard';"
                     style="color: #C1B49C; text-decoration-style: none;">Dashboard</div>
-                <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color:#C1B49C;">Landlords
+                <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color:#C1B49C;">
+                    Landlords
                 </div>
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_properties';"
+                <div class="menu-btn"
+                    onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_properties';"
                     style="color: #C1B49C; text-decoration-style: none;">Properties</div>
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_vendors';"
+                <div class="menu-btn"
+                    onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_vendors';"
                     style="color: #C1B49C; text-decoration-style: none;">Vendors</div>
-                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_requests';"
-                    style="color: #C1B49C; text-decoration-style: none;">Requests <div class="notification-alert"> <button id="requests-alert" style="border-radius: 1em; background-color: red ; color: white; height: 2em; width: 2em" >6</button> </div></div>
+                <div class="menu-btn"
+                    onclick="toggleMenu(); window.location.href='/pm-frontend/templates/admin_requests';"
+                    style="color: #C1B49C; text-decoration-style: none;">Requests <div class="notification-alert">
+                        <button id="requests-alert"
+                            style="border-radius: 1em; background-color: red ; color: white; height: 2em; width: 2em">6</button>
+                    </div>
+                </div>
 
                 <br>
 
@@ -432,8 +441,8 @@
 
                     <button onclick="history.back()"
                         style="background-color:white; border:none; cursor:pointer; padding:1em; border-radius: 0.5em;">
-                        <link rel="stylesheet"                        
-                            <p><<< Back to Property Owner</p>
+                        <link rel="stylesheet" <p>
+                        <<< Back to Property Owner</p>
                     </button>
                     <br><br>
 
@@ -476,62 +485,105 @@
                             </span>
                         </h4>
 
-                        <div id="formContent"
+                        <div id="propertyCardContent"
                             style="border: none; padding: 0.5em; color: black; display: flex; justify-content: space-between; flex-direction: row;  flex-wrap: wrap;">
 
                             <div id="row2" style="margin:2em">
-                                <p>Contact Information:</p> <input type="text" id="contactNumber"
-                                    placeholder="+254 0723006046"
+                                <h2
+                                    style="border: none; color: #066078; box-shadow: #3c3024;  padding-bottom: 0.5rem;  text-align: left;">
+                                    Physical Features </h2>
+                                <p>Number of Units:</p> <input type="text" id="contactNumber" placeholder="34"
                                     style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                                <p>Email Address:</p> <input type="text" id="emailAddress"
-                                    placeholder="oscaromondiomondi@gmail.com"
+                                <p>Unit Types:</p> <input type="text" id="unitTypes" placeholder="1BDR | 2BDR "
                                     style="border: none; font-size: 1.5em;padding-bottom:0.5em"><br>
-                                <p>Physical Address:</p> <input type="text" id="physicalAddressLocation"
-                                    placeholder="Triple A Heights, Muhuri Rd"
+                                <p>Unit Size:</p> <input type="number" id="unitSize"
+                                    placeholder="1BD SQR ft | 2BR SQR ft"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <p>Property Features</p> <input type="text" id="propertyFeatures"
+                                    placeholder="Balcony | Parking"
                                     style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
                                 <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
                             </div>
+
 
                             <div id="row3" style="margin:2em">
-                                <p>KRA Pin:</p> <input type="text" id="kraPin" placeholder="AJ234567890-76"
+                                <h2
+                                    style="border: none; color: #066078; box-shadow: #3c3024;  padding-bottom: 0.5rem;  text-align: left;">
+                                    Financial Details </h2>
+                                <p>Rent per Units:</p> <input type="text" id="contactNumber" placeholder="Ksh. 30,000"
                                     style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                                <div>
-                                    <p>Payment Details:</p>
-                                    <input type="text" id="preferredPaymentMethod" placeholder="Bank Account"
-                                        style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                                    <input type="text" id="landlordBank" placeholder="Standard Chartered Bank"
-                                        style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                                    <input type="text" id="landlordBankAccountNumber" placeholder="09123283423873"
-                                        style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <p>Deposit Amount:</p> <input type="number" id="unitTypes" placeholder="Ksh. 30,000 "
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"><br>
+                                <p>Service Charges:</p> <input type="number" id="unitSize" placeholder="Ksh. 800"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <p>Rent Penanlties (per day)</p> <input type="number" id="propertyFeatures"
+                                    placeholder="Ksh. 400" style="border: none; font-size: 1.5em;padding-bottom:0.5em">
+                                <br>
+                                <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
+                                <p>Rent Collection Method:</p> <input type="number" id="unitSize"
+                                    placeholder="Bank | Mpesa"
+                                    style="border: none; font-size: 1.5em; padding-bottom:0.5em"> <br>
+                                <p>Rent Date</p> <input type="date" id="propertyFeatures" placeholder="12/01/2025"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
 
-                                </div>
+                            </div>
+
+                            <div id="row4" style="margin:2em; border: none;">
+                                <h2
+                                    style="border: none; color: #066078; box-shadow: #3c3024;  padding-bottom: 0.5rem;  text-align: left;">
+                                    Management Details </h2>
+                                <p>Caretaker/Agent Name:</p> <input type="text" id="contactNumber"
+                                    placeholder="Keith Kendra"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <p>Caretaker Phone no.:</p> <input type="number" id="unitTypes"
+                                    placeholder="+2345678900"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"><br>
+                                <p>Caretaker ID/Passport no.:</p> <input type="number" id="unitSize"
+                                    placeholder="45678904" style="border: none; font-size: 1.5em;padding-bottom:0.5em">
+                                <br>
+                                <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
+                                <p>Inspection Frequency:</p> <input type="number" id="unitSize" placeholder="Quarterly"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
                                 <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
                             </div>
 
-                            <div id="row4"
-                                style="border: none; padding: 2em; color: black; display: flex; justify-content: space-between; flex-direction: row;  flex-wrap: wrap">
-                                <!-- landlord References xxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-                                <div id="referee1">
-                                    <p>Referee 1 Name: </p> <input type="text" id="reference1Name"
-                                        placeholder="John Mark"
-                                        style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                                    <p>Reference Contact: </p> <input type="text" id="reference1Contact"
-                                        placeholder="+245 45678909876"
-                                        style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                                </div>
-
-                                <div id="referee2">
-                                    <p>Reference 2 Name: </p> <input type="text" id="reference2Name"
-                                        placeholder="Paul Peter"
-                                        style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                                    <p>Reference Contact: </p> <input type="text" id="reference2Contact"
-                                        placeholder="+432 1234567890"
-                                        style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                                </div>
-
-
+                            <div id="row5" style="margin:2em; border: none;">
+                                <h2
+                                    style="border: none; color: #066078; box-shadow: #3c3024;  padding-bottom: 0.5rem;  text-align: left;">
+                                    Digital Documents </h2>
+                                <p>Property Photos:</p> <input type="image" id="contactNumber" placeholder="(--:--)"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <p>Rent Agreement Template:</p> <input type="image" id="unitTypes" placeholder="++---++"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"><br>
+                                <p>Agent Agreement:</p> <input type="image" id="unitSize" placeholder="##--##"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
                                 <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
+
                             </div>
+
+                            <div id="row6" style="margin:2em">
+                                <h2
+                                    style="border: none; color: #066078; box-shadow: #3c3024;  padding-bottom: 0.5rem;  text-align: left;">
+                                    Security Details </h2>
+                                <p>Security Company Name:</p> <input type="text" id="contactNumber"
+                                    placeholder="Borderline Security Agency"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <p>Security Contact:</p> <input type="number" id="unitTypes" placeholder="+2345678900"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"><br>
+                                <p>No. of Guards (both day & night):</p> <input type="number" id="unitSize"
+                                    placeholder="4" style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
+                                <p>CCTV Availability:</p> <input type="number" id="unitSize" placeholder="8 Cameras"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
+                                <p>Gate Locking Protocols:</p> <input type="number" id="unitSize"
+                                    placeholder="Gate key per house"
+                                    style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
+                                <!-- replace the "placeholder" property with a JS fundtion that replaces the placeholder with the new infomrmation appended in the form -->
+
+                            </div>
+
                             <br>
 
                             <!-- PS: landlord KYC will be displayed on the page. The property details will appear on the pages of each property -->
@@ -552,14 +604,14 @@
 
                             <thead>
                                 <tr>
-                                    <th>Property ID</th>
-                                    <!-- property ID should be auto assigned upon registration. use this taxonomy - PM_P_251223_001 (company - PM, user type, registration date, registration position) -->
-                                    <th>Property Name</th>
-                                    <th>No of Tenants </th>
-                                    <th>Service Status </th>
+                                    <th>Tenant ID</th>
+                                    <!-- tenant ID should be auto assigned upon registration. use this taxonomy - PM_P_251223_001 (company - PM, user type, registration date, registration position) -->
+                                    <th>Tenant Name</th>
+                                    <th>House No. </th>
+                                    <th>Phone No. </th>
+                                    <th>Service Status</th>
                                     <th>Rent Status</th>
-                                    <th>Pending Arrears</th>
-                                    <th>Caretaker Contact</th>
+                                    <th>Other</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -571,9 +623,19 @@
                             <!-- This is a sample Table Body only shown on the demo when a user clicks "view sample record" xxxxxxxxxxxxxxxxxxxx-->
                             <tbody>
                                 <tr>
-                                    <td colspan="8">No landlord records found.
+                                    <td colspan="8">No tenant records found.
                                         <button class="sample-records-btn" onclick="viewSampleRecord()">View Sample
                                             Record</button>
+                                        <!-- view landlord information -->
+                                        <style>
+                                            .landlord-information-btn:hover {
+                                                background: #45a049;
+                                            }
+                                        </style>
+                                        <a href="/pm-frontend/templates/admin_property_tenants_information"><button
+                                                class="landlord-information-btn">Martin Maasai (SAMPLE tenant
+                                                information on Click) </button> </a>
+
                                     </td>
 
                                     <!-- Javascript for sample data populated on the UI -->
@@ -586,72 +648,26 @@
 
                                             landlordTableBody.innerHTML = `
         <tr>
-            <td>PM_251223_P001</td>
-            <td>Triple A Heights</td>
-            <td> 34 </td>
-            <td>No active services</td>
+            <td>PM_251223_T001</td>
+            <td>Maasai K Trx</td>
+            <td> E3B </td>
+            <td>+24567890234</td>
             <td>
-                        <select name="PM_251223_P001Properties" id="propertyRentStatus" required>
-                            <option value="" disabled selected>Select Period:</option>
-                            <option value="property1001">Last 30 days</option>
-                            <option value="property2001">Last 7 days</option>
-                            <option value="property3001">Yesterday</option>
+                        <select name="PM_251223_P001PropertiesTenant" id="propertyRentStatus" required>
+                            <option value="" disabled selected>2 Active</option>
+                            <option value="property1001">Ken Plumbing Limited | Kitchen Tap </option>
+                            <option value="property2001">Safaricom Limited | Internet </option>
                         </select>
+                        <!-- when repairs are active, click on the text and listings with active repairs will pop up, then you can select one and view service details, as well as vendor details -->
             </td>
-            <td>No Arrears </td> <!-- when repairs are active, click on the text and listings with active repairs will pop up, then you can select one -->
+            <td>No Arrears </td> 
             <td>+2541112238902</td> <!-- The arrears will be in total, as long as a listing is not selected. When selected, arrears data from the specific listing will be retrieved and populated here -->
 
             <td>
                 <button class="edit-btn">Edit</button>
                 <button class="delete-btn">Delete</button>
             </td>
-        </tr>
-
-                <tr>
-            <td>PM_251223_P002</td>
-            <td>Sunny Apartments</td>
-            <td> 60 </td>
-            <td>No active services</td>
-            <td>
-                        <select name="PM_251223_P001Properties" id="propertyRentStatus" required>
-                            <option value="" disabled selected>Select Period:</option>
-                            <option value="property1001">Last 30 days</option>
-                            <option value="property2001">Last 7 days</option>
-                            <option value="property3001">Yesterday</option>
-                        </select>
-            </td>
-            <td>No Arrears </td> <!-- when repairs are active, click on the text and listings with active repairs will pop up, then you can select one -->
-            <td>+254734567890</td> <!-- The arrears will be in total, as long as a listing is not selected. When selected, arrears data from the specific listing will be retrieved and populated here -->
-
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>
-
-
-                <tr>
-            <td>PM_251223_P003</td>
-            <td>Royal Palm Estate</td>
-            <td> 1 </td>
-            <td>No active services</td>
-            <td>
-                        <select name="PM_251223_P001Properties" id="propertyRentStatus" required>
-                            <option value="" disabled selected>Select Period:</option>
-                            <option value="property1001">Last 30 days</option>
-                            <option value="property2001">Last 7 days</option>
-                            <option value="property3001">Yesterday</option>
-                        </select>
-            </td>
-            <td> Ksh. 3,000 </td> <!-- when repairs are active, click on the text and listings with active repairs will pop up, then you can select one -->
-            <td>+254734567890</td> <!-- The arrears will be in total, as long as a listing is not selected. When selected, arrears data from the specific listing will be retrieved and populated here -->
-
-            <td>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
-            </td>
-        </tr>        
-        
+        </tr>       
 
         </tr>
         
