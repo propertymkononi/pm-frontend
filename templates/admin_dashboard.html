@@ -64,7 +64,7 @@
 
         /* Navigation Menu Styling */
         nav {
-            background-color: #f5f5f5;
+            background-color: rgba(0, 0, 0, 0.5);
             width: 250px;
             transition: all 0.3s ease;
             height: 100vh;
@@ -293,25 +293,33 @@
         <div class="app-container">
             <!-- <button class="dropdown-btn" onclick="toggleMenu()">☰ </button> -->
 
-            <nav id="nav-bar">
+            <!--NAVBAR MENU COMPONENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+            <nav id="nav-bar" >
                 <!-- logo -->
-                <img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;" src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1752105600&v=beta&t=f3T2oxwMtA_dSjM9CpFBxc6oLtdBVhpjuS4ns3N-crE"> <!-- Replace 'logo.png' with your logo file path -->
+                 <div style="display: flex; justify-content:center; padding: 1em">
+<img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;"
+                    src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1755129600&v=beta&t=HBVVXrd_4RmLt9LvW6E6n478L8_6AuZQxA4RGta25_A">
 
-
-                    <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #C1B49C; color: white;">Rent Status</div> -->
-                    <a href="/admin_dashboard" class="menu-btn" style="background-color: #C1B49C; color: white; text-decoration: none;">Dashboard</a>                       
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/landlord_view';" style="color: black; text-decoration-style: none;">Landlord</div>
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/tenants_view';" style="color: black; text-decoration-style: none;">Tenants</div>
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/properties_view';" style="color: black; text-decoration-style: none;">Properties</div>
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/rent_view';" style="color: black; text-decoration-style: none;">Rent Status</div>
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/evictions_view';" style="color: black; text-decoration-style: none;">Evictions</div>
-                    <div class="menu-btn" onclick="toggleMenu(); window.location.href='/requests_view';" style="color: black; text-decoration-style: none;">Requests</div>
-                 
+                 </div>
+                <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+                <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+                <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color:#C1B49C;">Dashboard
+                </div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_landlords';"
+                    style="color: #C1B49C; text-decoration-style: none;">Landlords</div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_properties';"
+                    style="color: #C1B49C; text-decoration-style: none;">Properties</div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin.vendors';"
+                    style="color: #C1B49C; text-decoration-style: none;">Vendors</div>
+                <div class="menu-btn" onclick="toggleMenu(); window.location.href='/templates/admin_requests';"
+                    style="color: #C1B49C; text-decoration-style: none;">Requests <div class="notification-alert"> <button id="requests-alert" style="border-radius: 1em; background-color: red ; color: white; height: 2em; width: 2em" >6</button> </div></div>
 
                 <br>
+
                 <footer style="padding: 1em; text-align: center;">
-                    <button style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact
-                        IT Support</button>
+                    <button onclick="contactItSupportBtn()"
+                        style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact IT
+                        Support</button>
                 </footer>
             </nav>
 
@@ -330,24 +338,33 @@
                                        
                     }
 
-                   .property-overview-card, .tenant-overview-card, .rent-overview-card, .landlord-overview-card {
+                   .property-overview-card, .vendor-overview-card, .financials-overview-card, .landlord-overview-card {
                     padding: 20px;
                     margin: 20px;
                     width: 30em;
                     border-radius: 1em;
                     background-color: whitesmoke;
-                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5)
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
                    }
 
-                   .landlord-heading, .property-heading, .tenant-heading, .rent-heading {
+                   .landlord-heading, .property-heading, .vendor-heading, .financials-heading {
                     background-color: #333; color: white; padding: 0.3em;
                     border-radius: 0.3em; font-size: 1.5em;
                     
                    }
-                   .landlord-totals,.property-totals, .tenant-totals, .rent-totals {
+                   .landlord-totals,.property-totals, .vendor-totals, .financials-totals {
                     text-align: end; padding-top: 1em; color: #427685; 
                    }
 
+                  .admin-dashboard-graph {
+                    max-width: 100%;   /* Scales down within its container */
+                    height: auto;      /* Keeps aspect ratio intact */
+                    }
+
+                    /* Optional: restrict max size */
+                    .responsive-img.limited {
+                    max-width: 400px;
+                    }
                    /* Container for Rent Overview Date Range */
                    .select-date {
       color: #007BFF;
@@ -413,24 +430,7 @@
 
                             <div class="main-container" id="mainContainer">
 
-                                <!--  Landlord card -->
-                                <div class="landlord-overview-card" >
-                                     <div class="landlord-heading"> Landlord Overview </div>
-                                     <div class="landlord-totals" >
-                                        <h1 class="active-landlords" style="font-size: 3em;"> 6 </h1>
-                                        <h4>Landlords</h4>
-                                    </div>
-                                    <div class="landlord-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
-                                        <div class="new_landlord" style="background-color: #C1B49C;; padding: 1em; border-radius: 0.2em; text-align: end;">
-                                            <h1 class="new_landlord">2</h1>
-                                            <h4>New Landlords</h4>
-                                        </div>
-                                        <div class="old_landlord" style="background-color: #C1B49C;; padding: 1em; border-radius: 0.2em; text-align: end;">
-                                            <h1 class="current_landlord">4</h1>
-                                            <h4>Current Landlords</h4>
-                                        </div> 
-                                    </div>
-                                </div>
+
                                 <!-- property card -->
                                 <div class="property-overview-card">
 
@@ -455,21 +455,25 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- tenant card -->
-                                <div class="tenant-overview-card" >
-                                     <div class="tenant-heading"> Tenant Overview </div>
-                                     <div class="tenant-totals" >
-                                        <h1 class="active-tenants" style="font-size: 3em;"> 200 </h1>
-                                        <h4>Tenants</h4>
+                                <!-- vendor card -->
+                                <div class="vendor-overview-card" >
+                                     <div class="vendor-heading"> Vendor Overview </div>
+                                     <div class="vendor-totals" >
+                                        <h1 class="active-vendors" style="font-size: 3em;"> 200 </h1>
+                                        <h4>Vendors</h4>
                                     </div>
-                                    <div class="tenant-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
-                                        <div class="eviction-notice" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
-                                            <h1 class="notice">10</h1>
-                                            <h4>Eviction notice</h4>
+                                    <div class="vendor-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
+                                        <div class="ongoing-requests" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="ongoing">10</h1>
+                                            <h4>Ongoing</h4>
                                         </div>
-                                        <div class="repair-requests" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
-                                            <h1 class="requests">13</h1>
-                                            <h4>Repair requests</h4>
+                                        <div class="pending-requests" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="pending">13</h1>
+                                            <h4>Pending</h4>
+                                        </div> 
+                                        <div class="flagged-requests" style="background-color: #C1B49C; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="flagged">13</h1>
+                                            <h4>Flagged</h4>
                                         </div> 
                                     </div>
                                 </div>
@@ -479,6 +483,12 @@
                                      <div class="rent-totals">
                                         <h1 class="total-rent" style="font-size: 3em;">$1,600,000</h1>
                                         <h4>Total rent</h4>
+                                <!-- financials card -->
+                                <div class="financials-overview-card">
+                                     <div class="financials-heading">Rent Overview</div>
+                                     <div class="financials-totals">
+                                        <h1 class="total-financials" style="font-size: 3em;">$1,500,000</h1>
+                                        <h4>Total Financials</h4>
                                         <!-- Rent date range here -->
                                         <div style="display: flex; justify-content: end;">
                                             <div class="date-range-container">
@@ -511,8 +521,38 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!--  Landlord card -->
+                                <!-- <div class="landlord-overview-card" >
+                                     <div class="landlord-heading"> Landlord Overview </div>
+                                     <div class="landlord-totals" >
+                                        <h1 class="active-landlords" style="font-size: 3em;"> 6 </h1>
+                                        <h4>Landlords</h4>
+                                    </div>
+                                    <div class="landlord-counts" style="display: flex; flex-wrap: wrap; justify-content: space-between; padding-top: 1em;">
+                                        <div class="new_landlord" style="background-color: #C1B49C;; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="new_landlord">2</h1>
+                                            <h4>New Landlords</h4>
+                                        </div>
+                                        <div class="old_landlord" style="background-color: #C1B49C;; padding: 1em; border-radius: 0.2em; text-align: end;">
+                                            <h1 class="current_landlord">4</h1>
+                                            <h4>Current Landlords</h4>
+                                        </div> 
+                                    </div>
+                                </div> -->
+                                
+                                
+                            <!-- Graph card -->
+                            <div class="main-container" id="mainContainer" style="background-color: #f5f5f5;">
+                                <div class="" style="font-size: 2em; font-weight: 500; padding-bottom: 1em;"> Trends </div>
+                                <div style="width: 100%; margin: auto;">
+                                    <img src="https://media.licdn.com/dms/image/v2/D4D22AQGan9yMnlvhpw/feedshare-shrink_800/B4DZfVyIIfGsAk-/0/1751638377618?e=1754524800&v=beta&t=oNMg0Fnpmzz8fbUSsxLMz_DG6DK_emX3v89UjZCdqt4" alt="graph" class="admin-dashboard-graph">
+                                </div>
+                                <!-- end of graphs -->
+                            </div>
                                 <!-- end of cards -->
                             </div>
+                        
                 </section>
             </main>
         </div>
