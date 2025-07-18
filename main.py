@@ -395,11 +395,46 @@ def notify_admin(email):
     msg.body = f"There have been multiple failed password reset attempts using this email: {email}"
     mail.send(msg)
 
-@app.route('/admin_landlord')
-def admin_landlord():
-   return render_template ('admin_landlord.html')
+@app.route('/admin_landlords')
+def admin_landlords():
+   return render_template ('admin_landlords.html')
+
+@app.route('/admin_landlords_info')
+def admin_landlord_info():
+   return render_template('admin_landlords_information.html')
+
+@app.route('/admin_financials')
+def admin_financials():
+   return render_template('admin_financials.html')
+
+@app.route('/admin_properties')
+def admin_properties():
+   return render_template('/admin_properties.html')
+
+@app.route('/admin_properties_info')
+def admin_properties_info():
+   return render_template('/admin_properties_information.html')
+
+@app.route('/admin_requests')
+def admin_requests():
+   return render_template('admin_requests.html')
+
+@app.route('/admin_vendors')
+def admin_vendors():
+   return render_template('admin_vendors.html')
+
+@app.route('/admin_tenants_info')
+def admin_tenants_info():
+   return render_template('/admin_tenants_information.html')
+
+@app.route('/admin_logout')
+def admin_logout():
+    session.clear()
+    flash('You have been logged out.')
+    return redirect(url_for('index'))
+
 
 if (__name__) == ('__main__'):
-      with app.app_context():
-          db.create_all()
-app.run(debug=True)
+      # with app.app_context():
+      #     db.create_all()
+  app.run(debug=True)
