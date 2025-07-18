@@ -446,14 +446,15 @@
  </div>
 
                     <!-- tenant Form -->
-                    <div class="tenant-form" id="tenantForm" style="background-color: aliceblue;">
+                <div class="tenant-form" id="tenantForm" style="background-color: aliceblue;">                                      
+                    <form action="/addTenant", method="post">                                                                              
                         <br>
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Personal Details:</h4>
 
-                        <input type="text" id="tenantname" placeholder="Tenant Name" required>
-                        <input type="text" id="phonenumber" placeholder="Phone No." required>
-                        <input type="email" id="emailAddress" placeholder="Email Address" required>
-                        <select name="nationality" id="tenantNationality" required>
+                        <input type="text" id="tenantname" name="tenantname"  placeholder="Tenant Name" required>
+                        <input type="text" id="phonenumber" name="phonenumber"  placeholder="Phone No." required>
+                        <input type="email" id="emailAddress" name="tenantemail"  placeholder="Email Address" required>
+                        <select name="nationality" name="nationality" id="tenantNationality" required>
                             <option value="" disabled selected>Nationality</option>
                             <option value="Kenyan">Kenyan</option>
                             <option value="Ugandan">Ugandan</option>
@@ -471,18 +472,18 @@
                             <!-- Add more countries as needed -->
                         </select>
                         <!-- id card -->
-                        <input type="text" id="idNumber" placeholder="ID Number & Copy" required>
-                        <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                        <input type="text" id="idNumber" name="identification_number"  placeholder="ID Number & Copy" required>
+                        <!-- <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
                         <div class="preview" id="imagePreviewContainer">
                             <img id="imagePreview" src="" alt="Image Preview" width="100">
-                        </div>
+                        </div> -->
                         <!-- passport photo -->
-                        <label for="passportPhoto" style = "font-size:1em">Passport Photo</label>        
-                        <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)" required>
+                        <!-- <label for="passportPhoto" style = "font-size:1em">Passport Photo</label>        
+                        <input type="file" id="passportPhoto" accept="image/*" onchange="previewPassport(event)" required> -->
                      <!--    <div class="preview" id="passportPreviewContainer">
                             <img id="passportPreview" src="" alt="Passport Photo Preview" width="100">
                         </div> -->
-                        <select id="employmentStatus" required>
+                        <select id="employmentStatus" name="employment_status" required>
                             <option value="" disabled selected>Employment Status</option>
                             <option value="employed">Employed</option>
                             <option value="unemployed">Unemployed</option>
@@ -493,46 +494,54 @@
 
                         <!-- Tenant Household Details -->
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">Household Details:</h4>
-                        <input type="number" id="householdSize" placeholder="Family Size" required>
-                        <input type="number" id="householdMinors" placeholder="Number of Children" required> <br>
+                        <input type="number" id="householdSize" name="family_size" placeholder="Family Size" required>
+                        <input type="number" id="householdMinors" name="children" placeholder="Number of Children" required> <br>
                         <select id="householdManager" required>
                             <option value="" disabled selected>House manager or nunny?</option>
                             <option value="householdManagerPositive">Manager/Nunny available</option>
                             <option value="householdManagerNegative">No manager/nunny</option>
-                            <input type="text" id="householdHelpName" placeholder="House Manager/Nunny Name" >
-                            <input type="text" id="householdHelpId" placeholder="House Manager/Nunny ID" > 
+                            <input type="text" id="householdHelpName"  name="housemanager_name" placeholder="House Manager/Nunny Name" >
+                            <input type="text" id="householdHelpId" name="housemanager_ID" placeholder="House Manager/Nunny ID" > 
                         </select>
                         <br> <br>
 
                         <!-- Tenant References -->
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">References:</h4>
-                        <input type="text" id="reference1Name" placeholder="Reference 1: Name" required>
-                        <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" required> <br>
-                        <input type="text" id="reference2Name" placeholder="Reference 2: Name" required>
-                        <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" required> <br> <br>
+                        <input type="text" id="reference1Name" name="emergency_name1" placeholder="Reference 1: Name" required>
+                        <input type="text" id="reference1Contact"  name="emergency_contact1"  placeholder="Reference 1: Contact" required> <br>
+                        <input type="text" id="reference2Name" name="emergency_name2" placeholder="Reference 2: Name" required>
+                        <input type="text" id="reference2Contact" name="emergency_contact2" placeholder="Reference 2: Contact" required> <br> <br>
 
                         <br> <br>
 
                         <!-- tenant property details -->
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">Apartment Details:</h4>
-                        <input type="text" id="apartment" placeholder="Apartment" required>
-                        <input type="text" id="houseNumber" placeholder="House No." required>
-                        <input type="number" id="monthlyRent" placeholder="Rent e.g. 13000" required>
-                        <input type="number" id="securityDeposit" placeholder="Deposit e.g. 13000" required>
-                        <input type="number" id="bedrooms" placeholder="No. of Bedrooms" required>
-                        <input type="text" id="houseCondition" placeholder="House Condition" required>
-                        <input type="date" id="leaseStartDate" placeholder="Lease Start" required>
-                        <input type="text" id="leaseEndDate" placeholder="Lease End" required>
+                        <input type="text" id="apartment" name="apartment_name" placeholder="Apartment" required>
+                        <input type="text" id="houseNumber" name="housenumber" placeholder="House No." required>
+                        <input type="number" id="monthlyRent" name="rent" placeholder="Rent e.g. 13000" required>
+                        <input type="number" id="securityDeposit" name="deposit" placeholder="Deposit e.g. 13000" required>
+                        <input type="number" id="bedrooms" name="bedrooms" placeholder="No. of Bedrooms" required>
+                        <input type="text" id="houseCondition" name="house_condition" placeholder="House Condition" required>
+                        <input type="date" id="leaseStartDate" name="lease_start" placeholder="Lease Start" required>
+                        <input type="date" id="leaseEndDate" name="lease_end" placeholder="Lease End" required>
                          <br> <br>
 
 
 
-                        <button id="submitButton" onclick="addOrUpdateTenant()">Add Tenant</button>
+                        <button id="submitButton" type="submit" onclick="addOrUpdateTenant()">Add Tenant</button>
                         <button onclick="hideForm()" style="background-color: red">Cancel</button> 
                         <p style="padding: 0.5em;"></p>
-                    </div>
+                    </form>
+                </div>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                   {% for category, message in messages %}
+                        <p style="color:green;">{{ message }}</p>
+                   {% endfor %}
+                {% endwith %} 
+   
 
                     <!-- tenant UI Table -->
                     <table class="tenant-details">

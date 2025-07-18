@@ -18,11 +18,12 @@ from flask_mail import Mail, Message
 app = Flask(__name__)
 
 #configuring the database connection
-app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///propertym" #Change username, password, table name
+app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///propertym" 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 db = SQLAlchemy(app)
 mail = Mail(app)
-
+  
+#db.init_app(app)
 
 app.config['SECRET_KEY'] = "fdfafhqwee73jbhzx" # Change to a long random string in production
 
@@ -42,11 +43,11 @@ class Property(db.Model):
      propertyname = db.Column(db.String(255), unique=True, nullable=False)
      Units = db.Column(db.Integer, unique=True, nullable=False)
      Location = db.Column(db.String(255), unique=True, nullable=False)
-     Land_no = db.Column(db.String(255), unique=True, nullable=False)
+     Land_no = db.Column(db.String(255), unique=True, nullable=True)
      caretaker = db.Column(db.String(255), unique=True, nullable=False)
      caretaker_id = db.Column(db.String(255), unique=True, nullable=False)
      security_name = db.Column(db.String(255), unique=True, nullable=False)
-     security_buss_no = db.Column(db.String(255), unique=True, nullable=False)
+     security_buss_no = db.Column(db.String(255),  nullable=False)
      tenants = db.relationship('Tenant', backref='property', lazy=True)
      landlords = db.relationship("Landlord", secondary='landlord_property', back_populates='properties')
 
@@ -77,6 +78,7 @@ class Tenant(db.Model):
      tenantemail = db.Column(db.String(255), unique=True, nullable=True)
      housenumber = db.Column(db.String(255), unique=True, nullable=True)
      phonenumber = db.Column(db.String(255), unique=True, nullable=False)
+     #photo_filename  = db.Column(db.String(255))   store photo as file 
      identification_number = db.Column(db.String(255), unique=True, nullable=True)
      family_size =   db.Column(db.Integer, unique=True)
      children =  db.Column(db.String(255), unique=True, nullable=True)
@@ -89,14 +91,13 @@ class Tenant(db.Model):
      emergency_name2 =  db.Column(db.String(255), unique=True, nullable=True)
      emergency_contact2 =  db.Column(db.String(255), unique=True, nullable=True)
      apartment_name = db.Column(db.String(255), unique=True, nullable=True)
-     housenumber = db.Column(db.String(255), unique=True, nullable=False)
      rent = db.Column(db.String(255), unique=True, nullable=True)
      deposit = db.Column(db.String(255), unique=True, nullable=True)
      bedrooms = db.Column(db.String(255), unique=True, nullable=True)
      house_condition = db.Column(db.String(255), unique=True, nullable=True)
      lease_start = db.Column(db.Date)
      lease_end = db.Column(db.Date)
-     Property_id = db.Column(db.Integer, db.ForeignKey('property.id'), nullable=False)
+     Property_id = db.Column(db.Integer, db.ForeignKey('property.id'), nullable=True)
      date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
      def __repr__(self):
@@ -138,7 +139,7 @@ def landlord_login():
       #   print(f"Logging in user: {username}")
       #   print(f"User found: {user}")
       #   if user:
-      #        print(f"Stored hash: {user.password}")
+      #        print(f"Stored hash: {user.password}")     
       #        print(f"Entered password: {password}")
        
         if landlord and check_password_hash(landlord.password, password):
@@ -180,23 +181,39 @@ def landlord_register():
       
    return render_template('landlord_signup.html')
 
-@app.route('/addTenant')
+@app.route('/addTenant', methods=['POST','GET'])
 def addTenant():
    if request.method == 'POST':
       #user = User.query.get(session('user_id'))
-
-      tenantname = request.form.get('tenantname')
-      tenantemail = request.form.get('tenantemail')
-      housenumber = request.form.get('housenumber')
-      property_id = request.form.get('property')
-      phonenumber = request.form.get('phonenumber')
-
-      n_tenant = Tenant(tenantname=tenantname, tenantemail=tenantemail, housenumber=housenumber, property_id=property_id, phonenumber=phonenumber)
+      n_tenant = Tenant(
+        tenantname = request.form.get('tenantname'),
+        tenantemail = request.form.get('tenantemail'),
+        phonenumber = request.form.get('phonenumber'),
+        housenumber = request.form.get('housenumber'),
+        nationality = request.form.get('nationality'),
+        identification_number = request.form.get('identification_number'),
+        family_size = request.form.get('family_size'),
+        children = request.form.get('children'),
+        employment_status = request.form.get('employment_status'),
+        housemanager_name = request.form.get('housemanager_name'),
+        housemanager_ID = request.form.get('housemanager_ID'),
+        emergency_name1 = request.form.get('emergency_name1'),
+        emergency_contact1 = request.form.get('emergency_contact1'),
+        emergency_name2 = request.form.get('emergency_name2'),
+        emergency_contact2 = request.form.get('emergency_contact2'),
+        apartment_name = request.form.get('apartment_name'),
+        rent = request.form.get('rent'),
+        deposit = request.form.get('deposit'),
+        bedrooms = request.form.get('bedrooms'),
+        house_condition = request.form.get('house_condition'),
+        lease_start = datetime.strptime(request.form.get('lease_start'), '%Y-%m-%d'),
+        lease_end = datetime.strptime(request.form.get('lease_end'), '%Y-%m-%d')
+      )
       db.session.add(n_tenant)
       db.session.commit()
       flash("Tenant added successfuly")
+      print(n_tenant)
       return redirect(url_for('tenants'))
-    
    return render_template('tenants.html')
 
 @app.route('/Tenant/edit/<int:Tenant_id>', methods=['GET','POST'])
@@ -252,6 +269,26 @@ def tenants():
 def properties():
   return render_template('properties.html')
 
+@app.route('/addproperty', methods=['GET','POST'])
+def addproperty():
+   if request.method == 'POST':
+    property = Property(
+       propertyname = request.form.get('propertyname'),
+       Units = request.form.get('Units'),
+       Location = request.form.get('Location'),
+       Land_no = request.form.get('Land_no'),
+       caretaker = request.form.get('caretaker'),
+       caretaker_id = request.form.get('caretaker_id'),
+       security_name = request.form.get('security_name'),
+       security_buss_no = request.form.get('security_buss_no')
+    )
+    db.session.add(property)
+    db.session.commit()
+    flash("Property added successfully")
+    print(property)
+    return redirect(url_for('properties'))
+   return render_template('properties.html')
+
 @app.route('/rent')
 def rent():
   return render_template('rent.html')
@@ -273,8 +310,8 @@ failed_attempts = {}
 @app.route('/changepassword' , methods=['GET','POST'])
 def changepassword():
    if request.method == 'POST':
-      email = email.form.get('email')
-      password = password.form.get('password')
+      email = request.form.get('email')
+      password = request.form.get('password')
       
       if email == '' or password == '':
          flash("please fill the field!")
@@ -327,8 +364,8 @@ def admin_login():
       
 @app.route('/admin_dashboard')
 def admin_dashboard():
-    if 'admin_id' not in session:
-        return redirect(url_for('admin_login'))
+   #  if 'admin_id' not in session:
+   #      return redirect(url_for('admin_login'))
     landlords = Landlord.query.all()
     tenants = Tenant.query.all()
     properties = Property.query.all()
@@ -339,6 +376,8 @@ def admin_dashboard():
 def create_landlord():
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
+
+    property = Property.query.all()
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
@@ -356,7 +395,11 @@ def notify_admin(email):
     msg.body = f"There have been multiple failed password reset attempts using this email: {email}"
     mail.send(msg)
 
+@app.route('/admin_landlord')
+def admin_landlord():
+   return render_template ('admin_landlord.html')
+
 if (__name__) == ('__main__'):
-      # with app.app_context():
-      #    db.create_all()
-  app.run(debug=True)
+      with app.app_context():
+          db.create_all()
+app.run(debug=True)

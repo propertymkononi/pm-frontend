@@ -448,28 +448,29 @@
 
 <!-- property Form -->
                     <!-- property Household Details -->
+                <form action="/addproperty" method="post">
 
                     <div class="propert-form" id="propertyForm" style="background-color: aliceblue;">
                         <br>
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Property Information:</h4>
-                        <input type="text" id="propertyName" placeholder="Property Name" required>
-                        <input type="number" id="propertyCapacity" placeholder="No. of Houses" required>
-                        <input type="date" placeholder="Year of Construction" name="" id="propertyYearOfConstruction">
-                        <input type="text" id="propertyLandNumber" placeholder="Land No." required>
-                        <input type="text" id="propertyLocation" placeholder="Location" required>
+                        <input type="text" id="propertyName" name="propertyname" placeholder="Property Name" required>
+                        <input type="number" id="propertyCapacity" name="Units" placeholder="No. of Houses" required>
+                        <!-- <input type="date" placeholder="Year of Construction" name="" id="propertyYearOfConstruction"> -->
+                        <input type="text" id="propertyLandNumber" name="Land_no" placeholder="Land No." required>
+                        <input type="text" id="propertyLocation" name="Location" placeholder="Location" required>
                         
                         <br><br>
                         <!-- property Management Details -->
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Property Management:</h4>
-                        <input type="text" id="propertyManager" placeholder="Caretaker/Agent Name" required>
-                        <input type="text" id="propertyManagerIdentification" placeholder="Caretaker/Agent ID" required>
+                        <input type="text" id="propertyManager" name="caretaker" placeholder="Caretaker/Agent Name" required>
+                        <input type="text" id="propertyManagerIdentification" name="caretaker_id" placeholder="Caretaker/Agent ID" required>
 
                         <br><br>
                         <!-- property security Details -->
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024; padding: 0.5rem ;">Property security:</h4>
 
-                        <input type="text" id="propertySecurityAgent" placeholder="Security Agent Name" required>
-                        <input type="text" id="propertySecurityRegistration" placeholder="Security Agent Reg No." required>
+                        <input type="text" id="propertySecurityAgent" name="security_name" placeholder="Security Agent Name" required>
+                        <input type="text" id="propertySecurityRegistration" name="security_buss_no" placeholder="Security Agent Reg No." required>
 
 
                         <br> <br>
@@ -493,7 +494,7 @@
                         >Cancel</button> 
                         <p style="padding: 0.5em;"></p>
                     </div>
-
+                </form>
                     <!-- property UI Table -->
                     <table class="property-details">
                         <thead>
