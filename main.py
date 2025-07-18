@@ -409,11 +409,11 @@ def admin_financials():
 
 @app.route('/admin_properties')
 def admin_properties():
-   return render_template('/admin_properties.html')
+   return render_template('admin_properties.html')
 
 @app.route('/admin_properties_info')
 def admin_properties_info():
-   return render_template('/admin_properties_information.html')
+   return render_template('admin_properties_information.html')
 
 @app.route('/admin_requests')
 def admin_requests():
@@ -425,7 +425,7 @@ def admin_vendors():
 
 @app.route('/admin_tenants_info')
 def admin_tenants_info():
-   return render_template('/admin_tenants_information.html')
+   return render_template('admin_tenants_information.html')
 
 @app.route('/admin_logout')
 def admin_logout():
