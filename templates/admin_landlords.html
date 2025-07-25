@@ -757,7 +757,7 @@
                                         <style>
                                           .landlord-information-btn:hover {background: #45a049; }
                                         </style>
-                                        <a href="/pm-frontend/templates/admin_landlords_information"><button class="landlord-information-btn">Oscar Omondi (SAMPLE landlord information on Click) </button> </a>
+                                        <a href="/admin_landlords_info"><button class="landlord-information-btn">Oscar Omondi (SAMPLE landlord information on Click) </button> </a>
                                 </td>
 
                                 <!-- Javascript for sample data populated on the UI -->
@@ -773,12 +773,15 @@
             <td>PM_251223_L001</td>
             <td> <button class="view-landlord-information" style= "border:none";>Oscar Omondi </button> </td>
             <td>
-                        <select name="PM_L_251223_001Properties" id="propertyList" required>
+                        <select name="property_id" id="propertyList" required>
+                            {% for property in properties %}
+                            <option value="{{property.id}}">{{landlord.name}}</option>
                             <option value="" disabled selected>Oscar's Properties:</option>
                             <option value="property1001">Triple A Heights</option>
                             <option value="property2001">Movenpick</option>
                             <option value="property3001">Aluta House</option>
                             <option value="property4001">Perimeter Wall</option> <!-- Add more listings. in the DB, each property is added in a separate row -->
+                            {% endfor %}
                         </select>
 
             </td>

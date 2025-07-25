@@ -280,7 +280,8 @@ def addproperty():
        caretaker = request.form.get('caretaker'),
        caretaker_id = request.form.get('caretaker_id'),
        security_name = request.form.get('security_name'),
-       security_buss_no = request.form.get('security_buss_no')
+       security_buss_no = request.form.get('security_buss_no'),
+       landlord_id=session['user_id']
     )
     db.session.add(property)
     db.session.commit()
@@ -372,12 +373,11 @@ def admin_dashboard():
     
     return render_template('admin_dashboard.html', landlords=landlords, tenants=tenants, properties=properties)
 
-@app.route('/admin/create_landlord', methods=['GET', 'POST'])
-def create_landlord():
+@app.route('/addlandlord', methods=['GET', 'POST'])
+def addlandlord():
     if 'admin_id' not in session:
         return redirect(url_for('admin_login'))
 
-    property = Property.query.all()
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
@@ -386,7 +386,7 @@ def create_landlord():
         db.session.add(new_landlord)
         db.session.commit()
         return redirect(url_for('admin_dashboard'))
-    return render_template('create_landlord.html')
+    return render_template('admin_landlords.html')
 
 def notify_admin(email):
     msg = Message('ALERT: Suspicious Password Reset Attempt',
@@ -409,11 +409,16 @@ def admin_financials():
 
 @app.route('/admin_properties')
 def admin_properties():
-   return render_template('/admin_properties.html')
+   landlord_id = request.args.get('landlord_id')
+   if landlord_id:
+      properties = Property.query.filter_by(landlord_id=landlord_id).all()
+   else:
+      properties = Property.query.all()
+   return render_template('/admin_properties.html', properties=properties)
 
 @app.route('/admin_properties_info')
 def admin_properties_info():
-   return render_template('/admin_properties_information.html')
+   return render_template('admin_properties_information.html')
 
 @app.route('/admin_requests')
 def admin_requests():
@@ -425,13 +430,17 @@ def admin_vendors():
 
 @app.route('/admin_tenants_info')
 def admin_tenants_info():
-   return render_template('/admin_tenants_information.html')
+   return render_template('admin_tenants_information.html')
 
 @app.route('/admin_logout')
 def admin_logout():
     session.clear()
     flash('You have been logged out.')
     return redirect(url_for('index'))
+
+
+"""Vendors section
+-----------------------------------------------------------------------------"""
 
 
 if (__name__) == ('__main__'):
