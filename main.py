@@ -414,7 +414,8 @@ def admin_properties():
       properties = Property.query.filter_by(landlord_id=landlord_id).all()
    else:
       properties = Property.query.all()
-   return render_template('/admin_properties.html', properties=properties)
+   return render_template('admin_properties.html', properties=properties)
+ 
 
 @app.route('/admin_properties_info')
 def admin_properties_info():
