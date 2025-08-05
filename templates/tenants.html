@@ -518,7 +518,12 @@
                         <!-- tenant property details -->
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">Apartment Details:</h4>
-                        <input type="text" id="apartment" name="apartment_name" placeholder="Apartment" required>
+                        <select name="property_id" required>
+                            <option value="" disabled selected>Apartment</option>
+                         {% for property in properties %}
+                             <option value="{{ property.id }}">{{ property.propertyname }}</option>
+                         {% endfor %}
+                        </select>
                         <input type="text" id="houseNumber" name="housenumber" placeholder="House No." required>
                         <input type="number" id="monthlyRent" name="rent" placeholder="Rent e.g. 13000" required>
                         <input type="number" id="securityDeposit" name="deposit" placeholder="Deposit e.g. 13000" required>

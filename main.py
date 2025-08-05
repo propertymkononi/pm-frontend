@@ -47,7 +47,7 @@ class Property(db.Model):
      caretaker = db.Column(db.String(255), unique=True, nullable=False)
      caretaker_id = db.Column(db.String(255), unique=True, nullable=False)
      security_name = db.Column(db.String(255), unique=True, nullable=False)
-     security_buss_no = db.Column(db.String(255),  nullable=False)
+     security_buss_no = db.Column(db.String(255), unique=False, nullable=False)
      tenants = db.relationship('Tenant', backref='property', lazy=True)
      landlords = db.relationship("Landlord", secondary='landlord_property', back_populates='properties')
 
@@ -55,7 +55,7 @@ class Property(db.Model):
    
 
      def __repr__(self):
-      return f"Property('{self.id}','{self.propertyname}', '{self.Units}','{self.date_created}', '{self.tenants}' )"
+      return f"Property('{self.id}','{self.propertyname}', '{self.Units}','{self.date_created}', '{self.tenants},'{self.landlords}', '{self.Location}', '{self.Land_no}', '{self.caretaker}', '{self.caretaker_id}', '{self.security_name}', '{self.security_buss_no}' )"
 
 
 class Landlord(db.Model):
@@ -184,7 +184,7 @@ def landlord_register():
 @app.route('/addTenant', methods=['POST','GET'])
 def addTenant():
    if request.method == 'POST':
-      #user = User.query.get(session('user_id'))
+      properties = Property.query.all()
       n_tenant = Tenant(
         tenantname = request.form.get('tenantname'),
         tenantemail = request.form.get('tenantemail'),
@@ -207,14 +207,15 @@ def addTenant():
         bedrooms = request.form.get('bedrooms'),
         house_condition = request.form.get('house_condition'),
         lease_start = datetime.strptime(request.form.get('lease_start'), '%Y-%m-%d'),
-        lease_end = datetime.strptime(request.form.get('lease_end'), '%Y-%m-%d')
+        lease_end = datetime.strptime(request.form.get('lease_end'), '%Y-%m-%d'),
+        Property_id = request.form.get('property_id')
       )
       db.session.add(n_tenant)
       db.session.commit()
       flash("Tenant added successfuly")
       print(n_tenant)
       return redirect(url_for('tenants'))
-   return render_template('tenants.html')
+   return render_template('tenants.html',properties=properties)
 
 @app.route('/Tenant/edit/<int:Tenant_id>', methods=['GET','POST'])
 def editTenant(Tenant_id):
@@ -263,7 +264,8 @@ def landlord_dashboard():
 
 @app.route('/tenants')
 def tenants():
-  return render_template('tenants.html')
+  properties = Property.query.all()
+  return render_template('tenants.html', properties=properties)
 
 @app.route('/properties')
 def properties():
@@ -271,6 +273,10 @@ def properties():
 
 @app.route('/addproperty', methods=['GET','POST'])
 def addproperty():
+   if 'landlord_id' not in session:
+    return redirect(url_for('landlord_login'))
+   
+   landlord = Landlord.query.get(session.get('landlord_id'))
    if request.method == 'POST':
     property = Property(
        propertyname = request.form.get('propertyname'),
@@ -281,7 +287,7 @@ def addproperty():
        caretaker_id = request.form.get('caretaker_id'),
        security_name = request.form.get('security_name'),
        security_buss_no = request.form.get('security_buss_no'),
-       landlord_id=session['user_id']
+       landlords = [landlord]
     )
     db.session.add(property)
     db.session.commit()
@@ -335,7 +341,6 @@ def changepassword():
    else:
       return render_template('landlord_forgot_password.html')
 
-
 @app.route('/landlord_logout')
 def logout():
     session.clear()
@@ -360,7 +365,6 @@ def admin_login():
      else:
       flash("Inavalid username or password")
       return redirect(url_for('admin_login'))
-   
    return render_template('admin_login.html')
       
 @app.route('/admin_dashboard')
@@ -370,7 +374,7 @@ def admin_dashboard():
     landlords = Landlord.query.all()
     tenants = Tenant.query.all()
     properties = Property.query.all()
-    
+    print(properties)
     return render_template('admin_dashboard.html', landlords=landlords, tenants=tenants, properties=properties)
 
 @app.route('/addlandlord', methods=['GET', 'POST'])
@@ -416,7 +420,6 @@ def admin_properties():
       properties = Property.query.all()
    return render_template('admin_properties.html', properties=properties)
  
-
 @app.route('/admin_properties_info')
 def admin_properties_info():
    return render_template('admin_properties_information.html')
@@ -445,6 +448,6 @@ def admin_logout():
 
 
 if (__name__) == ('__main__'):
-      # with app.app_context():
-      #     db.create_all()
-  app.run(debug=True)
+# with app.app_context():
+   # db.create_all()
+   app.run(debug=True)
