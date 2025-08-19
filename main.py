@@ -116,11 +116,6 @@ landlord_property = db.Table('landlord_property',
     db.Column('property_id', db.Integer, db.ForeignKey('property.id'), primary_key=True)
 )
 
-#Insert the admin data only once 
-# admin = Admin(username='Nelson123',password=generate_password_hash('Nelson123', 10))
-# db.session.add(admin)
-# db.session.commit()
-
 
 @app.route('/')
 def index():
@@ -351,6 +346,23 @@ def logout():
 """Admin Section
 ----------------------------------------------------------------------------------"""
 
+def create_admin():
+    admin = Admin.query.first()
+    if not admin:
+        username = 'PMadmin2'
+        password = 'PMadmin2'
+        hashed_password = generate_password_hash(password)
+        new_admin = Admin(username=username, password=hashed_password)
+        db.session.add(new_admin)
+        db.session.commit()
+        print("Admin created successfully")
+        print(new_admin)
+    else:
+        print("Admin already exists")
+        all_admins = Admin.query.all()
+        print(all_admins)
+
+
 @app.route('/admin_login', methods=['GET','POST'])
 def admin_login():
    if request.method == 'POST':
@@ -410,7 +422,7 @@ def admin_landlord_info():
 @app.route('/admin_financials')
 def admin_financials():
    return render_template('admin_financials.html')
-
+ 
 @app.route('/admin_properties')
 def admin_properties():
    landlord_id = request.args.get('landlord_id')
@@ -448,6 +460,7 @@ def admin_logout():
 
 
 if (__name__) == ('__main__'):
-# with app.app_context():
-   # db.create_all()
-   app.run(debug=True)
+     with app.app_context():
+        db.create_all()
+        create_admin()
+     app.run(debug=True)
