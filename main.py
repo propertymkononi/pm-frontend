@@ -1,7 +1,7 @@
 """This is the code for Property Mkononi backend
 -----------------------------------------------
 The imported packages assist in app functionality and intergration with other languages
-Security is managed by the werkzeug package
+
 The SQlalchemy package handles user tables and database query
 """
 
@@ -375,7 +375,7 @@ def admin_login():
        flash("logged in successfully!")
        return redirect(url_for('admin_dashboard'))
      else:
-      flash("Inavalid username or password")
+      flash("Inavalid username or password. Please try again")
       return redirect(url_for('admin_login'))
    return render_template('admin_login.html')
       
@@ -387,6 +387,8 @@ def admin_dashboard():
     tenants = Tenant.query.all()
     properties = Property.query.all()
     print(properties)
+    print(landlords)
+    print(tenants)
     return render_template('admin_dashboard.html', landlords=landlords, tenants=tenants, properties=properties)
 
 @app.route('/addlandlord', methods=['GET', 'POST'])
@@ -460,7 +462,7 @@ def admin_logout():
 
 
 if (__name__) == ('__main__'):
-     with app.app_context():
-        db.create_all()
-        create_admin()
+   #   with app.app_context():
+   #      db.create_all()
+   #      create_admin()
      app.run(debug=True)
