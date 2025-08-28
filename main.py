@@ -386,9 +386,9 @@ def admin_dashboard():
     landlords = Landlord.query.all()
     tenants = Tenant.query.all()
     properties = Property.query.all()
-    print(properties)
-    print(landlords)
-    print(tenants)
+   #  print(properties)
+   #  print(landlords)
+   #  print(tenants)
     return render_template('admin_dashboard.html', landlords=landlords, tenants=tenants, properties=properties)
 
 @app.route('/addlandlord', methods=['GET', 'POST'])
@@ -415,7 +415,10 @@ def notify_admin(email):
 
 @app.route('/admin_landlords')
 def admin_landlords():
-   return render_template ('admin_landlords.html')
+    landlords = Landlord.query.all()
+    tenants = Tenant.query.all()
+    properties = Property.query.all()
+    return render_template('admin_landlords.html', landlords=landlords, tenants=tenants, properties=properties)
 
 @app.route('/admin_landlords_info')
 def admin_landlord_info():
