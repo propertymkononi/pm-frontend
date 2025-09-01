@@ -460,6 +460,252 @@
                     </div>
  </div>
 
+                    <!-- landlord Form xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+                    <form class="landlord-form" id="landlordForm" style="background-color: aliceblue;" action="/addlandord" method="post">
+                        <br>
+
+
+                        <!-- 👤 Ownership Information xxxxxxxxxxxxxxxxxxxxxxx-->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Personal Information:</h4>
+                        <input type="text" id="landlordFullName" placeholder="Landlord Full Name" >
+                        <input type="text" id="nationalIdentification" placeholder="National ID or Passport" >
+                        <input type="text" id="contactNumber" placeholder="Contact Number (Phone/WhatsApp)"
+                            > <br>
+                        <input type="text" id="emailAddress" placeholder="Email Address" >
+                        <input type="text" id="physicalAddressLocation" placeholder="Physical Address / Location"
+                            >
+                        <input type="text" id="kraPin" placeholder="KRA PIN (Kenya-specific)" > <br>
+                        <select name="nationality" id="nationality" >
+                            <option value="" disabled selected>Select Country of Origin</option>
+                            <option value="Kenya">Kenya</option>
+                            <option value="Uganda">Uganda</option>
+                            <option value="Tanzania">Tanzania</option>
+                            <option value="Burundi">Burundi</option>
+                            <option value="Rwanda">Rwanda</option>
+                            <option value="Bukinafaso">Bukinafaso</option>
+                            <option value="Ethiopia">Ethiopia</option>
+    
+                            <!-- Add more countries as needed -->
+                             <!-- PAYMENT METHOD -->
+                        </select>
+                        <select name="paymentmethod" id="preferredPaymentMethod" >
+                            <option value="" disabled selected>Preferred Billing Method</option>
+                            <option value="Bank">Bank</option>
+                            <option value="Mpesa">Mpesa</option>
+                            <option value="Paypal">Paypal</option>
+                            <option value="Otherpaymentmethod">Other</option>
+                        </select>
+
+                        <br> <br>
+
+                        <!-- Basic Property Information xxxxxxxxxxxxxxxxxxxx -->
+
+                        <!-- <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Basic Property Information:</h4>
+                        <input type="text" id="propertyName" placeholder="Property Name" >
+                        <select name="propertytype" id="propertyType" >
+                            <option value="" disabled selected>Property Type</option>
+                            <option value="apartment">Apartment</option>
+                            <option value="bungalow">Bungalow</option>
+                            <option value="airbnb">AirBnB</option>
+                            <option value="commercial">Commercial</option> -->
+                            <!-- automatically assign a unique ID to a listing -->
+
+                            <!-- Add more types as needed -->
+                        <!-- </select>
+                        <input type="number" id="units" placeholder="Number of Units/Houses" >
+                        <br>
+                        <input type="text" id="address" placeholder="Physical Address / Location"
+                            >
+                        <input type="text" id="landmark" placeholder="Nearest Landmark or Road" > -->
+
+                        <!-- Add more types as needed -->
+                        <!-- </select>
+                        <select name="documenttype" id="documentType" >
+                            <option value="" disabled selected>Ownership Document</option>
+                            <option value="titleDeed">Title Deed</option>
+                            <option value="leaseAgreement">Lease Agreement</option>
+                            <option value="businessRegistration">Business Registration Certificate</option>
+                            <option value="companyRegistration">Company Registration Certificate</option> -->
+
+                            <!-- Add more types as needed -->
+                        <!-- </select>
+                        <br> <br> -->
+
+
+                        <!-- Physical Features xxxxxxxxxxxxxxxxxxxx -->
+
+                        <!-- <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Physical Features:</h4>
+                        <input type="number" id="floors" placeholder="Number of Floors" >
+                        <input type="text" id="roomSize" placeholder="Unit Types (e.g., 1BR, 2BR, 3BR, Bedsitter, Studio)"
+                            >
+                        <input type="text" id="unitSize"
+                            placeholder="Size of Each Unit (optional: square footage)">
+                        <select name="features" id="propertyFeatures" >
+                            <option value="" disabled selected>Property Features:</option>
+                            <option value="Borehole">Borehole / Water Tank</option>
+                            <option value="Parking">Parking</option>
+                            <option value="Balcony">Balcony</option>
+                            <option value="Perimeter">Perimeter Wall</option>
+                            <option value="Power">Power Supply Type (Token, Postpaid)</option>
+                            <option value="Generator">Generator Availability</option>
+                            <option value="wifi">Internet Availability (WiFi)</option> -->
+
+                            <!-- checkbox option -->
+<!-- <div >
+      <fieldset style="">
+    <legend>Select your favorite fruits:</legend>
+    <label>
+      <input type="checkbox" name="features" value="Borehole">
+      Borehole
+    </label>
+    <label>
+      <input type="checkbox" name="features" value="Parking">
+      Parking
+    </label>
+    <label>
+      <input type="checkbox" name="features" value="Balcony">
+      Balcony
+    </label>
+    <label>
+      <input type="checkbox" name="features" value="Perimeter">
+      Perimeter Wall
+    </label>
+  </fieldset>
+</div> -->
+                            <!-- Add more features as needed and change into checkbox-->
+                        <!-- </select>
+
+
+                        <br> <br> -->
+
+                        <!-- Financial & Rent Details xxxxxxxxxxxxxxxxxxxxxx -->
+
+                        <!-- <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Financial & Rent Details:</h4>
+                        <input type="number" id="rent"
+                            placeholder="Rent per Unit Type (1BR: 15k, 2BR: 22k, etc.)">
+                        <input type="number" id="deposit" placeholder="Deposit Paid">
+                        <input type="number" id="serviceCharge"
+                            placeholder="Service Charges (garbage, security, etc.)" > <br>
+                        <input type="number" id="penalty" placeholder="Penalties for Late Rent (per month if applicable)"
+                            required>
+                        <input type="text" id="rentCollectionMethod" placeholder="Rent Collection Method (cash, bank, Mpesa)"
+                            >
+                        <input type="date" id="rentDate" placeholder="Rent Payment Due Date" >
+
+                        <br> <br> -->
+
+
+                        <!-- Management Details xxxxxxxxxxxxxxxxxxxx -->
+
+                        <!-- <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Management Details:</h4>
+                        <input type="text" id="caretakerName" placeholder="Caretaker / Agent Full Name" >
+                        <input type="text" id="caretakerContact" placeholder="Caretaker Phone Number" >
+                        <input type="text" id="caretakerId" placeholder="Caretaker ID" > <br>
+                        <input type="text" id="inspection"
+                            placeholder="Inspection Frequency (monthly, quarterly)" >
+
+                        <br> <br> -->
+
+
+                        <!-- Security Details xxxxxxxxxxxxxxxxxxxx -->
+
+                        <!-- <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Security Details:</h4>
+                        <input type="text" id="securityName" placeholder="Security Company Name" >
+                        <input type="text" id="securityContact" placeholder="Security Guard Contact Info" >
+                        <input type="number" id="securityQuantity" placeholder="Number of Guards (Day/Night)" >
+                        <br>
+                        <input type="text" id="cctv" placeholder="CCTV Availability" >
+                        <input type="text" id="gate" placeholder="Gate Locking Protocols" >
+
+
+                        <br> <br> -->
+
+
+                        <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
+
+
+                        
+
+                        
+
+
+                        <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
+
+                    
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            Attach Digital Documents:</h4>
+                        <div style="padding: 1em;">
+                            
+                            <!-- profile picture -->
+                            <label for="profilePicture"> Profile Picture</label>
+                            <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+                            <div class="preview" id="imagePreviewContainer">
+                                <img id="imagePreview" src="" alt="Image Preview" width="100">
+                            </div> <br>
+                            <!-- KRA pin document -->
+                            <label for="kraDocument" style="font-size:1em">KRA Pin Document</label>
+                            <input type="file" id="kraDocument" accept="image/*" onchange="previewKra(event)">
+                            <div class="preview" id="kraPreviewContainer">
+                                <img id="kraPreview" src="" alt="Ownership Document Preview" width="100">
+                            </div> <br>
+                            <!-- Ownership Documents (title, lease) -->
+                            <!-- <label for="ownershipDocument" style="font-size:1em">Ownership Documents (title, lease)</label>
+                            <input type="file" id="ownershipDocument" accept="image/*" onchange="previewOwnership(event)">
+                            <div class="preview" id="ownershipPreviewContainer">
+                                <img id="ownershipPreview" src="" alt="Ownership Document Preview" width="100">
+                            </div> <br> -->
+
+                            <!-- property photo -->
+                            <!-- <label for="propertyPhoto" style="font-size:1em">Property Photos</label>
+                            <input type="file" id="propertyPhoto" accept="image/*" onchange="previewProperty(event)"
+                                >
+                            <div class="preview" id="propertyPreviewContainer">
+                                <img id="propertyPreview" src="" alt="Property Photo Preview" width="100">
+                            </div> <br> -->
+                            <!-- Rent Agreement Template photo -->
+                            <!-- <label for="agreementTemplate" style="font-size:1em">Rent Agreement Template</label>
+                            <input type="file" id="agreementTemplate" accept="image/*" onchange="previewAgreement(event)"
+                                >
+                            <div class="preview" id="agreementPreviewContainer">
+                                <img id="agreementPreview" src="" alt="Rent Agreement" width="100">
+                            </div> <br> -->
+                            <!-- Agent Agreement (if managed by Property Mkononi)photo -->
+                            <!-- <label for="caretakerAgreementPhoto" style="font-size:1em">Agent Agreement (if managed by Property
+                                Mkononi)</label>
+                            <input type="file" id="caretakerAgreementPhoto" accept="image/*" onchange="previewCaretaker(event)"
+                                required>
+                            <div class="preview" id="caretakerPreviewContainer">
+                                <img id="caretakerPreview" src="" alt="Caretaker" width="100">
+                            </div> -->
+                        </div>
+
+
+                        <!-- landlord References xxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+                        <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
+                            References:</h4>
+                        <input type="text" id="reference1Name" placeholder="Reference 1: Name" >
+                        <input type="text" id="reference1Contact" placeholder="Reference 1: Contact" > <br>
+                        <input type="text" id="reference2Name" placeholder="Reference 2: Name" >
+                        <input type="text" id="reference2Contact" placeholder="Reference 2: Contact" >
+
+                        <br> <br>
+
+                        <br> <br>
+
+                        <button id="addLandlordBtn" onclick="addOrUpdateLandlord()">Register New Landlord</button>
+                        <button onclick="hideForm()" style="background-color: red">Cancel</button>
+                        <p style="padding: 0.5em;"></p>
+                        </form>
+
+                    
                     <!-- tenant Form -->
                     <div class="tenant-form" id="tenantForm" style="background-color: aliceblue;">
                         <br>
