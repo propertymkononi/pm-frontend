@@ -517,21 +517,9 @@
               <!-- Add more types as needed -->
             </select>
             <input type="number" id="units" placeholder="Number of Units/Houses">
-            <br>
             <input type="text" id="address" placeholder="Physical Address / Location">
             <input type="text" id="landmark" placeholder="Nearest Landmark or Road">
 
-            <!-- Add more types as needed -->
-            </select>
-            <select name="documenttype" id="documentType">
-              <option value="" disabled selected>Ownership Document</option>
-              <option value="titleDeed">Title Deed</option>
-              <option value="leaseAgreement">Lease Agreement</option>
-              <option value="businessRegistration">Business Registration Certificate</option>
-              <option value="companyRegistration">Company Registration Certificate</option>
-
-              <!-- Add more types as needed -->
-            </select>
             <br> <br>
 
 
@@ -540,35 +528,9 @@
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Physical Features:</h4>
             <input type="number" id="floors" placeholder="Number of Floors">
-            <input type="text" id="roomSize" placeholder="Unit Types (e.g., 1BR, 2BR, 3BR, Bedsitter, Studio)">
-            <input type="text" id="unitSize" placeholder="Size of Each Unit (optional: square footage)">
-            <input type="text" id="propertyFeatures"
+            <input type="text" id="rooms" placeholder="Unit Types (e.g., 1BR, 2BR, 3BR, Bedsitter, Studio)">
+            <input type="text" id="features"
               placeholder="Property Features (e.g.,Borehole, Parking, Generator Availability, WiFi)">
-
-
-            <!-- checkbox option -->
-            <!-- <div >
-      <fieldset style="">
-    <legend>Select your favorite fruits:</legend>
-    <label>
-      <input type="checkbox" name="features" value="Borehole">
-      Borehole
-    </label>
-    <label>
-      <input type="checkbox" name="features" value="Parking">
-      Parking
-    </label>
-    <label>
-      <input type="checkbox" name="features" value="Balcony">
-      Balcony
-    </label>
-    <label>
-      <input type="checkbox" name="features" value="Perimeter">
-      Perimeter Wall
-    </label>
-  </fieldset>
-</div> -->
-            <!-- Add more features as needed and change into checkbox-->
   
 
             <!-- Financial & Rent Details xxxxxxxxxxxxxxxxxxxxxx -->
@@ -591,8 +553,6 @@
               Management Details:</h4>
             <input type="text" id="caretakerName" placeholder="Caretaker / Agent Full Name">
             <input type="text" id="caretakerContact" placeholder="Caretaker Phone Number">
-            <input type="text" id="caretakerId" placeholder="Caretaker ID"> <br>
-            <input type="text" id="inspection" placeholder="Inspection Frequency (monthly, quarterly)">
 
             <br> <br>
 
@@ -603,11 +563,7 @@
               Security Details:</h4>
             <input type="text" id="securityName" placeholder="Security Company Name">
             <input type="text" id="securityContact" placeholder="Security Guard Contact Info">
-            <input type="number" id="securityQuantity" placeholder="Number of Guards (Day/Night)">
-            <br>
             <input type="text" id="cctv" placeholder="CCTV Availability">
-            <input type="text" id="gate" placeholder="Gate Locking Protocols">
-
 
             <br> <br>
 
@@ -640,15 +596,7 @@
               <div class="preview" id="agreementPreviewContainer">
                 <img id="agreementPreview" src="" alt="Rent Agreement" width="100">
               </div> <br>
-              <!-- Agent Agreement (if managed by Property Mkononi)photo -->
-              <label for="caretakerAgreementPhoto" style="font-size:1em">Agent Agreement (if managed by
-                Property
-                Mkononi)</label>
-              <input type="file" id="caretakerAgreementPhoto" accept="image/*" onchange="previewCaretaker(event)"
-                required>
-              <div class="preview" id="caretakerPreviewContainer">
-                <img id="caretakerPreview" src="" alt="Caretaker" width="100">
-              </div>
+      
             </div>
 
 
