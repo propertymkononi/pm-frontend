@@ -345,7 +345,7 @@
           <div class="dropdown-menu" id="dropdown">
             <!-- <a href="#">Edit Profile</a> -->
             <!-- <a href="#">Settings</a> -->
-            <a href='/pm-frontend/templates/index.html'>Logout</a>
+            <a href='/admin_logout'>Logout</a>
             <!-- this code ends the session for a user who MUST log back in to access the portal -->
           </div>
         </div>
@@ -579,13 +579,36 @@
             </thead>
             <tbody id="landlordTableBody" style="background-color: #f5f5f5;">
               <!-- Rows will be populated here -->
+               {% for landlord in landlords %}
+               <tr>
+                <td>{{landlord.username}}</td>
+                <!-- <td>{{landlord.apartment_name}}</td>
+                <td>{{landlord.phone_number}}</td> -->
+                <td>{{landlord.email}}</td>
+                <!-- <td>{{landlord.repair_status}}</td>
+                <td>{{landlord.pending_arrears}}</td> -->
+               </tr>
+               {% endfor %}
             </tbody>
 
             <!-- This is a sample Table Body only shown on the demo when a user clicks "view sample record" xxxxxxxxxxxxxxxxxxxx-->
             <tbody>
               <tr>
                 <td colspan="7">No landlord records found.
-
+                   {% for landlord in landlords %}
+                   <tr>
+                     <td class=user-name>{{ landlord.username }}</td>
+                     <td class=user-property>{{ landlord.properties[0].propertyname if landlord.properties else 'No property added' }}</td>
+                     <td class=user-phonenumber>{{ landlord.phonenumber }}</td>
+                     <td class=user-email>{{ landlord.email }}</td> 
+                     <td class=user-repairs>{{ landlord.repair_status }}</td>  
+                     <td class=user-arrears>{{ landlord.pending_arrears }}</td>
+                     <!-- The last two lines of code to update same as the properties -->
+                      <td>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                   </tr>
+                   {% endfor %}
                 </td>
 
                 <!-- Javascript for sample data populated on the UI -->
@@ -634,13 +657,13 @@
                     const deleteButton = landlordTableBody.querySelector('.delete-btn');
 
                     editButton.addEventListener('click', function () {
-                      const landlordName = editButton.parentElement.parentElement.cells[1].textContent;
-                      alert(`You are about to edit ${landlordName}'s information.`);
+                      const landlordFullName = editButton.parentElement.parentElement.cells[1].textContent;
+                      alert(`You are about to edit ${landlordFullName}'s information.`);
                     });
 
                     deleteButton.addEventListener('click', function () {
-                      const landlordName = deleteButton.parentElement.parentElement.cells[1].textContent;
-                      alert(`You are about to delete ${landlordName}'s information.`);
+                      const landlordFullName = deleteButton.parentElement.parentElement.cells[1].textContent;
+                      alert(`You are about to delete ${landlordFullName}'s information.`);
                     });
                   });
 
@@ -650,14 +673,14 @@
 
                     // Check if the clicked element is an Edit button
                     if (target.classList.contains('edit-btn')) {
-                      const landlordName = target.parentElement.parentElement.cells[1].textContent;
-                      alert(`Editing ${landlordName}'s information may lead to data interferance. Do you want to proceed?`);
+                      const landlordFullName = target.parentElement.parentElement.cells[1].textContent;
+                      alert(`Editing ${landlordFullName}'s information may lead to data interferance. Do you want to proceed?`);
                     }
 
                     // Check if the clicked element is a Delete button
                     if (target.classList.contains('delete-btn')) {
-                      const landlordName = target.parentElement.parentElement.cells[1].textContent;
-                      const confirmation = confirm(`By taking this action, you will no longer be able to access ${landlordName}'s information. Press "OK" to completely erase landlord data.`);
+                      const landlordFullName = target.parentElement.parentElement.cells[1].textContent;
+                      const confirmation = confirm(`By taking this action, you will no longer be able to access ${landlordFullName}'s information. Press "OK" to completely erase landlord data.`);
                       if (confirmation) {
                         // Remove the row from the table
                         target.parentElement.parentElement.remove();

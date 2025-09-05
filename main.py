@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from sqlalchemy.sql import func
 from flask_mail import Mail, Message
-
+from flask_migrate import Migrate
 
 
 
@@ -22,7 +22,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///propertym"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 db = SQLAlchemy(app)
 mail = Mail(app)
-  
+migrate = Migrate(app, db)
 #db.init_app(app)
 
 app.config['SECRET_KEY'] = "fdfafhqwee73jbhzx" # Change to a long random string in production
@@ -42,6 +42,7 @@ class Property(db.Model):
      id = db.Column(db.Integer, primary_key=True)
      propertyname = db.Column(db.String(255), unique=True, nullable=False)
      Units = db.Column(db.Integer, unique=True, nullable=False)
+     #Inspection_frequency = db.Column(db.String(255))
      Location = db.Column(db.String(255), unique=True, nullable=False)
      Land_no = db.Column(db.String(255), unique=True, nullable=True)
      caretaker = db.Column(db.String(255), unique=True, nullable=False)
@@ -62,9 +63,19 @@ class Landlord(db.Model):
     __tablename__ = 'landlord'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
-    #phonenumber = db.Column(db.String(255), nullable=False)
+   #  phonenumber = db.Column(db.String(255), nullable=False)
+   #  national_id = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+   #  KRA_pin = db.Column(db.String(255), unique=True, nullable=False)
+   #  country = db.Column(db.String(255))
+   #  profile_picture = db.Column(db.String(255))  # store photo as file path
+   #  Payment_method = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True, nullable=True)
+   #  kra_document = db.Column(db.String(255))
+   #  emergency_contact_name1 = db.Column(db.String(255), nullable=True)
+   #  emergency_contact_phone1 = db.Column(db.String(255), nullable=True)
+   #  emergency_contact_name2 = db.Column(db.String(255), nullable=True)
+   #  emergency_contact_phone2 = db.Column(db.String(255), nullable=True)
     properties = db.relationship('Property', secondary='landlord_property', back_populates='landlords')
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -78,7 +89,6 @@ class Tenant(db.Model):
      tenantemail = db.Column(db.String(255), unique=True, nullable=True)
      housenumber = db.Column(db.String(255), unique=True, nullable=True)
      phonenumber = db.Column(db.String(255), unique=True, nullable=False)
-     #photo_filename  = db.Column(db.String(255))   store photo as file 
      identification_number = db.Column(db.String(255), unique=True, nullable=True)
      family_size =   db.Column(db.Integer, unique=True)
      children =  db.Column(db.String(255), unique=True, nullable=True)
@@ -112,8 +122,8 @@ class Admin(db.Model):
       return f"Admin('{self.id}','{self.username}' )"
     
 landlord_property = db.Table('landlord_property',
-    db.Column('landlord_id', db.Integer, db.ForeignKey('landlord.id'), primary_key=True),
-    db.Column('property_id', db.Integer, db.ForeignKey('property.id'), primary_key=True)
+    db.Column('landlord_id', db.Integer, db.ForeignKey('landlord.id', name='fk_landlord_property_landlord'), primary_key=True),
+    db.Column('property_id', db.Integer, db.ForeignKey('property.id', name='fk_landlord_property_property'), primary_key=True)
 )
 
 
@@ -399,10 +409,27 @@ def addlandlord():
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
+        phonenumber = request.form.get('phonenumber')
+        national_id = request.form.get('national_id')
         password = generate_password_hash(request.form('password'))
-        new_landlord = Landlord(username=username, email=email, password=password)
+        profile_picture = request.form.get('profile_picture')
+        KRA_pin = request.form.get('KRA_pin')
+        kra_document = request.form.get('kra_document')
+        country = request.form.get('country')
+        payment_method = request.form.get('payment_method')
+        emergency_contact_name1 = request.form.get('emergency_contact_name1')
+        emergency_contact_phone1 = request.form.get('emergency_contact_phone1')
+        emergency_contact_name2 = request.form.get('emergency_contact_name2')
+        emergency_contact_phone2 = request.form.get('emergency_contact_phone2')
+        new_landlord = Landlord(username=username, email=email, password=password, phonenumber=phonenumber, national_id=national_id, profile_picture=profile_picture, kra_document=kra_document, KRA_pin=KRA_pin, country=country, payment_method=payment_method, emergency_contact_name1=emergency_contact_name1, emergency_contact_phone1=emergency_contact_phone1, emergency_contact_name2=emergency_contact_name2, emergency_contact_phone2=emergency_contact_phone2)
+        properties = request.form.getlist('properties')
+      #   for prop in properties:
+      #       property = Property.query.get(prop)        
+      #       if property:
+      #           new_landlord.properties.append(property)
         db.session.add(new_landlord)
         db.session.commit()
+        flash('Landlord added successfully!')
         return redirect(url_for('admin_dashboard'))
     return render_template('admin_landlords.html')
 
@@ -415,10 +442,38 @@ def notify_admin(email):
 
 @app.route('/admin_landlords')
 def admin_landlords():
-    landlords = Landlord.query.all()
-    tenants = Tenant.query.all()
-    properties = Property.query.all()
-    return render_template('admin_landlords.html', landlords=landlords, tenants=tenants, properties=properties)
+   landlords = Landlord.query.all()
+   #  tenants = Tenant.query.all()
+   #  properties = Property.query.all()
+   return render_template('admin_landlords.html', landlords=landlords)
+
+@app.route('/admin_landlord/edit/<int:landlord_id>', methods=['GET', 'POST'])
+def edit_admin_landlord(landlord_id):                       
+    landlord = Landlord.query.get_or_404(landlord_id)
+    if request.method == 'POST':
+        Landlord.username = request.form.get('username')
+        Landlord.email = request.form.get('email')
+        Landlord.phonenumber = request.form.get('phonenumber')
+        Landlord.national_id = request.form.get('national_id')
+        Landlord.KRA_pin = request.form.get('KRA_pin')
+        Landlord.country = request.form.get('country')
+        Landlord.profile_picture = request.form.get('profile_picture')
+        Landlord.payment_method = request.form.get('payment_method')
+        Landlord.kra_document = request.form.get('kra_document')
+        Landlord.emergency_contact_name1 = request.form.get('emergency_contact_name1')
+        Landlord.emergency_contact_phone1 = request.form.get('emergency_contact_phone1')
+        Landlord.emergency_contact_name2 = request.form.get('emergency_contact_name2')
+        Landlord.emergency_contact_phone2 = request.form.get('emergency_contact_phone2')
+        db.session.commit()
+        flash('Landlord updated successfully!')
+
+@app.route('/admin_landlord/delete/<int:landlord_id>', methods=['POST'])
+def delete_admin_landlord(landlord_id):
+    landlord = Landlord.query.get_or_404(landlord_id)
+    db.session.delete(landlord)
+    db.session.commit()
+    flash('Landlord deleted successfully!')
+    return redirect(url_for('admin_landlords'))
 
 @app.route('/admin_landlords_info')
 def admin_landlord_info():
@@ -462,10 +517,11 @@ def admin_logout():
 
 """Vendors section
 -----------------------------------------------------------------------------"""
-
+#@app.route('vendor_login', method=[GET,POST])
 
 if (__name__) == ('__main__'):
-   #   with app.app_context():
-   #      db.create_all()
-   #      create_admin()
+      # with app.app_context():
+      #     db.create_all()
+          #create_admin()
      app.run(debug=True)
+ 
