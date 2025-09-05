@@ -469,15 +469,23 @@ def edit_admin_landlord(landlord_id):
 
 @app.route('/admin_landlord/delete/<int:landlord_id>', methods=['POST'])
 def delete_admin_landlord(landlord_id):
-    landlord = Landlord.query.get_or_404(landlord_id)
+    landlords = Landlord.query.get_or_404(landlord_id)
     db.session.delete(landlord)
     db.session.commit()
     flash('Landlord deleted successfully!')
     return redirect(url_for('admin_landlords'))
 
-@app.route('/admin_landlords_info')
-def admin_landlord_info():
-   return render_template('admin_landlords_information.html')
+@app.route('/admin_landlords_info/<int:landlord_id>', methods=['GET', 'POST'])
+def admin_landlord_info(landlord_id):
+   landlords = Landlord.query.get_or_404(landlord_id)
+   if request.method == 'POST':
+       # Handle form submission for landlord information
+       username = request.form.get('username')
+       email = request.form.get('email')
+       Landlord.query.filter_by(id=landlord_id).update(dict(username=username, email=email))
+       db.session.commit()
+       flash("Landlord information updated successfully!")
+   return render_template('admin_landlords_information.html', landlord=landlord)
 
 @app.route('/admin_financials')
 def admin_financials():

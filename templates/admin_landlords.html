@@ -587,6 +587,11 @@
                 <td>{{landlord.email}}</td>
                 <!-- <td>{{landlord.repair_status}}</td>
                 <td>{{landlord.pending_arrears}}</td> -->
+                <td>
+                    <button class="edit-btn">Edit</button>
+                    <button class="delete-btn">Delete</button>
+                </td>
+
                </tr>
                {% endfor %}
             </tbody>
@@ -595,7 +600,7 @@
             <tbody>
               <tr>
                 <td colspan="7">No landlord records found.
-                   {% for landlord in landlords %}
+                   <!-- {% for landlord in landlords %}
                    <tr>
                      <td class=user-name>{{ landlord.username }}</td>
                      <td class=user-property>{{ landlord.properties[0].propertyname if landlord.properties else 'No property added' }}</td>
@@ -607,8 +612,9 @@
                       <td>
                         <button class="edit-btn">Edit</button>
                         <button class="delete-btn">Delete</button>
+                      </td>
                    </tr>
-                   {% endfor %}
+                   {% endfor %} -->
                 </td>
 
                 <!-- Javascript for sample data populated on the UI -->
