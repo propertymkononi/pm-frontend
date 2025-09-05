@@ -5,7 +5,7 @@ The imported packages assist in app functionality and intergration with other la
 The SQlalchemy package handles user tables and database query
 """
 
-from flask import Flask, render_template, request, redirect, session,  url_for, flash
+from flask import Flask, render_template, request, redirect, session,  url_for, flash, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy 
 from datetime import datetime
@@ -467,17 +467,30 @@ def edit_admin_landlord(landlord_id):
         db.session.commit()
         flash('Landlord updated successfully!')
 
+
+@app.route("/filter", methods=["GET"])
+def filter_landlord():
+    category = request.args.get("category")
+    detail = request.args.get("detail")
+
+    query = Landlord.query
+    if category and detail:
+        query = query.filter(getattr(Landlord, category) == detail)
+
+    landlords = [l.as_dict() for l in query.all()]
+    return jsonify(landlords)
+
 @app.route('/admin_landlord/delete/<int:landlord_id>', methods=['POST'])
 def delete_admin_landlord(landlord_id):
     landlords = Landlord.query.get_or_404(landlord_id)
-    db.session.delete(landlord)
+    db.session.delete(landlords)
     db.session.commit()
     flash('Landlord deleted successfully!')
     return redirect(url_for('admin_landlords'))
 
-@app.route('/admin_landlords_info/<int:landlord_id>', methods=['GET', 'POST'])
-def admin_landlord_info(landlord_id):
-   landlords = Landlord.query.get_or_404(landlord_id)
+@app.route('/admin_landlords_info', methods=['GET', 'POST'])
+def admin_landlord_info():
+   landlords = Landlord.query.all()
    if request.method == 'POST':
        # Handle form submission for landlord information
        username = request.form.get('username')
@@ -485,7 +498,7 @@ def admin_landlord_info(landlord_id):
        Landlord.query.filter_by(id=landlord_id).update(dict(username=username, email=email))
        db.session.commit()
        flash("Landlord information updated successfully!")
-   return render_template('admin_landlords_information.html', landlord=landlord)
+   return render_template('admin_landlords_information.html', landlords=landlords)
 
 @app.route('/admin_financials')
 def admin_financials():
