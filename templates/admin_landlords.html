@@ -444,7 +444,8 @@
                         background-color: #4CAF50;
                         color: white;
                         border: none;
-                        cursor: pointer;">Register New Landlord
+                        cursor: pointer;">
+                Register New Landlord
               </button>
             </div>
 
@@ -455,10 +456,9 @@
               <div style="display: flex; flex-direction: row; justify-content: end; ">
                 <label for="filterCategory">Filter By: </label>
                 <select id="filterCategory">
-                  <option value="">Select a Category</option>
-                  <option value="landlordFullName">Landlord Name</option>
-                  <option value="propertyName">Property Name</option>
-                  <option value="nationalIdentification">National ID</option>
+                  <option name="categories" value="">Select a Category</option>
+                  <option name="username" value="landlordFullName">Landlord Name</option>
+                  <option name="national_id" value="nationalIdentification">National ID</option>
 
                   <!-- CONSIDER ADDING NEW FILTERS INCLUDING ARREARS
                                     <option value="rentStatus">Rent Status</option>
@@ -489,13 +489,12 @@
 
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Personal Information:</h4>
-            <input type="text" id="landlordFullName" placeholder="Landlord Full Name">
-            <input type="text" id="nationalIdentification" placeholder="National ID or Passport">
-            <input type="text" id="phoneNumber" placeholder="Contact Number (Phone/WhatsApp)"> <br>
-            <input type="text" id="emailAddress" placeholder="Email Address">
-            <input type="text" id="physicalAddressLocation" placeholder="Physical Address / Location">
-            <input type="text" id="kraPin" placeholder="KRA PIN (Kenya-specific)"> <br>
-            <select name="nationality" id="nationality">
+            <input name="username" type="text" id="landlordFullName" placeholder="Landlord Full Name">
+            <input name="national_id" type="text" id="nationalIdentification" placeholder="National ID or Passport">
+            <input name="phonenumber" type="text" id="phoneNumber" placeholder="Contact Number (Phone/WhatsApp)"> <br>
+            <input name="email" type="text" id="emailAddress" placeholder="Email Address">
+            <input name="KRA_pin" type="text" id="kraPin" placeholder="KRA PIN (Kenya-specific)"> <br>
+            <select name="country" id="nationality">
               <option value="" disabled selected>Select Country of Origin</option>
               <option value="Kenya">Kenya</option>
               <option value="Uganda">Uganda</option>
@@ -508,7 +507,7 @@
               <!-- Add more countries as needed -->
               <!-- PAYMENT METHOD -->
             </select>
-            <select name="billingmethod" id="preferredBillingMethod">
+            <select name="payment_method" id="preferredBillingMethod">
               <option value="" disabled selected>Preferred Billing Method</option>
               <option value="Bank">Bank</option>
               <option value="Mpesa">Mpesa</option>
@@ -526,19 +525,19 @@
 
               <!-- profile picture -->
               <label for="profilePicture"> Profile Picture</label>
-              <input type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
+              <input name="profile_picture" type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
               <div class="preview" id="imagePreviewContainer">
                 <img id="imagePreview" src="" alt="Image Preview" width="100">
               </div> <br>
               <!-- national ID card -->
               <label for="nationalCard"> National ID Card</label>
-              <input type="file" id="nationalCard" accept="image/*" onchange="previewImage(event)">
+              <input name="national_id_document" type="file" id="nationalCard" accept="image/*" onchange="previewImage(event)">
               <div class="preview" id="imagePreviewContainer1">
                 <img id="imagePreview1" src="" alt="Image Preview" width="100">
               </div> <br>
               <!-- KRA pin document -->
               <label for="kraDocument" style="font-size:1em">KRA Pin Document</label>
-              <input type="file" id="kraDocument" accept="image/*" onchange="previewKra(event)">
+              <input name="kra_document" type="file" id="kraDocument" accept="image/*" onchange="previewKra(event)">
               <div class="preview" id="imagePreviewContainer2">
                 <img id="imagePreview2" src="" alt="Ownership Document Preview" width="100">
               </div> <br>
@@ -550,10 +549,10 @@
 
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               References:</h4>
-            <input type="text" id="reference1Name" placeholder="Reference 1: Name">
-            <input type="text" id="reference1Contact" placeholder="Reference 1: Contact"> <br>
-            <input type="text" id="reference2Name" placeholder="Reference 2: Name">
-            <input type="text" id="reference2Contact" placeholder="Reference 2: Contact">
+            <input name="emergency_contact_name1" type="text" id="reference1Name" placeholder="Reference 1: Name">
+            <input name="emergency_contact_phone1" type="text" id="reference1Contact" placeholder="Reference 1: Contact"> <br>
+            <input name="emergency_contact_name2" type="text" id="reference2Name" placeholder="Reference 2: Name">
+            <input name="emergency_contact_phone2" type="text" id="reference2Contact" placeholder="Reference 2: Contact">
 
             <br> <br>
 
@@ -761,7 +760,7 @@
 
       if (landlordFullName === "" || nationalIdentification === "" || !phoneNumber || !emailAddress || !physicalAddressLocation || !kraPin || !nationality || !preferredBillingMethod ||
         profilePicture === "" || !nationalCard || !kraDocument ||
-        !reference1Name || reference1Contact === "" || reference2Name === "" || reference2Contact === "") {
+        !reference1Name || reference1Contact === "" ) {
         alert("Please fill in all fields.");
         return;
       }
