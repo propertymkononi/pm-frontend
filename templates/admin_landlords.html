@@ -55,79 +55,6 @@
 
     }
 
-    /* Form styling */
-    .landlord-form {
-      margin-bottom: 20px;
-      display: none;
-      /* Initially hidden */
-    }
-
-    .landlord-form input,
-    .landlord-form select {
-      padding: 10px;
-      margin: 5px;
-      width: calc(100% / 3 - 20px);
-    }
-
-    .landlord-form button {
-      padding: 10px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    /* Table styling */
-    .landlord-details {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    .landlord-details th,
-    .landlord-details td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: center;
-    }
-
-    .landlord-details th {
-      background-color: #3c3024;
-      color: white;
-    }
-
-    .btn-delete,
-    .btn-edit {
-      color: white;
-      cursor: pointer;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 4px;
-    }
-
-    .btn-delete {
-      background-color: red;
-    }
-
-    .btn-edit {
-      background-color: blue;
-    }
-
-    .checkbox-group {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .checkbox-group label {
-      margin-left: 10px;
-    }
-
-    .preview {
-      display: none;
-      margin-top: 10px;
-    }
-
     /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -189,6 +116,25 @@
       background-size: cover;
     }
 
+    /* Table styling */
+    .landlord-details {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .landlord-details th,
+    .landlord-details td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .landlord-details th {
+      background-color: #3c3024;
+      color: white;
+    }
+
     /* Dropdown Button Styling for Mobile */
     .dropdown-btn {
       display: none;
@@ -228,11 +174,72 @@
         position: absolute;
       }
     }
+
+    /* NEW STYLE FOR NEW FORM */
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background: #f4f4f4;
+    }
+
+    #landlordFormContainer {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      background: #fafafa;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 6px;
+      margin: 5px 0;
+    }
+
+    button {
+      padding: 6px 12px;
+      margin: 5px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+    }
+
+    #addLandlordBtn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .btn-edit {
+      background: #2196F3;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #f44336;
+      color: white;
+    }
+
+    /* ✅ Zebra striping */
+    #landlordTableBody tr:nth-child(odd) {
+      background-color: #ffffff;
+    }
+
+    #landlordTableBody tr:nth-child(even) {
+      background-color: #8cb9c5;
+    }
   </style>
 </head>
 
 <body>
-  <!-- HEADER -->
+  <!-- HEADER WITH user profile, time AND settings XXXXXXXXXXXXXXXX-->
+  <!-- HEADER WITH user profile, time AND settings XXXXXXXXXXXXXXXX-->
+  <!-- HEADER WITH user profile, time AND settings XXXXXXXXXXXXXXXX-->
   <header class="header" style=" background-color: #C1B49C;
         color: white;
         padding-right: 1em;
@@ -374,202 +381,126 @@
   </header>
 
   <!-- End of Header -->
+  <!-- End of Header -->
 
-  <!-- SECTION -->
 
-  <section>
-    <div class="app-container">
-      <!-- <button class="dropdown-btn" onclick="toggleMenu()">☰ </button> -->
+  <!-- APPLICATION PAGE WITH menu AND main content (form, filter and table)   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+  <!-- APPLICATION PAGE WITH menu AND main content (form, filter and table)   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+  <!-- APPLICATION PAGE WITH menu AND main content (form, filter and table)   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+  <!-- APPLICATION PAGE WITH menu AND main content (form, filter and table)   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
 
-      <!--NAVBAR MENU COMPONENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
-      <nav id="nav-bar">
-        <!-- logo -->
-        <div style="display: flex; justify-content:center; padding: 1em">
-          <img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;"
-            src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1759363200&v=beta&t=JXIayoSxLZpueG-DtTKS7hLTZYh3eR1DEaizpSzHLnw">
 
+
+  <div class="app-container">
+
+    <!-- MENU COMPONENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+    <nav id="nav-bar">
+      <!-- logo -->
+      <div style="display: flex; justify-content:center; padding: 1em">
+        <img height="80px" width="80px" alt="pm-logo" style="border-radius: 100em;"
+          src="https://media.licdn.com/dms/image/v2/D4D0BAQEl264x2AFvKQ/company-logo_100_100/company-logo_100_100/0/1719256152313?e=1759363200&v=beta&t=JXIayoSxLZpueG-DtTKS7hLTZYh3eR1DEaizpSzHLnw">
+
+      </div>
+      <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+      <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
+      <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_dashboard';"
+        style="color: #C1B49C; text-decoration-style: none;">Dashboard</div>
+      <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color:#C1B49C;">Landlords
+      </div>
+      <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_properties';"
+        style="color: #C1B49C; text-decoration-style: none;">Properties</div>
+      <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_vendors';"
+        style="color: #C1B49C; text-decoration-style: none;">Vendors</div>
+      <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_requests';"
+        style="color: #C1B49C; text-decoration-style: none;">Requests <div class="notification-alert"> <button
+            id="requests-alert"
+            style="border-radius: 1em; background-color: red ; color: white; height: 2em; width: 2em">6</button>
         </div>
-        <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
-        <!-- <div class="menu-btn" onclick="toggleMenu()" style="background-color: #8cb9c5; color: white;">Rent Status</div> -->
-        <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_dashboard';"
-          style="color: #C1B49C; text-decoration-style: none;">Dashboard</div>
-        <div class="menu-btn" onclick="toggleMenu();" style="background-color: #f5f5f5; color:#C1B49C;">Landlords
-        </div>
-        <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_properties';"
-          style="color: #C1B49C; text-decoration-style: none;">Properties</div>
-        <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_vendors';"
-          style="color: #C1B49C; text-decoration-style: none;">Vendors</div>
-        <div class="menu-btn" onclick="toggleMenu(); window.location.href='/admin_requests';"
-          style="color: #C1B49C; text-decoration-style: none;">Requests <div class="notification-alert"> <button
-              id="requests-alert"
-              style="border-radius: 1em; background-color: red ; color: white; height: 2em; width: 2em">6</button>
-          </div>
-        </div>
+      </div>
+
+      <br>
+
+      <footer style="padding: 1em; text-align: center;">
+        <button onclick="contactItSupportBtn()"
+          style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact IT
+          Support</button>
+      </footer>
+      <script>
+        function contactItSupportBtn() {
+          window.location =
+            "mailto:propertymkononi@gmail.com"
+            + "?subject=" + encodeURIComponent("Hello there,")
+            + "&body=" + encodeURIComponent("Hi,\n\nThis is a test email from the IT Support team.\n\nRegards.");
+        }
+      </script>
+    </nav>
+    <!-- END OF MENU XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+
+
+    <!-- THE MAIN CONTENT (form, filter and table) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+    <!-- THE MAIN CONTENT (form, filter and table) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+    <!-- THE MAIN CONTENT (form, filter and table) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+    <!-- THE MAIN CONTENT (form, filter and table) XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+    <main class="formFilterTable">
+
+      <section class="button&Filter&Form">
+
+        <h2 style="color: #f5f5f5;"> Landlord Portal </h2>
 
         <br>
 
-        <footer style="padding: 1em; text-align: center;">
-          <button onclick="contactItSupportBtn()"
-            style="background-color: #C1B49C; border: none; color: white; padding: 0.5em 1em;">Contact IT
-            Support</button>
-        </footer>
-        <script>
-          function contactItSupportBtn() {
-            window.location =
-              "mailto:propertymkononi@gmail.com"
-              + "?subject=" + encodeURIComponent("Hello there,")
-              + "&body=" + encodeURIComponent("Hi,\n\nThis is a test email from the IT Support team.\n\nRegards.");
-          }
-        </script>
-      </nav>
-      <!-- END OF NAVBAR MENU XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+        <!-- Register (button and form) and filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+        <!-- Register (button and form) and filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+
+        <div class="filter-section" style="display: flex; justify-content: space-between; ">
 
 
-      <!-- THE MAIN CONTENT XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
-      <main>
-        <section>
-
-          <h2 style="color: #f5f5f5;"> Landlord Portal </h2>
-
-          <br>
-
-          <!-- Add new landlord button and filter xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-          <div class="filter-section" style="display: flex; justify-content: space-between; ">
-
-
-            <!-- Add new landlord Button xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-            <div>
-              <button id="addLandlordBtn" onclick="showForm()" style="
+          <!-- Add new landlord Button xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+          <div>
+            <button onclick="showForm()" style="
                         padding: 10px;
                         background-color: #4CAF50;
                         color: white;
                         border: none;
                         cursor: pointer;">
-                Register New Landlord
-              </button>
-            </div>
+              Register New Landlord
+            </button>
+          </div>
 
-            <!-- Landlord FILTER xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-            <div
-              style="background-color: #f5f5f5; padding: 0.3em; border-radius: 0.2em; font-size: smaller; padding: 1em;">
-              <!-- Filter options -->
-              <div style="display: flex; flex-direction: row; justify-content: end; ">
-                <label for="filterCategory">Filter By: </label>
-                <select id="filterCategory">
-                  <option name="categories" value="">Select a Category</option>
-                  <option name="username" value="landlordFullName">Landlord Name</option>
-                  <option name="national_id" value="nationalIdentification">National ID</option>
+          <!-- Landlord FILTER xxxxxxxxxx -->
+          <div
+            style="background-color: #f5f5f5; padding: 0.3em; border-radius: 0.2em; font-size: smaller; padding: 1em;">
+            <!-- Filter options -->
+            <div style="display: flex; flex-direction: row; justify-content: end; ">
+              <label for="filterCategory">Filter By: </label>
+              <select id="filterCategory">
+                <option name="categories" value="">Select a Category</option>
+                <option name="username" value="landlordFullName">Landlord Name</option>
+                <option name="national_id" value="phoneNumber">National ID</option>
 
-                  <!-- CONSIDER ADDING NEW FILTERS INCLUDING ARREARS
+                <!-- CONSIDER ADDING NEW FILTERS INCLUDING ARREARS
                                     <option value="rentStatus">Rent Status</option>
                                     <option value="houseCondition">House Condition</option>
                                     <option value="tenancyDuration">Tenancy Duration</option> -->
-                </select>
+              </select>
 
-                <!-- Sub-dropdown for specific values -->
-                <label for="filterDetails" style="margin-left: 10px;">Details: </label>
-                <select id="filterDetails" disabled>
-                  <option value="">Select Details</option>
-                </select>
-                <!-- Clear Filters Button -->
-                <button id="clearFilters" style="margin-left: 10px; color: red;">Clear Filters</button>
-              </div>
-
-              <!-- Filter message -->
-              <p id="filterMessage" style="margin-top: 10px; font-weight: bold; color:red; "></p>
+              <!-- Sub-dropdown for specific values -->
+              <label for="filterDetails" style="margin-left: 10px;">Details: </label>
+              <select id="filterDetails" disabled>
+                <option value="">Select Details</option>
+              </select>
+              <!-- Clear Filters Button -->
+              <button id="clearFilters" style="margin-left: 10px; color: red;">Clear Filters</button>
             </div>
+
+            <!-- Filter message -->
+            <p id="filterMessage" style="margin-top: 10px; font-weight: bold; color:red; "></p>
           </div>
-
-          <!-- UPDATE LANDLORD Form xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-          <form class="landlord-form" id="landlordForm" style="background-color: aliceblue;" action=""
-            method="post">
-            <br>
-
-            <!-- 👤 Ownership Information xxxxxxxxxxxxxxxxxxxxxxx-->
-
-            <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
-              Personal Information:</h4>
-            <input value="{{}}" name="username" type="text" id="landlordFullName" placeholder="Landlord Full Name">
-            <input value="{{}}" name="national_id" type="text" id="nationalIdentification" placeholder="National ID or Passport">
-            <input value="{{}}" name="phonenumber" type="text" id="phoneNumber" placeholder="Contact Number (Phone/WhatsApp)"> <br>
-            <input value="{{}}" name="email" type="text" id="emailAddress" placeholder="Email Address">
-            <input value="{{}}" name="KRA_pin" type="text" id="kraPin" placeholder="KRA PIN (Kenya-specific)"> <br>
-            <select value="{{}}" name="country" id="nationality">
-              <option value="" disabled selected>Select Country of Origin</option>
-              <option value="Kenya">Kenya</option>
-              <option value="Uganda">Uganda</option>
-              <option value="Tanzania">Tanzania</option>
-              <option value="Burundi">Burundi</option>
-              <option value="Rwanda">Rwanda</option>
-              <option value="Bukinafaso">Bukinafaso</option>
-              <option value="Ethiopia">Ethiopia</option>
-
-              <!-- Add more countries as needed -->
-              <!-- PAYMENT METHOD -->
-            </select>
-            <select value="{{}}" name="payment_method" id="preferredBillingMethod">
-              <option value="" disabled selected>Preferred Billing Method</option>
-              <option value="Bank">Bank</option>
-              <option value="Mpesa">Mpesa</option>
-              <option value="Paypal">Paypal</option>
-            </select>
-
-            <br> <br>
-
-            <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
-
-
-            <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
-              Attach Digital Documents:</h4>
-            <div style="padding: 1em;">
-
-              <!-- profile picture -->
-              <label for="profilePicture"> Profile Picture</label>
-              <input value="{{}}" name="profile_picture" type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
-              <div class="preview" id="imagePreviewContainer">
-                <img id="imagePreview" src="" alt="Image Preview" width="100">
-              </div> <br>
-              <!-- national ID card -->
-              <label for="nationalCard"> National ID Card</label>
-              <input value="{{}}" name="national_id_document" type="file" id="nationalCard" accept="image/*" onchange="previewImage(event)">
-              <div class="preview" id="imagePreviewContainer1">
-                <img id="imagePreview1" src="" alt="Image Preview" width="100">
-              </div> <br>
-              <!-- KRA pin document -->
-              <label for="kraDocument" style="font-size:1em">KRA Pin Document</label>
-              <input value="{{}}" name="kra_document" type="file" id="kraDocument" accept="image/*" onchange="previewKra(event)">
-              <div class="preview" id="imagePreviewContainer2">
-                <img id="imagePreview2" src="" alt="Ownership Document Preview" width="100">
-              </div> <br>
-
-            </div>
-
-
-            <!-- landlord References xxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
-            <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
-              References:</h4>
-            <input value="{{}}" name="emergency_contact_name1" type="text" id="reference1Name" placeholder="Reference 1: Name">
-            <input value="{{}}" name="emergency_contact_phone1" type="text" id="reference1Contact" placeholder="Reference 1: Contact"> <br>
-            <input value="{{}}" name="emergency_contact_name2" type="text" id="reference2Name" placeholder="Reference 2: Name">
-            <input value="{{}}" name="emergency_contact_phone2" type="text" id="reference2Contact" placeholder="Reference 2: Contact">
-
-            <br> <br>
-
-            <br> <br>
-
-            <button id="updateLandlordBtn" onclick="updateLandlord()">Update Landlord</button>
-            <button onclick="hideForm()" style="background-color: red">Cancel</button>
-            <p style="padding: 0.5em;"></p>
-          </form>
-
-                  <!-- REGISTER LANDLORD Form xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-          <form class="landlord-form" id="landlordForm" style="background-color: aliceblue;" action="/addlandord"
-            method="post">
-            <br>
-
-            <!-- 👤 Ownership Information xxxxxxxxxxxxxxxxxxxxxxx-->
-
+        </div>
+        <!-- Registration Form -->
+        <div id="landlordFormContainer">
+          <form id="landlordForm" onsubmit="event.preventDefault(); addLandlord();">
+            <!-- 👤 Ownership I-->
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Personal Information:</h4>
             <input name="username" type="text" id="landlordFullName" placeholder="Landlord Full Name">
@@ -586,9 +517,8 @@
               <option value="Rwanda">Rwanda</option>
               <option value="Bukinafaso">Bukinafaso</option>
               <option value="Ethiopia">Ethiopia</option>
-
               <!-- Add more countries as needed -->
-              <!-- PAYMENT METHOD -->
+              <!-- Payment -->
             </select>
             <select name="payment_method" id="preferredBillingMethod">
               <option value="" disabled selected>Preferred Billing Method</option>
@@ -599,432 +529,61 @@
 
             <br> <br>
 
-            <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
-
-
+            <!-- Documents xxxxxxxxxxxxxxxxxxx -->
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Attach Digital Documents:</h4>
             <div style="padding: 1em;">
-
-              <!-- profile picture -->
-              <label for="profilePicture"> Profile Picture</label>
-              <input name="profile_picture" type="file" id="profilePicture" accept="image/*" onchange="previewImage(event)">
-              <div class="preview" id="imagePreviewContainer">
-                <img id="imagePreview" src="" alt="Image Preview" width="100">
-              </div> <br>
-              <!-- national ID card -->
-              <label for="nationalCard"> National ID Card</label>
-              <input name="national_id_document" type="file" id="nationalCard" accept="image/*" onchange="previewImage(event)">
-              <div class="preview" id="imagePreviewContainer1">
-                <img id="imagePreview1" src="" alt="Image Preview" width="100">
-              </div> <br>
-              <!-- KRA pin document -->
-              <label for="kraDocument" style="font-size:1em">KRA Pin Document</label>
-              <input name="kra_document" type="file" id="kraDocument" accept="image/*" onchange="previewKra(event)">
-              <div class="preview" id="imagePreviewContainer2">
-                <img id="imagePreview2" src="" alt="Ownership Document Preview" width="100">
-              </div> <br>
-
+              <input type="file" id="profilePicture" accept="image/*" required>
+              <input type="file" id="nationalCard" accept="image/*" required>
+              <input type="file" id="kraDocument" accept="image/*" required>
             </div>
 
-
-            <!-- landlord References xxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-
+            <!-- references -->
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               References:</h4>
-            <input name="emergency_contact_name1" type="text" id="reference1Name" placeholder="Reference 1: Name">
-            <input name="emergency_contact_phone1" type="text" id="reference1Contact" placeholder="Reference 1: Contact"> <br>
-            <input name="emergency_contact_name2" type="text" id="reference2Name" placeholder="Reference 2: Name">
-            <input name="emergency_contact_phone2" type="text" id="reference2Contact" placeholder="Reference 2: Contact">
+            <input type="text" id="referenceName" placeholder="Reference Name" required>
+            <input type="text" id="referenceContact" placeholder="Reference Contact" required>
 
-            <br> <br>
-
-            <br> <br>
-
-            <button id="addLandlordBtn" onclick="addLandlord()">Register New Landlord</button>
-            <button onclick="hideForm()" style="background-color: red">Cancel</button>
-            <p style="padding: 0.5em;"></p>
+            <br>
+            <br>
+            <button id="addLandlordBtn" type="submit">Register Landlord</button>
+            <button type="button" onclick="hideForm()" style="background-color: red; color: white;">Cancel</button>
           </form>
-
-
-          <!-- admin landlord UI Table -->
+        </div>
+                  <!-- admin landlord UI Table -->
           <table class="landlord-details">
             <thead>
               <tr>
                 <th>Landlord Name</th>
-                <th>Apartment Name</th>
                 <th>Phone No.</th>
                 <th>Email Address</th>
-                <th>Repair/Maintenance Status</th>
-                <th>Pending Arrears</th>
                 <th>Action</th>
               </tr>
             </thead>
-            <tbody id="landlordTableBody" style="background-color: #f5f5f5;">
-              <!-- Rows will be populated here -->
-               {% for landlord in landlords %}
-               <tr>
-                <td>{{landlord.username}}</td>
-                <!-- <td>{{landlord.apartment_name}}</td>
-                <td>{{landlord.phone_number}}</td> -->
-                <td>{{landlord.email}}</td>
-                <!-- <td>{{landlord.repair_status}}</td>
-                <td>{{landlord.pending_arrears}}</td> -->
-                <td>
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                </td>
-
-               </tr>
-               {% endfor %}
+            <tbody id="landlordTableBody">
+              <!-- landlords will load here -->
             </tbody>
 
-            <!-- This is a sample Table Body only shown on the demo when a user clicks "view sample record" xxxxxxxxxxxxxxxxxxxx-->
-            <tbody>
-              <tr>
-                <td colspan="7">No landlord records found.
-                   <!-- {% for landlord in landlords %}
-                   <tr>
-                     <td class=user-name>{{ landlord.username }}</td>
-                     <td class=user-property>{{ landlord.properties[0].propertyname if landlord.properties else 'No property added' }}</td>
-                     <td class=user-phonenumber>{{ landlord.phonenumber }}</td>
-                     <td class=user-email>{{ landlord.email }}</td> 
-                     <td class=user-repairs>{{ landlord.repair_status }}</td>  
-                     <td class=user-arrears>{{ landlord.pending_arrears }}</td>
-                     <!-- The last two lines of code to update same as the properties -->
-                      <td>
-                        <button class="edit-btn">Edit</button>
-                        <button class="delete-btn">Delete</button>
-                      </td>
-                   </tr>
-                   {% endfor %} -->
-                </td>
-
-                <!-- Javascript for sample data populated on the UI -->
-                <script>
-                  // Add event listener to the View Sample Record button
-                  const viewSampleRecordButton = document.querySelector('.landlord-details button:first-child');
-                  viewSampleRecordButton.addEventListener('click', function () {
-                    const landlordTableBody = document.getElementById('landlordTableBody');
-                    landlordTableBody.style.fontSize = "small";
-
-                    landlordTableBody.innerHTML = `
-                                            <td class=user-name> Oscar Omondi </td>
-                                            <td class=user-property> No property added </td>
-                                            <td class=user-phonenumber>+254723006046</td>
-                                            <td class=user-email>fghjkl@gmail.com</td>
-                                            <td class=user-repairs>Active</td> <!-- when repairs are active, click on the text and listings with active repairs will pop up, then you can select one -->
-                                            <td class=user-arrears>No Arrears</td> <!-- The arrears will be in total, as long as a listing is not selected. When selected, arrears data from the specific listing will be retrieved and populated here -->
-
-                                            <td>
-                                                <button class="edit-btn">Edit</button>
-                                                <button class="delete-btn">Delete</button>
-                                            </td>
-                                            </tr>
-
-                                        `;
-                    // The above data is pulled from the database, and updated accordingly
-                    // When registering a user for the first time, the Property field will be empty. You need to manually assign the user a property once it has been registered in the system on the "Add property" page
-
-                    // Function to alternate row background colors
-                    function updateRowColors() {
-                      const rows = landlordTableBody.querySelectorAll('tr');
-                      rows.forEach((row, index) => {
-                        row.style.backgroundColor = (index % 2 === 0) ? '#f5f5f5' : '#8cb9c5';
-                      });
-                    }
-
-                    // Call the function after the table is populated
-                    updateRowColors();
-
-
-                    // Style for Edit and Delete buttons xxxxxxxxxx
-
-
-                    // Add event listeners to the dynamically created Edit and Delete buttons
-                    const editButton = landlordTableBody.querySelector('.edit-btn');
-                    const deleteButton = landlordTableBody.querySelector('.delete-btn');
-
-                    editButton.addEventListener('click', function () {
-                      const landlordFullName = editButton.parentElement.parentElement.cells[1].textContent;
-                      alert(`You are about to edit ${landlordFullName}'s information.`);
-                    });
-
-                    deleteButton.addEventListener('click', function () {
-                      const landlordFullName = deleteButton.parentElement.parentElement.cells[1].textContent;
-                      alert(`You are about to delete ${landlordFullName}'s information.`);
-                    });
-                  });
-
-                  // Use event delegation to handle Edit and Delete button events
-                  document.getElementById('landlordTableBody').addEventListener('click', function (event) {
-                    const target = event.target;
-
-                    // Check if the clicked element is an Edit button
-                    if (target.classList.contains('edit-btn')) {
-                      const landlordFullName = target.parentElement.parentElement.cells[1].textContent;
-                      alert(`Editing ${landlordFullName}'s information may lead to data interferance. Do you want to proceed?`);
-                    }
-
-                    // Check if the clicked element is a Delete button
-                    if (target.classList.contains('delete-btn')) {
-                      const landlordFullName = target.parentElement.parentElement.cells[1].textContent;
-                      const confirmation = confirm(`By taking this action, you will no longer be able to access ${landlordFullName}'s information. Press "OK" to completely erase landlord data.`);
-                      if (confirmation) {
-                        // Remove the row from the table
-                        target.parentElement.parentElement.remove();
-                      }
-                    }
-                  });
-
-                </script>
-
-              </tr>
-            </tbody>
           </table>
-        </section>
-      </main>
-      <!-- END MAIN CONTENT -->
+  </div>
 
-    </div>
+
   </section>
-  <!-- END SECTION -->
+  </main>
+  <!-- END MAIN CONTENT -->
+  <!-- END MAIN CONTENT -->
+
+
+  </div>
 
   <!-- javascript to toggle th menu -->
-
   <script>
     function toggleMenu() {
       const navBar = document.getElementById('nav-bar');
       navBar.classList.toggle('open');
     }
   </script>
-  <!-- JavaScript to Toggle Form Visibility -->
-  <script>
-    let editIndex = -1; // Keeps track of the row being edited
-
-    // Function to show the form
-    function showForm() {
-      document.getElementById("landlordForm").style.display = "block";
-      document.getElementById("addLandlordBtn").style.display = "none"; // Hide "Add landlord" button
-    }
-
-    // Function to hide the form
-    function hideForm() {
-      document.getElementById("landlordForm").style.display = "none";
-      document.getElementById("addLandlordBtn").style.display = "block"; // Show "Add landlord" button
-      clearForm(); // Clear the form when hiding
-      editIndex = -1; // Reset the edit index
-      document.getElementById("addLandlordBtn").textContent = "Add landlord";
-      document.getElementById("addLandlordBtn").style.backgroundColor = "#4CAF50";
-    }
-
-    // Function to add or update a landlord ONLY ADD LANDLORD xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    // Add javascript to add or update landlord information in the database
-    function addLandlord() {
-      //landlord details
-      const landlordFullName = document.getElementById("landlordFullName").value;
-      const nationalIdentification = document.getElementById("nationalIdentification").value;
-      const phoneNumber = document.getElementById("phoneNumber").value;
-      const emailAddress = document.getElementById("emailAddress").value;
-      const physicalAddressLocation = document.getElementById("physicalAddressLocation").value;
-      const kraPin = document.getElementById("kraPin").value;
-      const nationality = document.getElementById("nationality").value;
-      const preferredBillingMethod = document.getElementById("preferredBillingMethod").value;
-
-      //landlord documents
-      const profilePicture = document.getElementById("profilePicture").value;
-      const nationalCard = document.getElementById("nationalCard").value;
-      const kraDocument = document.getElementById("kraDocument").value;
-
-      //references
-      const reference1Name = document.getElementById("reference1Name").value;
-      const reference1Contact = document.getElementById("reference1Contact").value;
-      const reference2Name = document.getElementById("reference2Name").value;
-      const reference2Contact = document.getElementById("reference2Contact").value;
-
-      if (landlordFullName === "" || nationalIdentification === "" || !phoneNumber || !emailAddress || !physicalAddressLocation || !kraPin || !nationality || !preferredBillingMethod ||
-        profilePicture === "" || !nationalCard || !kraDocument ||
-        !reference1Name || reference1Contact === "" ) {
-        alert("Please fill in all fields.");
-        return;
-      }
-
-      // show table body on UI xxxxxxxxxxxxxxxxxxxxx
-      const table = document.getElementById("landlordTableBody");
-
-      if (editIndex === -1) {
-        // Add a new row
-        const newRow = table.insertRow();
-        newRow.innerHTML = `
-                    <td>${landlordFullName}</td>
-                    <td>${propertyName}</td>
-                    <td>${phoneNumber}</td>
-                    <td>${emailAddress}</td>
-                    <td>${maintenanceStatus}</td>
-                    <td>${pendingArrears}</td>
-                    <td>
-                        <button class="btn-edit" onclick="editLandlord(${landlord.id})">Edit</button>
-                        <button class="btn-delete" onclick="deleteLandlord(${landlord.id})">Delete</button>
-                    </td>
-                `;
-      } else {
-        // Update existing row
-        const row = table.rows[editIndex];
-        row.cells[0].textContent = landlordFullName;
-        row.cells[1].textContent = propertyName;
-        row.cells[2].textContent = phoneNumber;
-        row.cells[3].textContent = emailAddress;
-        row.cells[4].textContent = maintenanceStatus;
-        row.cells[5].textContent = pendingArrears;
-        // Reset editIndex and button text
-        editIndex = -1;
-        document.getElementById("addLandlordBtn").textContent = "Add landlord";
-        document.getElementById("addLandlordBtn").style.backgroundColor = "#4CAF50";
-      }
-
-      // Hide the form and clear fields
-      hideForm();
-    }
-
-    // Function to delete a landlord row
-    function deleteLandlord(button) {
-      const row = button.parentNode.parentNode;
-      row.parentNode.removeChild(row);
-    }
-
-    // Function to edit a landlord row xxxxxxxxxxxxxxx
-    function editLandlord(button) {
-      showForm(); // Show form when editing
-      const row = button.parentNode.parentNode;
-      editIndex = row.rowIndex - 1; // Set edit index
-
-      // Populate form fields with visible data from table UI
-      document.getElementById("landlordFullName").value = row.cells[0].textContent;
-      document.getElementById("phoneNumber").value = row.cells[2].textContent;
-      document.getElementById("emailAddress").value = row.cells[3].textContent;
-
-      // Get landlord ID (hidden in table or as data attribute)
-      const landlordId = row.getAttribute("data-id");
-
-      // ✅ Fetch additional data from database via API
-      fetch(`/api/landlords/${landlordId}`)
-        .then(response => response.json())
-        .then(data => {
-          // Populate hidden fields with DB values
-          document.getElementById("nationalIdentification").value = data.nationalIdentification;
-          document.getElementById("physicalAddressLocation").value = data.physicalAddressLocation;
-          document.getElementById("kraPin").value = data.kraPin;
-          document.getElementById("nationality").value = data.nationality;
-          document.getElementById("preferredBillingMethod").value = data.preferredBillingMethod;
-          document.getElementById("profilePicture").value = data.profilePicture;
-          document.getElementById("nationalCard").value = data.nationalCard;
-          document.getElementById("kraDocument").value = data.kraDocument;
-          document.getElementById("reference1Name").value = data.reference1Name;
-          document.getElementById("reference1Contact").value = data.reference1Contact;
-          document.getElementById("reference2Name").value = data.reference2Name;
-          document.getElementById("reference2Contact").value = data.reference2Contact;
-        })
-        .catch(error => {
-          console.error("Error fetching landlord details:", error);
-        });
-
-
-      // Change button text to "Update" and color to blue
-      const addLandlordBtn = document.getElementById("addLandlordBtn");
-      addLandlordBtn.textContent = "Update landlord";
-      addLandlordBtn.style.backgroundColor = "blue";
-    }
-
-    // Function to load landlords from the DATABASE to the table UI xxxxxxxxxxxxxxxxxxx
-    function loadLandlords() {
-      fetch('http://localhost:3000/landlords')
-        .then(response => response.json())
-        .then(landlords => {
-          const table = document.getElementById("landlordTableBody");
-          table.innerHTML = ''; // Clear existing rows
-
-          landlords.forEach(landlord => {
-            const newRow = table.insertRow();
-            newRow.innerHTML = `
-                    <td>${landlord.landlordFullName}</td>
-                    <td>${landlord.propertyName}</td>
-                    <td>${landlord.phoneNumber}</td>
-                    <td>${landlord.emailAddress}</td>
-                    <td>${landlord.maintenanceStatus}</td>
-                    <td>${landlord.pendingArrears}</td>
-                    <td>
-                        <button class="btn-edit" onclick="editlandLord(${landlord.id})">Edit</button>
-                        <button class="btn-delete" onclick="deleteLandlord(${landlord.id})">Delete</button>
-                    </td>
-                `;
-          });
-        });
-    }
-
-    // Function to add or update a landlord ONLY ADD LANDLORD NOT ON THE DATABASE xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    function addLandlord() {
-      const landlordFullName = document.getElementById("landlordFullName").value;
-      const nationalIdentification = document.getElementById("nationalIdentification").value;
-      const phoneNumber = document.getElementById("phoneNumber").value;
-      const emailAddress = document.getElementById("emailAddress").value;
-      const physicalAddressLocation = document.getElementById("physicalAddressLocation").value;
-      const kraPin = document.getElementById("kraPin").value;
-      const nationality = document.getElementById("nationality").value;
-      const preferredBillingMethod = document.getElementById("preferredBillingMethod").value;
-      const profilePicture = document.getElementById("profilePicture").value;
-      const nationalCard = document.getElementById("nationalCard").value;
-      const kraDocument = document.getElementById("kraDocument").value;
-      const reference1Name = document.getElementById("reference1Name").value;
-      const reference1Contact = document.getElementById("reference1Contact").value;
-      const reference2Name = document.getElementById("reference2Name").value;
-      const reference2Contact = document.getElementById("reference2Contact").value;
-      const landlordData = {
-        landlordFullName, nationalIdentification, phoneNumber, emailAddress,
-        physicalAddressLocation, kraPin, nationality, preferredBillingMethod, profilePicture,
-        nationalCard, kraDocument, reference1Name, reference1Contact, reference2Name, reference2Contact
-      };
-
-      if (editIndex === -1) {
-        // Add landlord
-        fetch('http://localhost:3000/landlords', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(landlordData)
-        })
-          .then(response => response.json())
-          .then(() => {
-            loadLandlords(); // Reload landlords
-            hideForm(); // Hide form
-          });
-      } else {
-        // Update landlord
-      const landlordId = row.getAttribute("data-id");
-      fetch(`http://localhost:3000/landlords/${landlordId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(landlordData)
-        })
-          .then(response => response.json())
-          .then(() => {
-            loadLandlords(); // Reload landlords
-            hideForm(); // Hide form
-          });
-      }
-    }
-
-    // Function to delete a landlord
-    function deleteLandlord(id) {
-      fetch(`http://localhost:3000/landlords/${id}`, {
-        method: 'DELETE'
-      })
-        .then(response => response.json())
-        .then(() => {
-          loadLandlords(); // Reload landlords
-        });
-    }
-
-  </script>
-  <!-- Javascript for filter XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+  <!-- Javascript for filter XXXXXXXXXXXXXXXX -->
   <script>
     const filterCategory = document.getElementById('filterCategory');
     const filterDetails = document.getElementById('filterDetails');
@@ -1039,7 +598,6 @@
       nationalIdentification: 2,
 
     };
-
 
     // Populate sub-dropdown dynamically based on the selected category
     function populateFilterDetails() {
@@ -1110,6 +668,149 @@
     clearFilters.addEventListener('click', clearAllFilters);
 
   </script>
+  <!-- javascript for form and table and backend(python) -->
+<script>
+    let editIndex = -1;
+
+    function addLandlord() {
+        // personal information
+        const landlordFullName = document.getElementById("landlordFullName").value.trim();
+        const nationalIdentification = document.getElementById("nationalIdentification").value.trim();
+        const phoneNumber = document.getElementById("phoneNumber").value.trim();
+        const emailAddress = document.getElementById("emailAddress").value.trim();
+        const kraPin = document.getElementById("kraPin").value.trim();
+        const nationality = document.getElementById("nationality").value.trim();
+        const preferredBillingMethod = document.getElementById("preferredBillingMethod").value.trim();
+        // documents
+        const profilePicture = document.getElementById("profilePicture").value.trim();
+        const nationalCard = document.getElementById("nationalCard").value.trim();
+        const kraDocument = document.getElementById("kraDocument").value.trim();
+        // references
+        const reference1Name = document.getElementById("referenceName").value.trim();
+        const reference1Contact = document.getElementById("referenceContact").value.trim();
+
+
+        if (!landlordFullName || !nationalIdentification || !phoneNumber || !emailAddress ||
+            !kraPin || !nationality || !preferredBillingMethod ||
+            !profilePicture || !nationalCard || !kraDocument || referenceName === "" || !referenceContact) {
+            alert("⚠️ Please fill in all required fields.");
+            return;
+        }
+
+        const table = document.getElementById("landlordTableBody");
+        //this data should be pulled from the backend using python.
+        if (editIndex === -1) {
+            const newRow = table.insertRow();
+            const landlordId = Date.now();
+            newRow.setAttribute("data-id", landlordId);
+            newRow.innerHTML = `
+          <td>${landlordFullName}</td>
+          <td>${phoneNumber}</td>
+          <td>${emailAddress}</td>
+
+          <td>
+            <button class="btn-edit" onclick="editLandlord(this)">Edit</button>
+            <button class="btn-delete" onclick="deleteLandlord(this)">Delete</button>
+          </td>
+        `;
+        } else {
+            const row = table.rows[editIndex];
+            row.cells[0].textContent = landlordFullName;
+            row.cells[1].textContent = phoneNumber;
+            row.cells[2].textContent = emailAddress;
+
+            editIndex = -1;
+            const btn = document.getElementById("addLandlordBtn");
+            btn.textContent = "Register Landlord";
+            btn.style.backgroundColor = "#4CAF50";
+        }
+
+        hideForm();
+    }
+
+    function deleteLandlord(button) {
+        button.closest("tr").remove();
+    }
+
+    function editLandlord(button) {
+        showForm();
+        const row = button.closest("tr");
+        editIndex = row.rowIndex - 1;
+
+        document.getElementById("landlordFullName").value = row.cells[0].textContent;
+        document.getElementById("phoneNumber").value = row.cells[1].textContent;
+        document.getElementById("emailAddress").value = row.cells[2].textContent;
+
+        const landlordId = row.getAttribute("data-id");
+
+        fetch(`/api/landlords/${landlordId}`)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("landlordFullName").value = data.landlordFullName || "";
+                document.getElementById("phoneNumber").value = data.phoneNumber || "";
+                document.getElementById("emailAddress").value = data.emailAddress || "";
+                document.getElementById("preferredBillingMethod").value = data.preferredBillingMethod || "";
+                // fields for editing
+                document.getElementById("nationalIdentification").value = data.nationalIdentification || "";
+                document.getElementById("physicalAddressLocation").value = data.physicalAddressLocation || "";
+                document.getElementById("kraPin").value = data.kraPin || "";
+                document.getElementById("profilePicture").value = data.profilePicture || "";
+                document.getElementById("nationalCard").value = data.nationalCard || "";
+                document.getElementById("kraDocument").value = data.kraDocument || "";
+                // file fields cannot be prefilled for security reasons
+                document.getElementById("reference1Name").value = data.referenceName || "";
+                document.getElementById("reference1Contact").value = data.referenceContact || "";
+
+            })
+            .catch(err => console.error("Error fetching landlord details:", err));
+
+        const btn = document.getElementById("addLandlordBtn");
+        btn.textContent = "Update landlord";
+        btn.style.backgroundColor = "blue";
+    }
+
+    function loadLandlords() {
+        fetch("http://localhost:3000/landlords")
+            .then(res => res.json())
+            .then(landlords => {
+                const table = document.getElementById("landlordTableBody");
+                table.innerHTML = "";
+                landlords.forEach(landlord => {
+                    const newRow = table.insertRow();
+                    newRow.setAttribute("data-id", landlord.id);
+                    newRow.innerHTML = `
+              <td>${landlord.landlordFullName}</td>
+              <td>${landlord.phoneNumber}</td>
+              <td>${landlord.emailAddress}</td>
+              <td>
+                <button class="btn-edit" onclick="editLandlord(this)">Edit</button>
+                <button class="btn-delete" onclick="deleteLandlord(this)">Delete</button>
+              </td>
+            `;
+                });
+            })
+            .catch(err => console.error("Error loading landlords:", err));
+    }
+
+    function hideForm() {
+        document.getElementById("landlordForm").reset();
+
+        // ✅ Clear file inputs explicitly
+        document.getElementById("profilePicture").value = "";
+        document.getElementById("nationalCard").value = "";
+        document.getElementById("kraDocument").value = "";
+
+        document.getElementById("landlordFormContainer").style.display = "none";
+
+        const btn = document.getElementById("addLandlordBtn");
+        btn.textContent = "Register Landlord";
+        btn.style.backgroundColor = "#4CAF50";
+    }
+
+    function showForm() {
+        document.getElementById("landlordFormContainer").style.display = "block";
+    }
+</script>
 </body>
 
 </html>
