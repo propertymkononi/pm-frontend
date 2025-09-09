@@ -1,2 +1,1 @@
-Updates on process
-Landlord can register and login 
+WORKING ON THE ADMIN LANDLORD PLATFORM
