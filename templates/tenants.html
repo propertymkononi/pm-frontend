@@ -556,14 +556,55 @@
                                 <th>House No.</th>
                                 <th>Phone No.</th>
                                 <th>Apartment</th>
-                                <th>Rent Status</th>
+                                <th>Email</th>
+                                <th>Identification No.</th>
+                                <th>Family Size</th>
+                                <th>No. of Children</th>
+                                <th>Employment Status</th>
+                                <th>Nationality</th>
+                                <th>Emergency name 1</th>
+                                <th>Emergency Contact 1</th>
+                                <th>Emergency name 2</th>
+                                <th>Emergency Contact 2</th>
+                                <th>House Manager</th>
+                                <th>House Manager ID</th>
+                                <th>Rent amount</th>
+                                <th>Security Deposit</th>
                                 <th>House Condition</th>
-                                <th>Tenancy Duration</th>
+                                <th>Bedrooms</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="tenantTableBody" style="background-color: #f5f5f5;">
                             <!-- Rows will be populated here -->
+                             {%for tenant in tenants%}
+                             <tr>
+                                <td>{{ tenant.tenantname }}</td>
+                                <td>{{ tenant.housenumber }}</td>
+                                <td>{{ tenant.phonenumber }}</td>
+                                <td>{{ tenant.property.propertyname }}</td>
+                                <td>{{ tenant.tenantemail }}</td>
+                                <td>{{ tenant.identification_number }}</td>
+                                <td>{{ tenant.family_size }}</td>
+                                <td>{{ tenant.children }}</td>
+                                <td>{{ tenant.employment_status }}</td>
+                                <td>{{ tenant.nationality }}</td>
+                                <td>{{ tenant.emergency_name1 }}</td>
+                                <td>{{ tenant.emergency_contact1 }}</td>
+                                <td>{{ tenant.emergency_name2 }}</td>
+                                <td>{{ tenant.emergency_contact2 }}</td>
+                                <td>{{ tenant.housemanager_name }}</td>
+                                <td>{{ tenant.housemanager_ID }}</td>
+                                <td>{{ tenant.rent }}</td>
+                                <td>{{ tenant.deposit }}</td>
+                                <td>{{ tenant.house_condition }}</td>
+                                <td>{{ tenant.bedrooms }}</td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                             {% endfor %}
                         </tbody>
 
                         <!-- This is a sample Table Body only shown on the demo when a user clicks "view sample record" -->

@@ -506,20 +506,34 @@
                         <thead>
                             <tr>
                                 <th>Property Name</th>
-                                <th>No. of Tenants</th>
-                                <th>Occupancy</th>
-                                <th>Maintenance</th>
-                                <th>Rent Status</th>
+                                <th>Units</th>
+                                <th>Location</th>
+                                <th>land number</th>
+                                <th>Caretaker</th>
+                                <th>Caretaker ID</th>
+                                <th>Security company</th>
+                                <th>Security co number</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="propertiesTableBody" style="background-color: #f5f5f5;">
                             <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
-                            <!-- Rows will be populated here -->
+                          {%for property in properties%}
+                            <tr>
+                                <td>{{property.propertyname}}</td>
+                                <td>{{property.Units}}</td>
+                                <td>{{property.Location}}</td>
+                                <td>{{property.Land_no}}</td>
+                                <td>{{property.caretaker}}</td>
+                                <td>{{property.caretaker_id}}</td>
+                                <td>{{property.security_name}}</td>
+                                <td>{{property.security_buss_no}}</td>
+                                <td>
+                                    <button class="edit-btn">Edit</button>
+                                    <button class="delete-btn">Delete</button>
+                                </td>
+                            </tr>
+                             {% endfor %}
                         </tbody>
                     </table>
                 </section>

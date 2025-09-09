@@ -178,7 +178,7 @@ def landlord_register():
          print(request.form.get('password'))
          db.session.add(new_user)
          users = Landlord.query.all()
-         print(users) 
+         #print(users) 
          db.session.commit()
          flash("Registered successfully!")
          return redirect(url_for('landlord_login'))
@@ -270,11 +270,14 @@ def landlord_dashboard():
 @app.route('/tenants')
 def tenants():
   properties = Property.query.all()
-  return render_template('tenants.html', properties=properties)
+  tenants = Tenant.query.all()
+  return render_template('tenants.html', properties=properties, tenants=tenants)
 
 @app.route('/properties')
 def properties():
-  return render_template('properties.html')
+   tenants = Tenant.query.all()
+   properties = Property.query.all()
+   return render_template('properties.html', properties=properties, tenants=tenants)
 
 @app.route('/addproperty', methods=['GET','POST'])
 def addproperty():
@@ -366,7 +369,7 @@ def create_admin():
         db.session.add(new_admin)
         db.session.commit()
         print("Admin created successfully")
-        print(new_admin)
+        #print(new_admin)
     else:
         print("Admin already exists")
         all_admins = Admin.query.all()
@@ -382,6 +385,7 @@ def admin_login():
        session['admin_id'] = admin.id
        session['admin_name'] = admin.username
        print("logged in successfully!")
+       print(admin)
        flash("logged in successfully!")
        return redirect(url_for('admin_dashboard'))
      else:
