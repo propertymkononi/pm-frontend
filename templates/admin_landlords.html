@@ -562,6 +562,18 @@
             </thead>
             <tbody id="landlordTableBody">
               <!-- landlords will load here -->
+               {%for landlord in landlords%}
+                  <tr>
+                    <td>{{ landlord.username }}</td>
+                    <td>{{ landlord.phonenumber }}</td>
+                    <td>{{ landlord.email }}</td>
+                    <td>
+                      <button onclick="editLandlord({{ landlord.id }})">Edit</button>
+                      <button onclick="deleteLandlord({{ landlord.id }})">Delete</button>
+                    </td>
+                  </tr>
+               {%endfor%}
+
             </tbody>
 
           </table>
