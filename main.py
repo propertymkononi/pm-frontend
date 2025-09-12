@@ -83,6 +83,13 @@ class Landlord(db.Model):
     def __repr__(self):
       return f"Landlord('{self.id}','{self.username}', '{self.email}','{self.date_created}' )"
 
+    def to_dict(self):
+      return{
+         "landlordFullName": self.username,
+         "emailAddress": self.email,
+         "date_created": self.date_created
+      }
+
 class Tenant(db.Model):
      __tablename__ = 'Tenant'
      id = db.Column(db.Integer, primary_key=True)
@@ -245,17 +252,7 @@ def delete_tenant(Tenant_id):
     db.session.delete(tenant)
     db.session.commit()
     flash("Tenant deleted.")
-    return redirect(url_for('views_tenats'))
-
-# @app.route('/delete_all_users', methods=['GET','POST'])
-# def delete_all_users():
-#     try:
-#         db.session.query(User).delete()
-#         db.session.commit()
-#         return "All users deleted successfully."
-#     except Exception as e:
-#         db.session.rollback()
-#         return f"Error deleting users: {e}"
+    return redirect(url_for('views_tenants'))
 
 @app.route('/landlord_password', methods=['GET','POST'])
 def landlord_password():
@@ -448,29 +445,42 @@ def notify_admin(email):
 @app.route('/admin_landlords')
 def admin_landlords():
    landlords = Landlord.query.all()
+   if request.method == 'POST':
+       # Handle form submission for landlord information
+       username = request.form.get('username')
+       email = request.form.get('email')
+       Landlord.query.filter_by(id=landlord_id).update(dict(username=username, email=email))
+       db.session.commit()
+       flash("Landlord information updated successfully!")
    #  tenants = Tenant.query.all()
    #  properties = Property.query.all()
    return render_template('admin_landlords.html', landlords=landlords)
 
-@app.route('/admin_landlord/edit/<int:landlord_id>', methods=['GET', 'POST'])
-def edit_admin_landlord(landlord_id):                       
+
+@app.route("/api/landlords/<int:landlord_id>")
+def get_landlord(landlord_id):
     landlord = Landlord.query.get_or_404(landlord_id)
-    if request.method == 'POST':
-        Landlord.username = request.form.get('username')
-        Landlord.email = request.form.get('email')
-        Landlord.phonenumber = request.form.get('phonenumber')
-        Landlord.national_id = request.form.get('national_id')
-        Landlord.KRA_pin = request.form.get('KRA_pin')
-        Landlord.country = request.form.get('country')
-        Landlord.profile_picture = request.form.get('profile_picture')
-        Landlord.payment_method = request.form.get('payment_method')
-        Landlord.kra_document = request.form.get('kra_document')
-        Landlord.emergency_contact_name1 = request.form.get('emergency_contact_name1')
-        Landlord.emergency_contact_phone1 = request.form.get('emergency_contact_phone1')
-        Landlord.emergency_contact_name2 = request.form.get('emergency_contact_name2')
-        Landlord.emergency_contact_phone2 = request.form.get('emergency_contact_phone2')
-        db.session.commit()
-        flash('Landlord updated successfully!')
+    return jsonify(landlord.to_dict())
+
+# @app.route('/admin_landlord/edit/<int:landlord_id>', methods=['GET', 'POST'])
+# def edit_admin_landlord(landlord_id):                       
+#     landlord = Landlord.query.get_or_404(landlord_id)
+#     if request.method == 'POST':
+#         landlord.username = request.form.get('username', '').strip()
+#         landlord.email = request.form.get('email', '').strip()
+      #   landlord.phonenumber = request.form.get('phonenumber')
+      #   landlord.national_id = request.form.get('national_id')
+      #   landlord.KRA_pin = request.form.get('KRA_pin')
+      #   landlord.country = request.form.get('country')
+      #   landlord.profile_picture = request.form.get('profile_picture')
+      #   landlord.payment_method = request.form.get('payment_method')
+      #   landlord.kra_document = request.form.get('kra_document')
+      #   landlord.emergency_contact_name1 = request.form.get('emergency_contact_name1')
+      #   landlord.emergency_contact_phone1 = request.form.get('emergency_contact_phone1')
+      #   landlord.emergency_contact_name2 = request.form.get('emergency_contact_name2')
+      #   landlord.emergency_contact_phone2 = request.form.get('emergency_contact_phone2')
+      #   db.session.commit()
+      #   flash('Landlord updated successfully!')
 
 
 @app.route("/filter", methods=["GET"])
@@ -496,19 +506,19 @@ def delete_admin_landlord(landlord_id):
 @app.route('/admin_landlords_info', methods=['GET', 'POST'])
 def admin_landlord_info():
    landlords = Landlord.query.all()
-   if request.method == 'POST':
-       # Handle form submission for landlord information
-       username = request.form.get('username')
-       email = request.form.get('email')
-       Landlord.query.filter_by(id=landlord_id).update(dict(username=username, email=email))
-       db.session.commit()
-       flash("Landlord information updated successfully!")
+   # if request.method == 'POST':
+   #     # Handle form submission for landlord information
+   #     username = request.form.get('username')
+   #     email = request.form.get('email')
+   #     Landlord.query.filter_by(id=landlord_id).update(dict(username=username, email=email))
+   #     db.session.commit()
+   #     flash("Landlord information updated successfully!")
    return render_template('admin_landlords_information.html', landlords=landlords)
 
 @app.route('/admin_financials')
 def admin_financials():
    return render_template('admin_financials.html')
- 
+
 @app.route('/admin_properties')
 def admin_properties():
    landlord_id = request.args.get('landlord_id')

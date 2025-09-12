@@ -467,6 +467,17 @@
             </button>
           </div>
 
+ {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, msg in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ msg }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
           <!-- Landlord FILTER xxxxxxxxxx -->
           <div
             style="background-color: #f5f5f5; padding: 0.3em; border-radius: 0.2em; font-size: smaller; padding: 1em;">
@@ -499,8 +510,9 @@
         </div>
         <!-- Registration Form -->
         <div id="landlordFormContainer">
-          <form id="landlordForm" onsubmit="event.preventDefault(); addLandlord();">
-            <!-- 👤 Ownership I-->
+          <form id="landlordForm" onsubmit="event.preventDefault(); addLandlord();" action="/addlandlords">
+            <!-- 👤 Ownership Information -->
+             <input type="hidden" name="landlord_id" id="landlord_id">
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Personal Information:</h4>
             <input name="username" type="text" id="landlordFullName" placeholder="Landlord Full Name">
@@ -563,13 +575,13 @@
             <tbody id="landlordTableBody">
               <!-- landlords will load here -->
                {%for landlord in landlords%}
-                  <tr>
+                  <tr data-id="{{landlord.id}}">
                     <td>{{ landlord.username }}</td>
                     <td>{{ landlord.phonenumber }}</td>
                     <td>{{ landlord.email }}</td>
                     <td>
-                      <button onclick="editLandlord({{ landlord.id }})">Edit</button>
-                      <button onclick="deleteLandlord({{ landlord.id }})">Delete</button>
+                      <button class="edit-btn" onclick="editLandlord(this)">Edit</button>
+                      <button class="delete-btn" onclick="deleteLandlord(this)">Delete</button>
                     </td>
                   </tr>
                {%endfor%}
