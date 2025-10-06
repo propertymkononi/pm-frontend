@@ -345,7 +345,7 @@
                     <div class="dropdown-menu" id="dropdown">
                         <!-- <a href="#">Edit Profile</a> -->
                         <!-- <a href="#">Settings</a> -->
-                        <a href='/pm-frontend/templates/index.html'>Logout</a>
+                        <a href='/admin_logout'>Logout</a>
                         <!-- this code ends the session for a user who MUST log back in to access the portal -->
                     </div>
                 </div>
@@ -504,7 +504,7 @@
 
                     <!-- TENANT Form xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
                     <form class="landlord-form" id="landlordForm" style="background-color: aliceblue;"
-                        action="/addtenant" method="post">
+                        action="/admin_addTenants" method="post" enctype="multipart/form-data">
                         <br>
 
 
@@ -512,10 +512,10 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Personal Information:</h4>
-                        <input type="text" id="tenantFullName" placeholder="Tenant Full Name">
-                        <input type="text" id="nationalIdentification" placeholder="National ID or Passport">
-                        <input type="text" id="contactNumber" placeholder="Contact Number (Phone/WhatsApp)"> <br>
-                        <input type="text" id="emailAddress" placeholder="Email Address">
+                        <input name="tenantname" type="text" id="tenantFullName" placeholder="Tenant Full Name">
+                        <input name="identification_number" type="text" id="nationalIdentification" placeholder="National ID or Passport">
+                        <input name="phonenumber" type="text" id="contactNumber" placeholder="Contact Number (Phone/WhatsApp)"> <br>
+                        <input name="tenantemail" type="text" id="emailAddress" placeholder="Email Address">
                         <select name="nationality" id="nationality">
                             <option value="" disabled selected>Select Country of Origin</option>
                             <option value="Kenya">Kenya</option>

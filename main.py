@@ -12,18 +12,24 @@ from datetime import datetime
 from sqlalchemy.sql import func
 from flask_mail import Mail, Message
 from flask_migrate import Migrate
+from werkzeug.utils import secure_filename
+import os
 
 
 
 app = Flask(__name__)
 
 #configuring the database connection
-app.config['SQLALCHEMY_DATABASE_URI'] =  "sqlite:///propertym" 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:propertymkononi2025@localhost:5432/propertymdb' #"sqlite:///propertym" (This is the previous database)  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  
 db = SQLAlchemy(app)
 mail = Mail(app)
 migrate = Migrate(app, db)
 #db.init_app(app)
+
+UPLOAD_FOLDER = os.path.join(os.getcwd())
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
 
 app.config['SECRET_KEY'] = "fdfafhqwee73jbhzx" # Change to a long random string in production
 
@@ -41,14 +47,24 @@ class Property(db.Model):
      __tablename__ = 'property'
      id = db.Column(db.Integer, primary_key=True)
      propertyname = db.Column(db.String(255), unique=True, nullable=False)
-     Units = db.Column(db.Integer, unique=True, nullable=False)
-     #Inspection_frequency = db.Column(db.String(255))
-     Location = db.Column(db.String(255), unique=True, nullable=False)
-     Land_no = db.Column(db.String(255), unique=True, nullable=True)
-     caretaker = db.Column(db.String(255), unique=True, nullable=False)
-     caretaker_id = db.Column(db.String(255), unique=True, nullable=False)
-     security_name = db.Column(db.String(255), unique=True, nullable=False)
-     security_buss_no = db.Column(db.String(255), unique=False, nullable=False)
+     propertytype = db.Column(db.String(255), nullable=True)
+     Inspection_frequency = db.Column(db.String(255), nullable=True)
+     landmark = db.Column(db.String(255), nullable=True)
+     Units = db.Column(db.Integer, nullable=False)
+     Location = db.Column(db.String(255),  nullable=True)
+     penalty = db.Column(db.String(255), nullable=True)
+     unit_types = db.Column(db.String(255), nullable=True)
+     service_charge = db.Column(db.String(255), nullable=True)
+     floors = db.Column(db.String(255), nullable=True)
+     ownership_document = db.Column(db.String(255))
+     property_photo = db.Column(db.String(255))
+     agreement_document = db.Column(db.String(255))
+     rent_collection_method = db.Column(db.String(255), nullable=False)
+     property_features = db.Column(db.String(255),  nullable=False)
+     caretaker = db.Column(db.String(255),  nullable=False)
+     caretaker_id = db.Column(db.String(255), nullable=False)
+     security_name = db.Column(db.String(255), nullable=False)
+     security_buss_no = db.Column(db.String(255),  nullable=False)
      tenants = db.relationship('Tenant', backref='property', lazy=True)
      landlords = db.relationship("Landlord", secondary='landlord_property', back_populates='properties')
 
@@ -56,27 +72,52 @@ class Property(db.Model):
    
 
      def __repr__(self):
-      return f"Property('{self.id}','{self.propertyname}', '{self.Units}','{self.date_created}', '{self.tenants},'{self.landlords}', '{self.Location}', '{self.Land_no}', '{self.caretaker}', '{self.caretaker_id}', '{self.security_name}', '{self.security_buss_no}' )"
+      return f"Property('{self.id}','{self.propertyname}', '{self.Units}','{self.propertytype}',{self.date_created}', '{self.tenants},'{self.landlords}', '{self.Location}', '{self.floors}', '{self.caretaker}', '{self.caretaker_id}', '{self.security_name}', '{self.security_buss_no}' )"
+   
+     def to_dict(self):
+        return {
+            'id': self.id,
+            'propertyName': self.propertyname,
+            'propertyType': self.propertytype,
+            'Inspection_frequency': self.Inspection_frequency,
+            'units': self.Units,
+            'address': self.Location,
+            'landmark' : self.landmark,
+            'penalty': self.penalty,
+            'unit_types': self.unit_types,
+            'service_charge': self.service_charge,
+            'floors': self.floors,
+            'rent_collection_method': self.rent_collection_method,
+            'property_features': self.property_features,
+            'caretaker': self.caretaker,
+            'caretaker_id': self.caretaker_id,
+            'security_name': self.security_name,
+            'security_buss_no': self.security_buss_no,
+            'ownershipDocument' : getattr(self, 'ownership_document', None),
+            'propertyPhoto' : getattr(self, 'property_photo', None),
+            'agreementDocument' : getattr(self, 'agreement_document', None),
+            'tenants': [tenant.tenantname for tenant in self.tenants],
+            'landlords': [landlord.username for landlord in self.landlords]
+        }
 
 
 class Landlord(db.Model):
     __tablename__ = 'landlord'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
-   #  phonenumber = db.Column(db.String(255), nullable=False)
-   #  national_photo = db.Column(db.String(255), nullable=True)
-   #  national_id = db.Column(db.String(255), unique=True, nullable=False)
+    phonenumber = db.Column(db.String(255), nullable=False)
+    national_photo = db.Column(db.String(255), nullable=True)
+    national_id = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-   #  KRA_pin = db.Column(db.String(255), unique=True, nullable=False)
-   #  country = db.Column(db.String(255))
-   #  profile_picture = db.Column(db.String(255))  # store photo as file path
-   #  Payment_method = db.Column(db.String(255))
+    KRA_pin = db.Column(db.String(255), unique=True, nullable=False)
+    country = db.Column(db.String(255))
+    profile_picture = db.Column(db.String(255))  # store photo as file path
+    Payment_method = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True, nullable=True)
-   #  kra_document = db.Column(db.String(255))
-   #  reference__name = db.Column(db.String(255), nullable=True)
-   #  reference_phone = db.Column(db.String(255), nullable=True)
-   #  emergency_contact_name2 = db.Column(db.String(255), nullable=True)
-   #  emergency_contact_phone2 = db.Column(db.String(255), nullable=True)
+    kra_document = db.Column(db.String(255))
+   #  arrears = db.Column(db.String(255), nullable=True)
+    reference_name = db.Column(db.String(255), nullable=True)
+    reference_phone = db.Column(db.String(255), nullable=True)
     properties = db.relationship('Property', secondary='landlord_property', back_populates='landlords')
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -86,8 +127,19 @@ class Landlord(db.Model):
     def to_dict(self):
       return{
          "landlordFullName": self.username,
+         "phoneNumber" :self.phonenumber,
+         "nationalIdentification": self.national_id,
+         "kraPin": self.KRA_pin,
+         "nationality": self.country,
+         "preferredBillingMethod": getattr(self, 'Payment_method', None),
          "emailAddress": self.email,
-         "date_created": self.date_created
+         "referenceName": getattr(self, 'reference_name', None),
+         "referenceContact": getattr(self, 'reference_phone', None),
+         "date_created": self.date_created.isoformat() if self.date_created else None,
+         "profilePicture": getattr(self, 'profile_picture', None),
+         "nationalCard": getattr(self, 'national_photo', None),
+         "kraDocument": getattr(self, 'kra_document', None),
+         "ownershipDocument": getattr(self, 'ownership_document', None)
       }
 
 class Tenant(db.Model):
@@ -104,10 +156,8 @@ class Tenant(db.Model):
      housemanager_name =  db.Column(db.String(255), unique=True, nullable=True)
      housemanager_ID =  db.Column(db.String(255), unique=True, nullable=True)
      nationality = db.Column(db.String(255), unique=True, nullable=True)
-     emergency_name1 =  db.Column(db.String(255), unique=True, nullable=False)
-     emergency_contact1 =  db.Column(db.String(255), unique=True, nullable=False)
-     emergency_name2 =  db.Column(db.String(255), unique=True, nullable=True)
-     emergency_contact2 =  db.Column(db.String(255), unique=True, nullable=True)
+     reference_name =  db.Column(db.String(255), unique=True, nullable=False)
+     reference_phone =  db.Column(db.String(255), unique=True, nullable=False)
      apartment_name = db.Column(db.String(255), unique=True, nullable=True)
      rent = db.Column(db.String(255), unique=True, nullable=True)
      deposit = db.Column(db.String(255), unique=True, nullable=True)
@@ -150,9 +200,9 @@ def landlord_login():
       
         landlord = Landlord.query.filter_by(username=username).first()
       #   print(f"Logging in user: {username}")
-      #   print(f"User found: {user}")
-      #   if user:
-      #        print(f"Stored hash: {user.password}")     
+      #   print(f"Landlord found: {landlord}")
+      #   if landlord:
+      #        print(f"Stored hash: {landlord.password}")     
       #        print(f"Entered password: {password}")
        
         if landlord and check_password_hash(landlord.password, password):
@@ -393,8 +443,8 @@ def admin_login():
       
 @app.route('/admin_dashboard')
 def admin_dashboard():
-   #  if 'admin_id' not in session:
-   #      return redirect(url_for('admin_login'))
+   # if 'admin_id' not in session:
+   #  return redirect(url_for('admin_login'))
     landlords = Landlord.query.all()
     tenants = Tenant.query.all()
     properties = Property.query.all()
@@ -405,34 +455,50 @@ def admin_dashboard():
 
 @app.route('/addlandlord', methods=['GET', 'POST'])
 def addlandlord():
-    if 'admin_id' not in session:
-        return redirect(url_for('admin_login'))
+   #  if 'admin_id' not in session:
+   #      return redirect(url_for('admin_login'))
 
     if request.method == 'POST':
         username = request.form.get('username')
         email = request.form.get('email')
         phonenumber = request.form.get('phonenumber')
         national_id = request.form.get('national_id')
-        password = generate_password_hash(request.form('password'))
-        profile_picture = request.form.get('profile_picture')
+        national_photo = request.files.get('national_photo')
+        password = generate_password_hash(request.form.get('password'))
+        profile_picture = request.files.get('profile_picture')
         KRA_pin = request.form.get('KRA_pin')
-        kra_document = request.form.get('kra_document')
+        kra_document = request.files.get('kra_document')
         country = request.form.get('country')
-        payment_method = request.form.get('payment_method')
-        emergency_contact_name1 = request.form.get('emergency_contact_name1')
-        emergency_contact_phone1 = request.form.get('emergency_contact_phone1')
-        emergency_contact_name2 = request.form.get('emergency_contact_name2')
-        emergency_contact_phone2 = request.form.get('emergency_contact_phone2')
-        new_landlord = Landlord(username=username, email=email, password=password, phonenumber=phonenumber, national_id=national_id, profile_picture=profile_picture, kra_document=kra_document, KRA_pin=KRA_pin, country=country, payment_method=payment_method, emergency_contact_name1=emergency_contact_name1, emergency_contact_phone1=emergency_contact_phone1, emergency_contact_name2=emergency_contact_name2, emergency_contact_phone2=emergency_contact_phone2)
-        properties = request.form.getlist('properties')
-      #   for prop in properties:
-      #       property = Property.query.get(prop)        
-      #       if property:
-      #           new_landlord.properties.append(property)
+        Payment_method = request.form.get('Payment_method')
+        reference_name = request.form.get('reference_name')
+        reference_phone = request.form.get('reference_phone')
+        user = Landlord.query.filter_by(username=username).first()
+
+        national_photo_filename = None
+        profile_filename = None
+        kra_filename = None
+
+        if national_photo:
+            national_photo_filename = secure_filename(national_photo.filename)
+            national_photo.save(os.path.join(app.config['UPLOAD_FOLDER'], national_photo_filename))
+
+        if kra_document:
+            kra_filename = secure_filename(kra_document.filename)
+            kra_document.save(os.path.join(app.config['UPLOAD_FOLDER'], kra_filename))
+
+        if profile_picture:
+            profile_filename = secure_filename(profile_picture.filename)
+            profile_picture.save(os.path.join(app.config['UPLOAD_FOLDER'], profile_filename))
+
+        if user:
+           return render_template('landlord_login.html', error="User already exists")
+
+        new_landlord = Landlord(username=username, email=email, national_photo=national_photo_filename, password=password, phonenumber=phonenumber, national_id=national_id, profile_picture=profile_filename, kra_document=kra_filename, KRA_pin=KRA_pin, country=country, Payment_method=Payment_method, reference_name=reference_name, reference_phone=reference_phone)
+
         db.session.add(new_landlord)
         db.session.commit()
         flash('Landlord added successfully!')
-        return redirect(url_for('admin_dashboard'))
+        return redirect(url_for('admin_landlords'))
     return render_template('admin_landlords.html')
 
 def notify_admin(email):
@@ -456,32 +522,48 @@ def admin_landlords():
    #  properties = Property.query.all()
    return render_template('admin_landlords.html', landlords=landlords)
 
-
 @app.route("/api/landlords/<int:landlord_id>")
 def get_landlord(landlord_id):
     landlord = Landlord.query.get_or_404(landlord_id)
     return jsonify(landlord.to_dict())
 
-# @app.route('/admin_landlord/edit/<int:landlord_id>', methods=['GET', 'POST'])
-# def edit_admin_landlord(landlord_id):                       
-#     landlord = Landlord.query.get_or_404(landlord_id)
-#     if request.method == 'POST':
-#         landlord.username = request.form.get('username', '').strip()
-#         landlord.email = request.form.get('email', '').strip()
-      #   landlord.phonenumber = request.form.get('phonenumber')
-      #   landlord.national_id = request.form.get('national_id')
-      #   landlord.KRA_pin = request.form.get('KRA_pin')
-      #   landlord.country = request.form.get('country')
-      #   landlord.profile_picture = request.form.get('profile_picture')
-      #   landlord.payment_method = request.form.get('payment_method')
-      #   landlord.kra_document = request.form.get('kra_document')
-      #   landlord.emergency_contact_name1 = request.form.get('emergency_contact_name1')
-      #   landlord.emergency_contact_phone1 = request.form.get('emergency_contact_phone1')
-      #   landlord.emergency_contact_name2 = request.form.get('emergency_contact_name2')
-      #   landlord.emergency_contact_phone2 = request.form.get('emergency_contact_phone2')
-      #   db.session.commit()
-      #   flash('Landlord updated successfully!')
+@app.route('/admin_landlord/edit/<int:landlord_id>', methods=['POST'])
+def edit_admin_landlord(landlord_id):
+    landlord = Landlord.query.get_or_404(landlord_id)
 
+    landlord.username = request.form.get('username', '').strip()
+    landlord.email = request.form.get('email', '').strip()
+    landlord.phonenumber = request.form.get('phonenumber', '').strip()
+    landlord.national_id = request.form.get('national_id', '').strip()
+    landlord.KRA_pin = request.form.get('KRA_pin', '').strip()
+    landlord.country = request.form.get('country', '').strip()
+    landlord.Payment_method = request.form.get('Payment_method', '').strip()
+    landlord.reference_name = request.form.get('reference_name', '').strip()
+    landlord.reference_phone = request.form.get('reference_phone', '').strip()
+   #  landlord.physical_address = request.form.get('physical_address', '').strip()
+
+    # FILES: save only if a new file was uploaded
+    profile_file = request.files.get('profile_picture')
+    if profile_file and profile_file.filename:
+        fname = secure_filename(profile_file.filename)
+        profile_file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+        landlord.profile_picture = fname
+
+    national_file = request.files.get('national_photo')
+    if national_file and national_file.filename:
+        fname = secure_filename(national_file.filename)
+        national_file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+        landlord.national_photo = fname
+
+    kra_file = request.files.get('kra_document')
+    if kra_file and kra_file.filename:
+        fname = secure_filename(kra_file.filename)
+        kra_file.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+        landlord.kra_document = fname
+
+    db.session.commit()
+    flash('Landlord updated successfully!')
+    return redirect(url_for('admin_landlords')) 
 
 @app.route("/filter", methods=["GET"])
 def filter_landlord():
@@ -503,9 +585,10 @@ def delete_admin_landlord(landlord_id):
     flash('Landlord deleted successfully!')
     return redirect(url_for('admin_landlords'))
 
-@app.route('/admin_landlords_info', methods=['GET', 'POST'])
-def admin_landlord_info():
+@app.route('/admin_landlords_information', methods=['GET', 'POST'])
+def admin_landlords_information():
    landlords = Landlord.query.all()
+   properties = Property.query.all()
    # if request.method == 'POST':
    #     # Handle form submission for landlord information
    #     username = request.form.get('username')
@@ -513,7 +596,7 @@ def admin_landlord_info():
    #     Landlord.query.filter_by(id=landlord_id).update(dict(username=username, email=email))
    #     db.session.commit()
    #     flash("Landlord information updated successfully!")
-   return render_template('admin_landlords_information.html', landlords=landlords)
+   return render_template('admin_landlords_information.html', landlords=landlords, properties=properties)
 
 @app.route('/admin_financials')
 def admin_financials():
@@ -530,19 +613,242 @@ def admin_properties():
  
 @app.route('/admin_properties_info')
 def admin_properties_info():
-   return render_template('admin_properties_information.html')
+   tenants = Tenant.query.all()
+   return render_template('admin_properties_information.html', tenants=tenants)
+
+@app.route('/admin_addProperty', methods=['GET','POST'])
+def admin_addProperty():
+   landlord_id = request.form.get('landlord_id')
+   selected_landlord = Landlord.query.get(landlord_id)
+   
+   
+   if request.method == 'POST':
+     ownership_document_filename = None
+     property_photo_filename = None
+     agreement_document_filename = None
+     
+     ownership_document = request.files.get('ownership_document')
+     property_photo = request.files.get('property_photo')
+     agreement_document = request.files.get('agreement_document')
+
+     if ownership_document:
+         ownership_document_filename = secure_filename(ownership_document.filename)
+         ownership_document.save(os.path.join(app.config['UPLOAD_FOLDER'], ownership_document_filename))
+
+     if property_photo:
+         property_photo_filename = secure_filename(property_photo.filename)
+         property_photo.save(os.path.join(app.config['UPLOAD_FOLDER'], property_photo_filename))
+
+     if agreement_document:
+         agreement_document_filename = secure_filename(agreement_document.filename)
+         agreement_document.save(os.path.join(app.config['UPLOAD_FOLDER'], agreement_document_filename))
+
+     property = Property(
+       propertyname = request.form.get('propertyname'),
+       propertytype = request.form.get('propertytype'),
+       Units = int(request.form.get('Units',0)),
+       property_features = request.form.get('property_features'),
+       Inspection_frequency = request.form.get('Inspection_frequency'),
+       rent_collection_method = request.form.get('rent_collection_method'),
+       Location = request.form.get('Location'),
+       landmark = request.form.get('landmark'),
+       penalty = request.form.get('penalty'),
+       unit_types = request.form.get('unit_types'),
+       service_charge = request.form.get('service_charge'),
+       floors = request.form.get('floors'),
+       caretaker = request.form.get('caretaker'),
+       caretaker_id = request.form.get('caretaker_id'),
+       security_name = request.form.get('security_name'),
+       security_buss_no = request.form.get('security_buss_no'),
+       landlords = [selected_landlord] if selected_landlord else [],
+       ownership_document = ownership_document_filename,
+       property_photo = property_photo_filename,
+       agreement_document = agreement_document_filename
+
+    )
+    
+     db.session.add(property)
+     db.session.commit()
+     flash("Property added successfully")
+     print(property)
+     return redirect(url_for('admin_landlords_information'))
+   return render_template('admin_landlords_information.html', landlord=landlord)
+
+@app.route("/api/properties/<int:property_id>")
+def get_property(property_id):
+    property = Property.query.get_or_404(property_id)
+    return jsonify(property.to_dict())
+
+@app.route('/admin_property/edit/<int:property_id>', methods=['GET', 'POST'])
+def admin_edit_property(property_id):
+   property = Property.query.get_or_404(property_id)
+   
+   property.propertyname = request.form.get('propertyname','').strip()
+   property.propertytype = request.form.get('propertytype','').strip()
+   property.Units = request.form.get('Units','').strip()
+   property.Location = request.form.get('Location','').strip()
+   property.floors = request.form.get('floors','').strip()
+   property.property_features = request.form.get('property_features','').strip()
+   property.rent_collection_method = request.form.get('rent_collection_method','').strip()  
+   property.caretaker = request.form.get('caretaker','').strip()
+   property.caretaker_id = request.form.get('caretaker_id','').strip()
+   property.security_name = request.form.get('security_name','').strip()
+   property.security_buss_no = request.form.get('security_buss_no','').strip()
+   property.Inspection_frequency = request.form.get('Inspection_frequency','').strip()
+   property.landmark = request.form.get('landmark','').strip()
+   property.unit_types = request.form.get('unit_types','').strip()
+   property.service_charge = request.form.get('service_charge','').strip()
+   property.penalty = request.form.get('penalty','').strip()
+   
+   #File system updates go here
+   ownership_document = request.files.get('ownership_document')
+   if ownership_document and ownership_document.filename:
+       fname = secure_filename(ownership_document.filename)
+       ownership_document.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+       property.ownership_document = fname
+
+   property_photo = request.files.get('property_photo')
+   if property_photo and property_photo.filename:
+       fname = secure_filename(property_photo.filename)
+       property_photo.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+       property.property_photo = fname
+
+   agreement_document = request.files.get('agreement_document')
+   if agreement_document and agreement_document.filename:
+       fname = secure_filename(agreement_document.filename)
+       agreement_document.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+       property.agreement_document = fname
+
+   db.session.commit()
+   flash("Property updated successfully!")
+   return redirect(url_for('admin_landlords'))
+   
+@app.route("/filter", methods=["GET"])
+def filter_property():
+    category = request.args.get("category")
+    detail = request.args.get("detail")
+
+    query = Property.query
+    if category and detail:
+        query = query.filter(getattr(Property, category) == detail)
+
+    properties = [p.as_dict() for p in query.all()]
+    return jsonify(properties)
+
+@app.route('/admin_property/delete/<int:property_id>', methods=['POST'])
+def delete_admin_property(property_id):
+    property = Property.query.get_or_404(property_id)
+    db.session.delete(property)
+    db.session.commit()
+    flash('Property deleted successfully!')
+    return redirect(url_for('admin_landlords_information'))
 
 @app.route('/admin_requests')
 def admin_requests():
    return render_template('admin_requests.html')
 
-@app.route('/admin_vendors')
-def admin_vendors():
-   return render_template('admin_vendors.html')
+
+@app.route('/admin_addTenants')
+def admin_addTenants():
+   if request.method == 'POST':
+       tenantname = request.form.get('tenantname')
+       tenantemail = request.form.get('tenantemail')
+       housenumber = request.form.get('housenumber')
+       phonenumber = request.form.get('phonenumber')
+       identification_number = request.form.get('identification_number')
+       family_size = request.form.get('family_size')
+       children = request.form.get('children')
+       employment_status = request.form.get('employment_status')
+       housemanager_name = request.form.get('housemanager_name')
+       housemanager_ID = request.form.get('housemanager_ID')
+       nationality = request.form.get('nationality')
+       reference_name = request.form.get('reference_name')
+       reference_phone = request.form.get('reference_phone')
+       apartment_name = request.form.get('apartment_name')
+       rent = request.form.get('rent')
+       deposit = request.form.get('deposit')
+       bedrooms = request.form.get('bedrooms')
+       house_condition = request.form.get('house_condition')
+       lease_start = request.form.get('lease_start')
+       lease_end = request.form.get('lease_end')
+
+       new_tenant = Tenant(
+           tenantname=tenantname,
+           tenantemail=tenantemail,
+           housenumber=housenumber,
+           phonenumber=phonenumber,
+           identification_number=identification_number,
+           family_size=family_size,
+           children=children,
+           employment_status=employment_status,
+           housemanager_name=housemanager_name,
+           housemanager_ID=housemanager_ID,
+           nationality=nationality,
+           reference_name=reference_name,
+           reference_phone=reference_phone,
+           apartment_name=apartment_name,
+           rent=rent,
+           deposit=deposit,
+           bedrooms=bedrooms,
+           house_condition=house_condition,
+           lease_start=lease_start,
+           lease_end=lease_end
+       )
+
+       db.session.add(new_tenant)
+       db.session.commit()
+       flash("Tenant added successfully!")
+       return redirect(url_for('admin_tenants_info'))
+   return render_template('admin_tenants_information.html')
 
 @app.route('/admin_tenants_info')
 def admin_tenants_info():
    return render_template('admin_tenants_information.html')
+
+
+
+@app.route("/filter", methods=["GET"])
+def filter_tenant():
+    category = request.args.get("category")
+    detail = request.args.get("detail")
+
+    query = Tenant.query
+    if category and detail:
+        query = query.filter(getattr(Tenant, category) == detail)
+
+    tenants = [t.as_dict() for t in query.all()]
+    return jsonify(tenants)
+
+@app.route('/admin_tenant/edit/<int:tenant_id>', methods=["GET","POST"])
+def admin_edit_tenant():
+    pass
+
+
+@app.route('/admin_vendors')     
+def admin_vendors():
+   return render_template('admin_vendors.html')
+
+# @app.route('/admin_addvendors')     
+# def admin_addvendors():
+#    if request.method == 'POST':
+#        vendor_name = request.form.get('vendor_name')
+#        vendor_email = request.form.get('vendor_email')
+#        vendor_phone = request.form.get('vendor_phone')
+#        vendor_address = request.form.get('vendor_address')
+
+#        new_vendor = Vendor(
+#            vendor_name=vendor_name,
+#            vendor_email=vendor_email,
+#            vendor_phone=vendor_phone,
+#            vendor_address=vendor_address
+#        )
+
+#        db.session.add(new_vendor)
+#        db.session.commit()
+#        flash("Vendor added successfully!")
+#        return redirect(url_for('admin_vendors'))
+#    return render_template('admin_vendors.html')
+
 
 @app.route('/admin_logout')
 def admin_logout():
@@ -556,8 +862,7 @@ def admin_logout():
 #@app.route('vendor_login', method=[GET,POST])
 
 if (__name__) == ('__main__'):
-      # with app.app_context():
-      #     db.create_all()
-          #create_admin()
-     app.run(debug=True)
- 
+   # with app.app_context():
+   #     db.create_all()
+       # create_admin()
+       app.run(debug=True)

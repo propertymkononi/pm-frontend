@@ -466,18 +466,7 @@
               Register New Landlord
             </button>
           </div>
-
- {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      {% for category, msg in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-          {{ msg }}
-          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-      {% endfor %}
-    {% endif %}
-  {% endwith %}
-
+   
           <!-- Landlord FILTER xxxxxxxxxx -->
           <div
             style="background-color: #f5f5f5; padding: 0.3em; border-radius: 0.2em; font-size: smaller; padding: 1em;">
@@ -487,7 +476,9 @@
               <select id="filterCategory">
                 <option name="categories" value="">Select a Category</option>
                 <option name="username" value="landlordFullName">Landlord Name</option>
-                <option name="national_id" value="phoneNumber">National ID</option>
+                <option name="phonenumber" value="phoneNumber">Phone number</option>
+                <option name="email" value="emailAddress">Email</option>
+                <option name="kraPin" value="kraPin">KRA PIN</option>
 
                 <!-- CONSIDER ADDING NEW FILTERS INCLUDING ARREARS
                                     <option value="rentStatus">Rent Status</option>
@@ -510,7 +501,7 @@
         </div>
         <!-- Registration Form -->
         <div id="landlordFormContainer">
-          <form id="landlordForm" onsubmit="event.preventDefault(); addLandlord();" action="/addlandlords">
+          <form id="landlordForm" action="/addlandlord" method="POST" enctype="multipart/form-data">
             <!-- 👤 Ownership Information -->
              <input type="hidden" name="landlord_id" id="landlord_id">
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
@@ -519,6 +510,7 @@
             <input name="national_id" type="text" id="nationalIdentification" placeholder="National ID or Passport">
             <input name="phonenumber" type="text" id="phoneNumber" placeholder="Contact Number (Phone/WhatsApp)"> <br>
             <input name="email" type="text" id="emailAddress" placeholder="Email Address">
+            <input name="password" type="password" id="password" placeholder="Password">
             <input name="KRA_pin" type="text" id="kraPin" placeholder="KRA PIN (Kenya-specific)"> <br>
             <select name="country" id="nationality">
               <option value="" disabled selected>Select Country of Origin</option>
@@ -529,10 +521,16 @@
               <option value="Rwanda">Rwanda</option>
               <option value="Bukinafaso">Bukinafaso</option>
               <option value="Ethiopia">Ethiopia</option>
+              <option value="Ghana">Ghana</option>
+              <option value="Nigeria">Nigeria</option>
+              <option value="South Africa">South Africa</option>
+              <option value="Zambia">Zambia</option>
+              <option value="Zimbabwe">Zimbabwe</option>
+              <option value="Congo">Congo</option>
               <!-- Add more countries as needed -->
               <!-- Payment -->
             </select>
-            <select name="payment_method" id="preferredBillingMethod">
+            <select name="Payment_method" id="preferredBillingMethod">
               <option value="" disabled selected>Preferred Billing Method</option>
               <option value="Bank">Bank</option>
               <option value="Mpesa">Mpesa</option>
@@ -545,9 +543,9 @@
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Attach Digital Documents:</h4>
             <div style="padding: 1em;">
-              <input name="profile_picture" type="file" id="profilePicture" accept="image/*" required>
-              <input name="national_photo" type="file" id="nationalCard" accept="image/*" required>
-              <input name="kra_document" type="file" id="kraDocument" accept="image/*" required>
+              <input name="profile_picture" type="file" id="profilePicture" accept="image/*">
+              <input name="national_photo" type="file" id="nationalCard" accept="image/*" >  <!-- removed (required) to avoid reuploading when updating-->
+              <input name="kra_document" type="file" id="kraDocument" accept="image/*" >
             </div>
 
             <!-- references -->
@@ -562,13 +560,28 @@
             <button type="button" onclick="hideForm()" style="background-color: red; color: white;">Cancel</button>
           </form>
         </div>
+
+         {% with messages = get_flashed_messages(with_categories=true) %}
+             {% for category, message in messages %}
+                 <p style="color:green;">{{ message }}</p>
+              {% endfor %}
+         {% endwith %} 
+   
                   <!-- admin landlord UI Table -->
           <table class="landlord-details">
             <thead>
               <tr>
                 <th>Landlord Name</th>
                 <th>Phone No.</th>
-                <th>Email Address</th>
+                <!-- <th>Email Address</th> -->
+                <!-- <th>National ID</th> -->
+                <th>Properties</th>
+                <!-- <th>payment method</th> -->
+                <!-- <th>Country</th> -->
+                <th>Arrears</th>
+                <th>Emergency name</th>
+                <th>Emergency contact</th>
+                <!-- <th>KRA PIN</th> -->
                 <th>Action</th>
               </tr>
             </thead>
@@ -576,18 +589,24 @@
               <!-- landlords will load here -->
                {%for landlord in landlords%}
                   <tr data-id="{{landlord.id}}">
-                    <td>{{ landlord.username }}</td>
+                    <td><a style="text-decoration: none; color: inherit;" href="/admin_landlords_information">{{ landlord.username }}</a></td>
                     <td>{{ landlord.phonenumber }}</td>
-                    <td>{{ landlord.email }}</td>
+                    <!-- <td>{{ landlord.email }}</td> -->
+                    <!-- <td>{{ landlord.national_id }}</td> -->
+                     <td>{{landlord.properties[0].propertyname if landlord.properties else 'No property added'}}</td>
+                    <!-- <td>{{ landlord.Payment_method }}</td> -->
+                    <!-- <td>{{ landlord.country }}</td> -->
+                     <td>{{landlord.arrears if landlord.arrears else 'No arrears'}}</td>
+                    <td>{{ landlord.reference_name }}</td>
+                    <td>{{ landlord.reference_phone }}</td>
+                    <!-- <td>{{ landlord.KRA_pin }}</td> -->
                     <td>
                       <button class="edit-btn" onclick="editLandlord(this)">Edit</button>
                       <button class="delete-btn" onclick="deleteLandlord(this)">Delete</button>
                     </td>
                   </tr>
                {%endfor%}
-
             </tbody>
-
           </table>
   </div>
 
@@ -618,7 +637,7 @@
 
     const filterMap = {
       landlordFullName: 0,
-      propertyName: 1,
+      phoneNumber: 1,
       nationalIdentification: 2,
 
     };
@@ -710,8 +729,8 @@
         const nationalCard = document.getElementById("nationalCard").value.trim();
         const kraDocument = document.getElementById("kraDocument").value.trim();
         // references
-        const reference1Name = document.getElementById("referenceName").value.trim();
-        const reference1Contact = document.getElementById("referenceContact").value.trim();
+        const referenceName = document.getElementById("referenceName").value.trim();
+        const referenceContact = document.getElementById("referenceContact").value.trim();
 
 
         if (!landlordFullName || !nationalIdentification || !phoneNumber || !emailAddress ||
@@ -753,7 +772,28 @@
     }
 
     function deleteLandlord(button) {
-        button.closest("tr").remove();
+        if (!confirm('Delete landlord?')) return;
+        const row = button.closest("tr");
+        const landlordId = row.getAttribute("data-id");
+
+       fetch(`/admin_landlord/delete/${landlordId}`, {
+          method: 'POST',
+            headers: {
+               'Accept': 'application/json'
+                // add CSRF header if you use CSRF protection
+           }
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Delete failed');
+           // optionally read JSON; in our case we redirect, but treat success as OK
+           // remove row from DOM
+           row.remove();
+          alert('Deleted successfully');
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Failed to delete landlord');
+        });
     }
 
     function editLandlord(button) {
@@ -761,11 +801,18 @@
         const row = button.closest("tr");
         editIndex = row.rowIndex - 1;
 
-        document.getElementById("landlordFullName").value = row.cells[0].textContent;
-        document.getElementById("phoneNumber").value = row.cells[1].textContent;
-        document.getElementById("emailAddress").value = row.cells[2].textContent;
+        // document.getElementById("landlordFullName").value = row.cells[0].textContent;
+        // document.getElementById("phoneNumber").value = row.cells[1].textContent;
+        // document.getElementById("emailAddress").value = row.cells[2].textContent;
 
         const landlordId = row.getAttribute("data-id");
+        if (!landlordId) {
+        console.error("Row has no data-id attribute");
+        return;
+        }
+
+        const form = document.getElementById("landlordForm");
+        form.action = `/admin_landlord/edit/${landlordId}`;
 
         fetch(`/api/landlords/${landlordId}`)
             .then(res => res.json())
@@ -776,14 +823,14 @@
                 document.getElementById("preferredBillingMethod").value = data.preferredBillingMethod || "";
                 // fields for editing
                 document.getElementById("nationalIdentification").value = data.nationalIdentification || "";
-                document.getElementById("physicalAddressLocation").value = data.physicalAddressLocation || "";
+                document.getElementById("nationality").value = data.nationality || "";
                 document.getElementById("kraPin").value = data.kraPin || "";
                 document.getElementById("profilePicture").value = data.profilePicture || "";
                 document.getElementById("nationalCard").value = data.nationalCard || "";
                 document.getElementById("kraDocument").value = data.kraDocument || "";
                 // file fields cannot be prefilled for security reasons
-                document.getElementById("reference1Name").value = data.referenceName || "";
-                document.getElementById("reference1Contact").value = data.referenceContact || "";
+                document.getElementById("referenceName").value = data.referenceName || "";
+                document.getElementById("referenceContact").value = data.referenceContact || "";
 
             })
             .catch(err => console.error("Error fetching landlord details:", err));

@@ -441,7 +441,7 @@
           </button>
           <br><br>
 
-          <h2 style="color: #f5f5f5;"> Landlord Name: <span id="landlordName"> Oscar Omondi Omondi </span> </h2>
+          <h2 style="color: #f5f5f5;" > Landlord Name: <span id="landlordName"> Oscar Omondi Omondi </span> </h2>
 
           <br>
 
@@ -471,6 +471,9 @@
                 <select id="filterCategory">
                   <option value="">Select a Category</option>
                   <option value="propertyName">Property Name</option>
+                  <option value="propertyType">Property Type</option>
+                  <option value="address">Location</option>
+                  <option value="caretaker">Caretaker</option>
 
 
                   <!-- CONSIDER ADDING NEW FILTERS INCLUDING ARREARS
@@ -496,8 +499,8 @@
           <br>
 
           <!-- Register Property Form xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
-          <form class="property-form" id="propertyForm" style="background-color: aliceblue;" action="/addproperty"
-            method="post">
+          <form class="property-form" id="propertyForm" style="background-color: aliceblue;" action="/admin_addProperty"
+            method="post" enctype="multipart/form-data">
             <br>
 
 
@@ -505,7 +508,7 @@
 
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Basic Property Information:</h4>
-            <input type="text" id="propertyName" placeholder="Property Name">
+            <input name="propertyname" type="text" id="propertyName" placeholder="Property Name">
             <select name="propertytype" id="propertyType">
               <option value="" disabled selected>Property Type</option>
               <option value="apartment">Apartment</option>
@@ -516,9 +519,9 @@
 
               <!-- Add more types as needed -->
             </select>
-            <input type="number" id="units" placeholder="Number of Units/Houses">
-            <input type="text" id="address" placeholder="Physical Address / Location">
-            <input type="text" id="landmark" placeholder="Nearest Landmark or Road">
+            <input name="Units" type="number" id="units" placeholder="Number of Units/Houses">
+            <input name="Location" type="text" id="address" placeholder="Physical Address / Location" required>
+            <input name="landmark" type="text" id="landmark" placeholder="Nearest Landmark or Road"> 
 
             <br> <br>
 
@@ -527,9 +530,9 @@
 
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Physical Features:</h4>
-            <input type="number" id="floors" placeholder="Number of Floors">
-            <input type="text" id="rooms" placeholder="Unit Types (e.g., 1BR, 2BR, 3BR, Bedsitter, Studio)">
-            <input type="text" id="features"
+            <input name="floors" type="number" id="floors" placeholder="Number of Floors">
+            <input name="unit_types" type="text" id="unit_types" placeholder="Unit Types (e.g., 1BR, 2BR, 3BR, Bedsitter, Studio)">
+            <input name="property_features" type="text" id="features"
               placeholder="Property Features (e.g.,Borehole, Parking, Generator Availability, WiFi)">
   
 
@@ -537,13 +540,12 @@
 
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Financial & Rent Details:</h4>
-            <input type="number" id="rent" placeholder="Rent per Unit Type (1BR: 15k, 2BR: 22k, etc.)">
-            <input type="number" id="serviceCharge" placeholder="Service Charges (garbage, security, etc.)">
+          
+            <input name="service_charge" type="text" id="service_charge" placeholder="Service Charges (garbage, security, etc.)">
             <br>
-            <input type="number" id="penalty" placeholder="Penalties for Late Rent (per month if applicable)" required>
-            <input type="text" id="rentCollectionMethod" placeholder="Rent Collection Method (cash, bank, Mpesa)">
-            <input type="date" id="rentDate" placeholder="Rent Payment Due Date">
-
+            <input name="penalty" type="number" id="penalty" placeholder="Penalties for Late Rent (per month if applicable, in percentage)" required>
+            <input name="rent_collection_method" type="text" id="rentCollectionMethod" placeholder="Rent Collection Method (cash, bank, Mpesa)" required>
+            <input name="Inspection_frequency" type="text" id="inspectionFrequency" placeholder="Inspection Frequency (e.g., Monthly, Quarterly, Bi-Annually)">
             <br> <br>
 
 
@@ -551,8 +553,8 @@
 
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Management Details:</h4>
-            <input type="text" id="caretakerName" placeholder="Caretaker / Agent Full Name">
-            <input type="text" id="caretakerContact" placeholder="Caretaker Phone Number">
+            <input name="caretaker" type="text" id="caretakerName" placeholder="Caretaker / Agent Full Name">
+            <input name="caretaker_id" type="text" id="caretakerContact" placeholder="Caretaker Phone Number">
 
             <br> <br>
 
@@ -561,11 +563,17 @@
 
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Security Details:</h4>
-            <input type="text" id="securityName" placeholder="Security Company Name">
-            <input type="text" id="securityContact" placeholder="Security Guard Contact Info">
-            <input type="text" id="cctv" placeholder="CCTV Availability">
+            <input name="security_name" type="text" id="securityName" placeholder="Security Company Name">
+            <input name="security_buss_no" type="text" id="securityContact" placeholder="Security Guard Contact Info">
+            <!-- <input name="cctv" type="text" id="cctv" placeholder="CCTV Availability"> for future -->
 
             <br> <br>
+
+            <select name="landlord_id">
+              {%for landlord in landlords %}
+                <option value="{{ landlord.id }}">{{ landlord.username }}</option>
+              {% endfor %}
+            </select>
 
 
             <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
@@ -574,25 +582,25 @@
             <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
               Attach Digital Documents:</h4>
             <div style="padding: 1em;">
-
+            
 
               <!-- Ownership Documents (title, lease) -->
               <label for="ownershipDocument" style="font-size:1em">Ownership Documents (title,
                 lease)</label>
-              <input type="file" id="ownershipDocument" accept="image/*" onchange="previewOwnership(event)">
+              <input name="ownership_document" type="file" id="ownershipDocument" accept="image/*" onchange="previewOwnership(event)">
               <div class="preview" id="ownershipPreviewContainer">
                 <img id="ownershipPreview" src="" alt="Ownership Document Preview" width="100">
               </div> <br>
 
               <!-- property photo -->
               <label for="propertyPhoto" style="font-size:1em">Property Photos</label>
-              <input type="file" id="propertyPhoto" accept="image/*" onchange="previewProperty(event)">
+              <input name="property_photo" type="file" id="propertyPhoto" accept="image/*" onchange="previewProperty(event)">
               <div class="preview" id="propertyPreviewContainer">
                 <img id="propertyPreview" src="" alt="Property Photo Preview" width="100">
               </div> <br>
-              <!-- Rent Agreement Template photo -->
-              <label for="agreementTemplate" style="font-size:1em">Rent Agreement Template</label>
-              <input type="file" id="agreementTemplate" accept="image/*" onchange="previewAgreement(event)">
+              <!-- Rent Agreement Document photo -->
+              <label for="agreementDocument" style="font-size:1em">Rent Agreement Document</label>
+              <input name="agreement_document" type="file" id="agreementDocument" accept="image/*" onchange="previewAgreement(event)">
               <div class="preview" id="agreementPreviewContainer">
                 <img id="agreementPreview" src="" alt="Rent Agreement" width="100">
               </div> <br>
@@ -600,16 +608,18 @@
             </div>
 
 
-
-
             <br> <br>
 
-            <button id="addpropertyBtn" onclick="addOrUpdateProperty()">Add New Property </button>
-
-            <button onclick="hideForm()" style="background-color: red">Cancel</button>
+            <button id="addpropertyBtn" type="submit">Add New Property </button>
+            <button type="button" onclick="hideForm()" style="background-color: red">Cancel</button>
             <p style="padding: 0.5em;"></p>
           </form>
-
+           
+         {% with messages = get_flashed_messages(with_categories=true) %}
+              {% for category, message in messages %}
+                 <p style="color:green;">{{ message }}</p>
+              {% endfor %}
+         {% endwith %} 
 
 
 
@@ -658,15 +668,15 @@
               </div>
 
               <div id="row3" style="margin:2em">
-                <p>KRA Pin:</p> <input type="text" id="kraPin" placeholder="AJ234567890-76"
+                <p>KRA Pin:</p> <input name="kra_pin" type="text" id="kraPin" placeholder="AJ234567890-76"
                   style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
                 <div>
                   <p>Payment Details:</p>
-                  <input type="text" id="preferredPaymentMethod" placeholder="Bank Account"
+                  <input name="preferred_payment_method" type="text" id="preferredPaymentMethod" placeholder="Bank Account"
                     style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                  <input type="text" id="landlordBank" placeholder="Standard Chartered Bank"
+                  <input name="landlord_bank" type="text" id="landlordBank" placeholder="Standard Chartered Bank"
                     style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
-                  <input type="text" id="landlordBankAccountNumber" placeholder="09123283423873"
+                  <input name="landlord_bank_account_number" type="text" id="landlordBankAccountNumber" placeholder="09123283423873"
                     style="border: none; font-size: 1.5em;padding-bottom:0.5em"> <br>
 
                 </div>
@@ -714,26 +724,33 @@
               <thead>
                 <tr>
                   <th>Property Name</th>
-                  <th>No. of Tenants </th>
-                  <th>Service Status </th>
-                  <th>Rent Status</th>
-                  <th>Pending Arrears</th>
+                  <th>Property Type</th>
+                  <th>Units</th>
+                  <th>Location</th>
+                  <!-- <th>No. of Tenants </th> -->
+                  <th>caretaker</th>
                   <th>Caretaker Contact</th>
+                  <th>Pending Arrears</th>
                   <th>Action</th>
                 </tr>
               </thead>
            
                 <tbody id="propertyTableBody" style="background-color: #f5f5f5;">
-                  <!-- Rows will be populated here -->
-                </tbody>
-
-                <tbody>
-                  <tr>
-                    <td colspan="7">No properties records found.
-
+                {%for property in properties%}
+                  <tr data-id="{{ property.id }}">
+                    <td>{{ property.propertyname }}</td>
+                    <td>{{property.propertytype}}</td>
+                    <td>{{ property.Units }}</td>
+                    <td>{{ property.Location }}</td>
+                    <td>{{ property.caretaker }}</td>
+                    <td>{{ property.caretaker_id }}</td>
+                    <td>{{ property.pending_arrears }}</td>
+                    <td>
+                      <button class="btn-edit" onclick="editproperty(this)">Edit</button>
+                      <button class="btn-delete" onclick="deleteproperty(this)">Delete</button>
                     </td>
-
                   </tr>
+                  {% endfor %}
                 </tbody>
               </table>
         </section>
@@ -752,6 +769,94 @@
     }
   </script>
   <!-- JavaScript to Toggle Form Visibility -->
+     </script>
+  <!-- Javascript for filter XXXXXXXXXXXXXXXX -->
+  <script>
+    const filterCategory = document.getElementById('filterCategory');
+    const filterDetails = document.getElementById('filterDetails');
+    const filterMessage = document.getElementById('filterMessage');
+    const propertyTableBody = document.getElementById('propertyTableBody');
+    const clearFilters = document.getElementById('clearFilters');
+
+
+    const filterMap = {
+      propertyName: 0,
+      propertyType: 1,
+      address: 3,
+      caretaker:4,
+
+    };
+
+    // Populate sub-dropdown dynamically based on the selected category
+    function populateFilterDetails() {
+      const selectedCategory = filterCategory.value;
+      filterDetails.innerHTML = `<option value="">Select Details</option>`;
+      filterDetails.disabled = true;
+
+      if (!selectedCategory) return;
+
+      const columnIndex = filterMap[selectedCategory];
+      const uniqueValues = new Set();
+
+      // Gather unique values from the table
+      Array.from(propertyTableBody.rows).forEach(row => {
+        const cellValue = row.cells[columnIndex].textContent.trim();
+        uniqueValues.add(cellValue);
+      });
+
+      // Populate the dropdown with unique values
+      uniqueValues.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        filterDetails.appendChild(option);
+      });
+
+      filterDetails.disabled = false;
+    }
+
+    // Apply the filter based on the selected details
+    function applyFilter() {
+      const selectedCategory = filterCategory.value;
+      const selectedDetail = filterDetails.value;
+
+      if (!selectedCategory || !selectedDetail) {
+        Array.from(propertyTableBody.rows).forEach(row => {
+          row.style.display = '';
+        });
+        filterMessage.textContent = '';
+        return;
+      }
+
+      const columnIndex = filterMap[selectedCategory];
+      Array.from(propertyTableBody.rows).forEach(row => {
+        const cellValue = row.cells[columnIndex].textContent.trim();
+        row.style.display = cellValue === selectedDetail ? '' : 'none';
+      });
+
+      filterMessage.textContent = `"${selectedDetail}" has been filtered`;
+    }
+
+    // Clear all filters
+    function clearAllFilters() {
+      filterCategory.value = '';
+      filterDetails.innerHTML = `<option value="">Select Details</option>`;
+      filterDetails.disabled = true;
+
+      Array.from(propertyTableBody.rows).forEach(row => {
+        row.style.display = '';
+      });
+
+      filterMessage.textContent = '';
+    }
+
+    // Add event listeners
+    filterCategory.addEventListener('change', populateFilterDetails);
+    filterDetails.addEventListener('change', applyFilter);
+    clearFilters.addEventListener('click', clearAllFilters);
+
+  </script>
+
   <script>
     let editIndex = -1; // Keeps track of the row being edited
 
@@ -763,7 +868,7 @@
 
     // Function to hide the form
     function hideForm() {
-      document.getElementById("propertyorm").style.display = "none";
+      document.getElementById("propertyForm").style.display = "none";
       document.getElementById("addpropertyBtn").style.display = "block"; // Show "Add property" button
       clearForm(); // Clear the form when hiding
       editIndex = -1; // Reset the edit index
@@ -773,53 +878,41 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
     // Function to add or update a property
     // Add javascript to add or update property information in the database
     function addOrUpdateProperty() {
       //property details
-      const propertyName = document.getElementById("propertyName").value;
-      const propertyType = document.getElementById("propertyType").value;
-      const units = document.getElementById("units").value;
-      const address = document.getElementById("address").value;
-      const landmark = document.getElementById("landmark").value;
+      const propertyName = document.getElementById("propertyName").value.trim();
+      const propertyType = document.getElementById("propertyType").value.trim();
+      const Units = document.getElementById("Units").value.trim();
+      const address = document.getElementById("address").value.trim();
       //physical features
-      const floors = document.getElementById("floors").value;
-      const rooms = document.getElementById("rooms").value;
-      const features = document.getElementById("features").value;
+      const floors = document.getElementById("floors").value.trim();
+      const unit_types = document.getElementById("unit_types").value.trim();
+      const features = document.getElementById("features").value.trim();
       // rent payment details
-      const rent = document.getElementById("rent").value;
-      const serviceCharge = document.getElementById("serviceCharge").value;
-      const penalty = document.getElementById("penalty").value;
-      const rentCollectionMethod = document.getElementById("reference1Contact").value;
-      const rentDate = document.getElementById("rentDate").value;
+      const landmark = document.getElementById("landmark").value.trim();
+      const service_charge= document.getElementById("service_charge").value.trim();
+      const penalty = document.getElementById("penalty").value.trim();
+      const rentCollectionMethod = document.getElementById("rentCollectionMethod").value.trim();
+      const rentDate = document.getElementById("rentDate").value.trim();
       // caretaker details
-      const caretakerName = document.getElementById("caretakerName").value;
-      const caretakerContact = document.getElementById("caretakerContact").value;
+      const caretakerName = document.getElementById("caretakerName").value.trim();
+      const caretakerContact = document.getElementById("caretakerContact").value.trim();
       // security details
-      const securityName = document.getElementById("securityName").value;
-      const securityContact = document.getElementById("securityContact").value;
+      const securityName = document.getElementById("securityName").value.trim();
+      const securityContact = document.getElementById("securityContact").value.trim();
       // documentations
-      const ownershipDocument = document.getElementById("ownershipDocument").value;
-      const propertyPhoto = document.getElementById("propertyPhoto").value;
-      const agreementTemplate = document.getElementById("agreementTemplate").value;
-      const leaseEndDate = document.getElementById("leaseEndDate").value;
+      const ownershipDocument = document.getElementById("ownershipDocument").value.trim();
+      const propertyPhoto = document.getElementById("propertyPhoto").value.trim();
+      const agreementDocument = document.getElementById("agreementDocument").value.trim();
+      const leaseEndDate = document.getElementById("leaseEndDate").value.trim();
 
-      if (propertyName === "" || propertyType === "" || units === "" || !address
+      if (propertyName === "" || propertyType === "" || Units === "" || address === ""
         || landmark === "" || floors === "" || rooms === "" || features === "" ||
-        rent === "" || serviceCharge === "" || penalty === "" || rentCollectionMethod === "" ||
+        rent === "" || service_charge === "" || penalty === "" || rentCollectionMethod === "" ||
         rentDate === "" || caretakerName === "" || caretakerContact === "" || securityName === "" ||
-        !securityContact || !ownershipDocument || !propertyPhoto | !agreementTemplate ||
+        !securityContact || !ownershipDocument || !propertyPhoto || !agreementDocument ||
         !leaseEndDate ) {
         alert("Please fill all fields.");
         return;
@@ -829,8 +922,28 @@
 
     // Function to delete a property row
     function deleteproperty(button) {
-      const row = button.parentNode.parentNode;
-      row.parentNode.removeChild(row);
+       if (!confirm('Delete property?')) return;
+        const row = button.closest("tr");
+        const propertyId = row.getAttribute("data-id");
+
+       fetch(`/admin_property/delete/${propertyId}`, {
+          method: 'POST',
+            headers: {
+               'Accept': 'application/json'
+                // add CSRF header if you use CSRF protection
+           }
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Delete failed');
+           // optionally read JSON; in our case we redirect, but treat success as OK
+           // remove row from DOM
+           row.remove();
+          alert('Deleted successfully');
+        })
+        .catch(err => {
+          console.error(err);
+          alert('Failed to delete property');
+        });
     }
 
     // Function to edit a property row
@@ -840,9 +953,45 @@
       editIndex = row.rowIndex - 1; // Set edit index
 
       // Change button text to "Update" and color to blue
-      const updatepropertyBtn = document.getElementById("updatepropertyBtn");
-      updatepropertyBtn.textContent = "Update Property";
-      updatepropertyBtn.style.backgroundColor = "blue";
+      // const updatepropertyBtn = document.getElementById("updatepropertyBtn");
+
+      const propertyId = row.getAttribute("data-id");
+        if (!propertyId) {
+        console.error("Row has no data-id attribute");
+        return;
+        }
+
+        const form = document.getElementById("propertyForm");
+        form.action = `/admin_property/edit/${propertyId}`;
+
+        fetch(`/api/properties/${propertyId}`)
+            .then(res => res.json())
+            .then(data => {
+               document.getElementById("propertyName").value = data.propertyName || "";
+               document.getElementById("propertyType").value = data.propertyType || "";
+               document.getElementById("units").value = data.units || "";
+               document.getElementById("address").value = data.address || "";
+               document.getElementById("landmark").value = data.landmark || "";
+               document.getElementById("service_charge").value = data.service_charge || "";
+               document.getElementById("floors").value = data.floors || "";
+               document.getElementById("unit_types").value = data.unit_types || "";
+               document.getElementById("features").value = data.property_features || "";
+               document.getElementById("ownershipDocument").value = data.ownership_document || "";
+               document.getElementById("propertyPhoto").value = data.property_photo || "";
+               document.getElementById("agreementDocument").value = data.agreement_document || "";
+               document.getElementById("penalty").value = data.penalty || "";
+               document.getElementById("rentCollectionMethod").value = data.rent_collection_method || "";
+               document.getElementById("inspectionFrequency").value = data.Inspection_frequency || "";
+               document.getElementById("caretakerName").value = data.caretaker || "";
+               document.getElementById("caretakerContact").value = data.caretaker_id || "";
+               document.getElementById("securityName").value = data.security_name || "";
+               document.getElementById("securityContact").value = data.security_buss_no || "";
+            })
+            .catch(err => console.error("Error fetching property details:", err));
+
+      const btn = document.getElementById("updatepropertyBtn");
+      btn.textContent = "Update Property";
+      btn.style.backgroundColor = "blue";
     }
 
     // Function to preview the profile picture
