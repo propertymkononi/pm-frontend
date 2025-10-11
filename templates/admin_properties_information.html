@@ -345,7 +345,7 @@
                     <div class="dropdown-menu" id="dropdown">
                         <!-- <a href="#">Edit Profile</a> -->
                         <!-- <a href="#">Settings</a> -->
-                        <a href='/admin_logout'>Logout</a>
+                        <a href='/templates/index.html'>Logout</a>
                         <!-- this code ends the session for a user who MUST log back in to access the portal -->
                     </div>
                 </div>
@@ -496,8 +496,13 @@
                     <br>
 
                     <!-- TENANT Form xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx -->
+<<<<<<< HEAD
                     <form class="tenant-form" id="tenantForm" style="background-color: aliceblue;"
                         action="/admin_addTenants" method="post" enctype="multipart/form-data">
+=======
+                    <form class="tenant-form" id="tenantForm" style="background-color: aliceblue;" action="/addtenants"
+                        method="post">
+>>>>>>> 4d4772bbf065ad54e5de378e2706f97a67c5ff8c
                         <br>
 
 
@@ -505,6 +510,7 @@
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Personal Information:</h4>
+<<<<<<< HEAD
                         <input name="tenantname" type="text" id="tenantFullName" placeholder="Tenant Full Name">
                         <input name="identification_number" type="text" id="nationalIdentification" placeholder="National ID or Passport">
                         <input name="phonenumber" type="text" id="phoneNumber" placeholder="Contact Number (Phone/WhatsApp)"> <br>
@@ -518,29 +524,78 @@
                             <option value="Rwanda">Rwanda</option>
                             <option value="Bukinafaso">Bukinafaso</option>
                             <option value="Ethiopia">Ethiopia</option>
+=======
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Tenant Name:</label> <br>
+                            <input name="tenantname" type="text" id="tenantFullName" placeholder="John Doe">
+                        </div>
 
-                            <!-- Add more countries as needed -->
-                            <!-- PAYMENT METHOD -->
-                        </select>
-                        <select name="paymentmethod" id="preferredPaymentMethod">
-                            <option value="" disabled selected>Preferred Payment Method</option>
-                            <option value="Bank">Bank</option>
-                            <option value="Mpesa">Mpesa</option>
-                            <option value="Paypal">Paypal</option>
-                            <option value="Otherpaymentmethod">Other</option>
-                        </select>
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> National ID or Passport
+                                No.:</label> <br>
+                            <input name="identification_number" type="text" id="nationalIdentification"
+                                placeholder="12345678">
+                        </div>
 
-                        <br> <br>
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Phone No.:</label> <br>
+                            <input name="phonenumber" type="text" id="contactNumber"
+                                placeholder="e.g. +254 723 000 000"> <br>
+                        </div>
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Email Address:</label> <br>
+                            <input name="tenantemail" type="text" id="emailAddress" placeholder="johndoe@email.com">
+                        </div>
+
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Nationality:</label> <br>
+
+                            <select name="nationality" id="nationality">
+                                <option value="" disabled selected>Select Country of Origin</option>
+                                <option value="Kenya">Kenya</option>
+                                <option value="Uganda">Uganda</option>
+                                <option value="Tanzania">Tanzania</option>
+                                <option value="Burundi">Burundi</option>
+                                <option value="Rwanda">Rwanda</option>
+                                <option value="Bukinafaso">Bukinafaso</option>
+                                <option value="Ethiopia">Ethiopia</option>
+
+                                <!-- Add more countries as needed -->
+                                <!-- PAYMENT METHOD -->
+                            </select>
+                        </div>
+
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Preferred Billing Method:</label>
+                            <br>
+                            <select name="paymentmethod" id="preferredPaymentMethod">
+                                <option value="" disabled selected>Preferred Payment Method</option>
+                                <option value="Bank">Bank</option>
+                                <option value="Mpesa">Mpesa</option>
+                                <option value="Paypal">Paypal</option>
+                                <option value="Otherpaymentmethod">Other</option>
+                            </select>
+                        </div>
+>>>>>>> 4d4772bbf065ad54e5de378e2706f97a67c5ff8c
+
+
 
                         <!-- Basic Property Information xxxxxxxxxxxxxxxxxxxx -->
+
 
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Basic Property Information:</h4>
 
-                        <!-- select and search for a property. Once selected, the rest of the fields will auto populate -->
-                        <!-- the action of selection pulls property information from the database for autopopulation -->
 
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Room Size: </label> <br>
+                            <input type="text" id="roomSize" placeholder="e.g., 1BR, 2BR, 3BR, Bedsitter, Studio">
+                        </div>
 
+<<<<<<< HEAD
                         <input name="bedrooms" type="text" id="roomSize"
                             placeholder="Unit Type (e.g., 1BR, 2BR, 3BR, Bedsitter, Studio)">
 
@@ -560,17 +615,42 @@
                         <br>
                         
                         <br> <br>
+=======
+
+                        <!-- Financial & Rent Details xxxxxxxxxxxxxxxxxxxxxx -->
+
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Rent Amount: </label> <br>
+                            <input type="number" id="rent" placeholder="e.g. 30000">
+                        </div>
+>>>>>>> 4d4772bbf065ad54e5de378e2706f97a67c5ff8c
 
 
 
-                        <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Service Charge: </label> <br>
+                            <input type="number" id="serviceCharge" placeholder="e.g. 800">
+                        </div>
 
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Late Payment Penalty: </label> <br>
+                            <input type="boolean" id="penalty" placeholder="Yes/No">
+                        </div>
+
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Rent due Date: </label> <br>
+                            <input type="date" id="rentDate" placeholder="">
+                        </div>
 
 
 
                         <!-- Tenant Household Details -->
                         <h4 style="background-color: #8cb9c5; color: #f5f5f5; box-shadow: #3c3024;  padding: 0.5rem;">
                             Household Details:</h4>
+<<<<<<< HEAD
                         <input name="family_size" type="number" id="householdSize" placeholder="Family Size">
                         <input name="children" type="number" id="householdMinors" placeholder="Number of Children">
                         <select id="householdManager">
@@ -582,8 +662,40 @@
                         <input name="housemanager_name" type="text" id="housemanager_name" placeholder="House Manager/Nunny Name">
                         <input name="housemanager_ID" type="text" id="housemanager_ID" placeholder="House Manager/Nunny ID">
                         <br> <br>
+=======
+>>>>>>> 4d4772bbf065ad54e5de378e2706f97a67c5ff8c
 
 
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Family Size: </label> <br>
+                            <input type="number" id="householdSize" placeholder="e.g. 5">
+                        </div>
+
+
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> No. of Children: </label> <br>
+                            <input type="number" id="householdMinors" placeholder="e.g. 3">
+                        </div>
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Do you have a house
+                                manager/maid/nunny?: </label> <br>
+                            <input type="boolean" id="householdManager" placeholder="Yes/No">
+
+                        </div>
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Manager/Nunny Name: </label> <br>
+                            <input type="text" id="householdHelpName" placeholder="Mary Jane">
+                        </div>
+
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Manager/Nunny Identity Information:
+                            </label> <br>
+                            <input type="text" id="householdHelpId" placeholder="12345678">
+                        </div>
 
                         <!--  Attach Documents xxxxxxxxxxxxxxxxxxx -->
 
@@ -625,6 +737,17 @@
                             {% endfor %}
                         </select>
                         <br> <br>
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Reference Name: </label> <br>
+                            <input type="text" id="referenceName" placeholder="Mark Smith">
+                        </div>
+
+                        <div>
+                            <label for="" style="padding: 0.3em; font-size: small;"> Reference Phone No.: </label> <br>
+                            <input type="text" id="referenceContact" placeholder="e.g. +254 0101 00100 100"> <br>
+                        </div>
+
+
 
                         <button id="addTenantBtn" type="submit">Add Tenant</button>
                         <button type="button" onclick="hideForm()" style="background-color: red">Cancel</button>
@@ -636,7 +759,6 @@
 
                     <div id="propertyDetails"
                         style=" background-color: white; padding: 2em; display: flex; justify-content: space-between; flex-direction: row">
-                        <!-- 👤 Ownership Information xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
 
                         <h4
                             style="border: none; color: #066078; box-shadow: #3c3024;  padding: 0.5rem; font-size: 2em; text-align: center;">
