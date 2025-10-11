@@ -145,31 +145,51 @@ class Landlord(db.Model):
 class Tenant(db.Model):
      __tablename__ = 'Tenant'
      id = db.Column(db.Integer, primary_key=True)
-     tenantname = db.Column(db.String(255), unique=True, nullable=False)
-     tenantemail = db.Column(db.String(255), unique=True, nullable=True)
-     housenumber = db.Column(db.String(255), unique=True, nullable=True)
-     phonenumber = db.Column(db.String(255), unique=True, nullable=False)
-     identification_number = db.Column(db.String(255), unique=True, nullable=True)
-     family_size =   db.Column(db.Integer, unique=True)
-     children =  db.Column(db.String(255), unique=True, nullable=True)
-     employment_status = db.Column(db.String(255), unique=True, nullable=True)
-     housemanager_name =  db.Column(db.String(255), unique=True, nullable=True)
-     housemanager_ID =  db.Column(db.String(255), unique=True, nullable=True)
-     nationality = db.Column(db.String(255), unique=True, nullable=True)
-     reference_name =  db.Column(db.String(255), unique=True, nullable=False)
-     reference_phone =  db.Column(db.String(255), unique=True, nullable=False)
-     apartment_name = db.Column(db.String(255), unique=True, nullable=True)
-     rent = db.Column(db.String(255), unique=True, nullable=True)
-     deposit = db.Column(db.String(255), unique=True, nullable=True)
-     bedrooms = db.Column(db.String(255), unique=True, nullable=True)
-     house_condition = db.Column(db.String(255), unique=True, nullable=True)
-     lease_start = db.Column(db.Date)
-     lease_end = db.Column(db.Date)
-     Property_id = db.Column(db.Integer, db.ForeignKey('property.id'), nullable=True)
+     tenantname = db.Column(db.String(255), nullable=False)
+     tenantemail = db.Column(db.String(255), nullable=True)
+     housenumber = db.Column(db.String(255), nullable=True)
+     phonenumber = db.Column(db.String(255), nullable=False)
+     identification_number = db.Column(db.String(255), nullable=True)
+     family_size =   db.Column(db.Integer, nullable=True)
+     children =  db.Column(db.String(255), nullable=True)
+     payment_method = db.Column(db.String(255), nullable=True)
+     housemanager_name =  db.Column(db.String(255), nullable=True)
+     housemanager_ID =  db.Column(db.String(255), nullable=True)
+     nationality = db.Column(db.String(255), nullable=True)
+     reference_name =  db.Column(db.String(255), nullable=False)
+     reference_phone =  db.Column(db.String(255), nullable=False)
+     profile_picture = db.Column(db.String(255), nullable=True)
+     rent = db.Column(db.String(255), nullable=True)
+     deposit = db.Column(db.String(255), nullable=True)
+     bedrooms = db.Column(db.String(255), nullable=True)
+     rent_agreement_doc = db.Column(db.String(255), nullable=True)
+     property_id = db.Column(db.Integer, db.ForeignKey('property.id'), nullable=True)
      date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
      def __repr__(self):
       return f"Tenant('{self.id}','{self.tenantname}', '{self.tenantemail}','{self.date_created}','{self.phonenumber}', '{self.housenumber}' )"
+  
+     def to_dict(self):
+         return {
+             "tenantFullName": self.tenantname,
+             "emailAddress": self.tenantemail,
+             "houseNumber": self.housenumber,
+             "phoneNumber": self.phonenumber,
+             "nationalIdentification": self.identification_number,
+             "householdSize": self.family_size,
+             "householdMinors": self.children,
+             "preferredPaymentMethod": self.payment_method,
+             "housemanager_name": self.housemanager_name,
+             "housemanager_ID": self.housemanager_ID,
+             "nationality": self.nationality,
+             "reference_name": self.reference_name,
+             "reference_phone": self.reference_phone,
+             "profilePicture": getattr(self, 'profile_picture', None),
+             "rent": getattr(self, 'rent', None),
+             "deposit": getattr(self, 'deposit', None),
+             "roomSize": getattr(self, 'bedrooms', None),
+             "rentAgreementDoc": getattr(self, 'rent_agreement_doc', None)
+         }
      
 class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -611,10 +631,11 @@ def admin_properties():
       properties = Property.query.all()
    return render_template('admin_properties.html', properties=properties)
  
-@app.route('/admin_properties_info')
-def admin_properties_info():
+@app.route('/admin_properties_information')
+def admin_properties_information():
+   properties = Property.query.all()
    tenants = Tenant.query.all()
-   return render_template('admin_properties_information.html', tenants=tenants)
+   return render_template('admin_properties_information.html',tenants=tenants, properties=properties)
 
 @app.route('/admin_addProperty', methods=['GET','POST'])
 def admin_addProperty():
@@ -748,8 +769,8 @@ def admin_requests():
    return render_template('admin_requests.html')
 
 
-@app.route('/admin_addTenants')
-def admin_addTenants():
+@app.route('/admin_addTenants', methods=['GET','POST'])
+def admin_addTenants(): 
    if request.method == 'POST':
        tenantname = request.form.get('tenantname')
        tenantemail = request.form.get('tenantemail')
@@ -758,20 +779,38 @@ def admin_addTenants():
        identification_number = request.form.get('identification_number')
        family_size = request.form.get('family_size')
        children = request.form.get('children')
-       employment_status = request.form.get('employment_status')
+       payment_method = request.form.get('payment_method')
        housemanager_name = request.form.get('housemanager_name')
        housemanager_ID = request.form.get('housemanager_ID')
        nationality = request.form.get('nationality')
        reference_name = request.form.get('reference_name')
        reference_phone = request.form.get('reference_phone')
-       apartment_name = request.form.get('apartment_name')
+       profile_picture = request.files.get('profile_picture')
        rent = request.form.get('rent')
        deposit = request.form.get('deposit')
        bedrooms = request.form.get('bedrooms')
-       house_condition = request.form.get('house_condition')
-       lease_start = request.form.get('lease_start')
-       lease_end = request.form.get('lease_end')
+       rent_agreement_doc = request.files.get('rent_agreement_doc')
+       property_id = request.form.get('property_id')
+       
+       #Adding files to the database through filenames
+       profile_picture_filename = None
+       rent_agreement_doc_filename = None
+       
+       
+       if profile_picture:
+            profile_picture_filename = secure_filename(profile_picture.filename)
+            profile_picture.save(os.path.join(app.config['UPLOAD_FOLDER'], profile_picture_filename))
+            
+       if rent_agreement_doc:
+           rent_agreement_doc_filename = secure_filename(rent_agreement_doc.filename)
+           rent_agreement_doc.save(os.path.join(app.config['UPLOAD_FOLDER'], rent_agreement_doc_filename))
+       
+       if not property_id or not property_id.isdigit():
+          flash("Please select a valid property.")
 
+       property_id = int(property_id)
+       
+       
        new_tenant = Tenant(
            tenantname=tenantname,
            tenantemail=tenantemail,
@@ -780,31 +819,29 @@ def admin_addTenants():
            identification_number=identification_number,
            family_size=family_size,
            children=children,
-           employment_status=employment_status,
+           payment_method=payment_method,
            housemanager_name=housemanager_name,
            housemanager_ID=housemanager_ID,
            nationality=nationality,
            reference_name=reference_name,
            reference_phone=reference_phone,
-           apartment_name=apartment_name,
+           profile_picture=profile_picture_filename,
            rent=rent,
            deposit=deposit,
            bedrooms=bedrooms,
-           house_condition=house_condition,
-           lease_start=lease_start,
-           lease_end=lease_end
+           rent_agreement_doc=rent_agreement_doc_filename,
+           property_id=property_id
        )
-
+        
        db.session.add(new_tenant)
        db.session.commit()
        flash("Tenant added successfully!")
-       return redirect(url_for('admin_tenants_info'))
-   return render_template('admin_tenants_information.html')
+       return redirect(url_for('admin_properties_information'))
+   return render_template('admin_properties_information.html')
 
 @app.route('/admin_tenants_info')
 def admin_tenants_info():
    return render_template('admin_tenants_information.html')
-
 
 
 @app.route("/filter", methods=["GET"])
@@ -819,14 +856,69 @@ def filter_tenant():
     tenants = [t.as_dict() for t in query.all()]
     return jsonify(tenants)
 
+
+@app.route("/api/tenants/<int:tenant_id>")
+def get_tenant(tenant_id):
+    tenant = Tenant.query.get_or_404(tenant_id)
+    return jsonify(tenant.to_dict())
+
+
 @app.route('/admin_tenant/edit/<int:tenant_id>', methods=["GET","POST"])
 def admin_edit_tenant():
-    pass
+    if request.method == 'POST':
+        tenant = Tenant.query.get_or_404(tenant_id)
+        if tenant:
+            tenant.tenantname = request.form.get('tenantname', '').strip()
+            tenant.tenantemail = request.form.get('tenantemail', '').strip()
+            tenant.housenumber = request.form.get('housenumber', '').strip()
+            tenant.phonenumber = request.form.get('phonenumber', '').strip()
+            tenant.identification_number = request.form.get('identification_number', '').strip()
+            tenant.family_size = request.form.get('family_size', '').strip()
+            tenant.children = request.form.get('children', '').strip()
+            tenant.payment_method = request.form.get('payment_method', '').strip()
+            tenant.housemanager_name = request.form.get('housemanager_name', '').strip()
+            tenant.housemanager_ID = request.form.get('housemanager_ID', '').strip()
+            tenant.nationality = request.form.get('nationality', '').strip()
+            tenant.reference_name = request.form.get('reference_name', '').strip()
+            tenant.reference_phone = request.form.get('reference_phone', '').strip()
+            tenant.apartment_name = request.form.get('apartment_name', '').strip()
+            tenant.rent = request.form.get('rent', '').strip()
+            tenant.deposit = request.form.get('deposit', '').strip()
+            tenant.bedrooms = request.form.get('bedrooms', '').strip()
+            tenant.rent_agreement_doc = request.form.get('rent_agreement_doc', '').strip()
+
+            profile_picture = request.files.get('profile_picture')
+            if profile_picture and profile_picture.filename:
+                fname = secure_filename(profile_picture.filename)
+                profile_picture.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+                tenant.profile_picture = fname
+
+            rent_agreement_doc = request.files.get('rent_agreement_doc')
+            if rent_agreement_doc and rent_agreement_doc.filename:
+                fname = secure_filename(rent_agreement_doc.filename)
+                rent_agreement_doc.save(os.path.join(app.config['UPLOAD_FOLDER'], fname))
+                tenant.rent_agreement_doc = fname
+
+            db.session.commit()
+            flash("Tenant updated successfully!")
+        else:
+            flash("Tenant not found.")
+    return render_template('admin_properties_information.html', tenant=tenant)
+
+@app.route('/admin_tenant/delete/<int:tenant_id>', methods=['POST'])
+def delete_admin_tenant(tenant_id):
+    tenant = Tenant.query.get_or_404(tenant_id)
+    db.session.delete(tenant)
+    db.session.commit()
+    flash('Tenant deleted successfully!')
+    return redirect(url_for('admin_properties_information'))
 
 
 @app.route('/admin_vendors')     
 def admin_vendors():
    return render_template('admin_vendors.html')
+
+# postponed for version 2
 
 # @app.route('/admin_addvendors')     
 # def admin_addvendors():
@@ -859,6 +951,7 @@ def admin_logout():
 
 """Vendors section
 -----------------------------------------------------------------------------"""
+#postponed for version 2 
 #@app.route('vendor_login', method=[GET,POST])
 
 if (__name__) == ('__main__'):

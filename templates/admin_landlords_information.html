@@ -738,7 +738,7 @@
                 <tbody id="propertyTableBody" style="background-color: #f5f5f5;">
                 {%for property in properties%}
                   <tr data-id="{{ property.id }}">
-                    <td>{{ property.propertyname }}</td>
+                    <td><a style="text-decoration: none; color: inherit;" href="/admin_properties_information">{{ property.propertyname }}</a></td>
                     <td>{{property.propertytype}}</td>
                     <td>{{ property.Units }}</td>
                     <td>{{ property.Location }}</td>
